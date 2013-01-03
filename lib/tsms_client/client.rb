@@ -20,7 +20,15 @@ class TSMS::Client
   end
 
   def get(href)
-    raw_connection.get(href)
+    response = raw_connection.get(href)
+    case response.status
+      when 401..499
+        raise TSMS::Request::Error.new(response.status)
+      when 202
+        raise TSMS::Request::InProgress.new(response.body['message'])
+      else
+        return response
+    end
   end
 
   def post(obj)
