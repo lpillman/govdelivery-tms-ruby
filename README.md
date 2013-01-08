@@ -29,7 +29,7 @@ client.messages.next.get
 # Sending an SMS Message
 
 ``` ruby
-message = client.messages.build(:short_body=>'Test Message!')
+message = client.sms_messages.build(:short_body=>'Test Message!')
 message.recipients.build(:phone=>'5551112222')
 message.recipients.build(:phone=>'5551112223')
 message.recipients.build #no phone???
@@ -48,7 +48,7 @@ message.recipients.build #no phone???
 # Sending an Voice Message
 
 ``` ruby
-message = client.messages.build(:url=>'www.testmessage.com')
+message = client.voice_messages.build(:url=>'www.testmessage.com')
 message.recipients.build(:phone=>'5551112222')
 message.recipients.build(:phone=>'5551112223')
 message.recipients.build #no phone???
