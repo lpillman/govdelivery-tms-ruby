@@ -17,11 +17,17 @@ client.subresources
  => {"messages"=><TSMS::Messages href=/messages collection=[]>}
 client.messages
  => <TSMS::Messages href=/messages collection=[]>
-client.messages.get
- => #lots of stuff
-client.messages.next
+client.sms_messages.get
+ => #lots of sms stuff
+client.sms_messages.next
   => <TSMS::Messages href=/messages/page/2 collection=[]> #if there is a second page
-client.messages.next.get
+client.sms_messages.next.get
+  => # more messages...
+client.voice_messages.get
+ => #lots of voice stuff
+client.voice_messages.next
+  => <TSMS::Messages href=/messages/page/2 collection=[]> #if there is a second page
+client.voice_messages.next.get
   => # more messages...
 ```
 
