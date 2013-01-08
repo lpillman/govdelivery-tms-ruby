@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe TSMS::Messages do
+describe TSMS::SmsMessages do
   context "creating a new messages list" do
     let(:client) do
       double('client')
     end
     before do
-      @messages = TSMS::Messages.new(client, '/messages')
+      @messages = TSMS::SmsMessages.new(client, '/messages')
     end
     it 'should GET itself' do
       body = [{:short_body => 'hi ho', :created_at => 'a while ago'}, {:short_body => 'feel me flow', :created_at => 'longer ago'}]

@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe TSMS::Message do
+describe TSMS::SmsMessage do
   context "creating a new message" do
     let(:client) do
       double('client')
     end
     before do
-      @message = TSMS::Message.new(client, nil, {:short_body => '12345678', :created_at => 'BAAAAAD'})
+      @message = TSMS::SmsMessage.new(client, nil, {:short_body => '12345678', :created_at => 'BAAAAAD'})
     end
     it 'should not render readonly attrs in json hash' do
       @message.to_json[:short_body].should == '12345678'
@@ -40,7 +40,7 @@ describe TSMS::Message do
     end
     before do
       # blank hash prevents the client from doing a GET in the initialize method
-      @message = TSMS::Message.new(client, '/messages/99', {})
+      @message = TSMS::SmsMessage.new(client, '/messages/99', {})
     end
     it 'should GET cleanly' do
       response = {:short_body => 'processed', :recipients => [{:phone => '22345678'}], :created_at => 'time'}
