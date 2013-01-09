@@ -70,6 +70,16 @@ message.recipients.build #no phone???
 
 ```
 
+# Listing Action Types
+
+``` ruby 
+action_types = client.action_types.get
+action_types.collection.each do |at|
+  puts at.name   #=> "forward"
+  puts at.fields #=> ["url", "http_method", ...]
+end
+````
+
 # Logging
 Any instance of a [Logger](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html "Ruby Logger")-like class can be passed in to the client; incoming and outgoing
 request information will then be logged to that instance. 
