@@ -84,7 +84,7 @@ end
 Any instance of a [Logger](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html "Ruby Logger")-like class can be passed in to the client; incoming and outgoing
 request information will then be logged to that instance. 
 
-The example below configures `TSMS::Client` to log to the terminal attached to `/dev/ttys000`. 
+The example below configures `TSMS::Client` to log to STDOUT:
 
 ``` ruby
 logger = Logger.new(STDOUT)
