@@ -1,5 +1,5 @@
-module TSMS
-  class Logger < Faraday::Response::Middleware
+module TSMS #:nodoc:
+  class Logger < Faraday::Response::Middleware #:nodoc:
     extend Forwardable
 
     def initialize(app, logger = nil)

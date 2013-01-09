@@ -1,4 +1,4 @@
-module TSMS
+module TSMS #:nodoc:
   class InboundMessage
     include InstanceResource
 

@@ -1,12 +1,24 @@
+# The client class to connect and talk to the TSMS REST API. 
 class TSMS::Client
   include TSMS::Util::HalLinkParser
   include TSMS::CoreExt
 
   attr_accessor :connection, :href
 
-  def initialize(username, password, api_root = 'http://localhost:3000', logger=nil)
-    @api_root = api_root
-    connect!(username, password, logger)
+  # Create a new client and issue a request for the available resources for a given account. 
+  #
+  # === Options
+  # * +:api_root+ - The root URL of the TSMS api. Defaults to localhost:3000
+  # * +:logger+   - An instance of a Logger class (http transport information will be logged here) - defaults to nil
+  #
+  # === Examples
+  #   client = TSMS::Client.new("foo@example.com", "onetwothree", {
+  #                               :api_root => "https://tsms.govdelivery.com", 
+  #                               :logger => Logger.new(STDOUT)})
+  # 
+  def initialize(username, password, options = {:api_root => 'http://localhost:3000', :logger => nil})
+    @api_root = options[:api_root]
+    connect!(username, password, options[:logger])
     discover!
   end
 

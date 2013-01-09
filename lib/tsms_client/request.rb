@@ -1,5 +1,6 @@
-module TSMS
+module TSMS #:nodoc:
   module Request
+    # The generic TSMS error class
     class Error < StandardError
       attr_reader :code
 
@@ -8,7 +9,9 @@ module TSMS
         @code=code
       end
     end
-    class InProgress < StandardError
-    end
+
+    # Raised when a recipient list is still being constructed and a request is made to view the 
+    # recipient list for a message.
+    class InProgress < StandardError; end
   end
 end

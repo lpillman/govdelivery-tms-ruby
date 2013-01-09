@@ -6,7 +6,7 @@ This is a ruby client to interact with the GovDelivery TSMS REST API.
 # Connecting
 
 ``` ruby
-client = TSMS::Client.new('username', 'password')
+client = TSMS::Client.new('username', 'password', :api_root => 'https://tsms.govdelivery.com')
 
 ```
 
@@ -87,8 +87,8 @@ request information will then be logged to that instance.
 The example below configures `TSMS::Client` to log to the terminal attached to `/dev/ttys000`. 
 
 ``` ruby
-logger = Logger.new(File.open("/dev/ttys000", 'w'))
-client = TSMS::Client.new('username', 'password', 'https://endpoint.com', logger)
+logger = Logger.new(STDOUT)
+client = TSMS::Client.new('username', 'password', :logger => logger)
 
 ```
 

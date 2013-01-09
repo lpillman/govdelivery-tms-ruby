@@ -1,4 +1,4 @@
-module TSMS
+module TSMS #:nodoc:
   module Base
     def self.included(base)
       base.send(:include, TSMS::Util::HalLinkParser)
