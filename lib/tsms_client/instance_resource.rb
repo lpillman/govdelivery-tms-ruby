@@ -47,15 +47,15 @@ module TSMS::InstanceResource
 
     def setup_attributes(attrs, readonly=false)
       attrs.map(&:to_sym).each do |property|
-        self.send :define_method, :"#{property}=", &lambda { |v| @attributes[property] = v } unless self.instance_methods.include?(:"#{property}=") || readonly
-        self.send :define_method, property.to_sym, &lambda { @attributes[property] } unless self.instance_methods.include?(property)
+        self.send :define_method, :"#{property}=", &lambda { |v| @attributes[property] = v } unless readonly
+        self.send :define_method, property.to_sym, &lambda { @attributes[property] }
       end
     end
 
     def setup_collections(attrs)
       attrs.map(&:to_sym).each do |property|
         klass = TSMS.const_get(property.to_s.capitalize)
-        self.send :define_method, property.to_sym, &lambda { @attributes[property] ||= klass.new(self.client, nil, nil) } unless self.instance_methods.include?(property)
+        self.send :define_method, property.to_sym, &lambda { @attributes[property] ||= klass.new(self.client, nil, nil) }
       end
     end
   end
