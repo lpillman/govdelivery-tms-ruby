@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = ["support@govdelivery.com"]
   s.homepage    = "http://govdelivery.com"
   s.summary     = %q{A ruby client to interact with the GovDelivery TSMS REST API.}
-  s.description = %q{A reference implementation, written in Ruby, to interact with GovDelivery's TSMS API.}
+  s.description = %q{A reference implementation, written in Ruby, to interact with GovDelivery's TSMS API. The client is compatible with Ruby versions 1.8.7 and 1.9.3. }
 
   if RUBY_VERSION < "1.9"
     s.add_runtime_dependency "json" # this is part of 1.9's stdlib
@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "link_header"
   s.add_development_dependency "rspec"
   s.add_development_dependency "rake"
+  s.add_development_dependency "rubygems-tasks"
 
   s.files       = %w{
     Gemfile
