@@ -118,7 +118,6 @@ module TSMS::InstanceResource
           if response.body['errors']
             self.errors = response.body['errors']
           end
-        end
       end
       return false
     end
