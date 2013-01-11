@@ -110,8 +110,17 @@ module TSMS::InstanceResource
     end
 
     def delete
-      self.client.delete(href)
-      self
+      response = self.client.delete(href)
+      case response.status
+        when 200
+          return true
+        else
+          if response.body['errors']
+            self.errors = response.body['errors']
+          end
+        end
+      end
+      return false
     end
 
     def to_s
