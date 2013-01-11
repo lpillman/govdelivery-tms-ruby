@@ -29,9 +29,7 @@ Gem::Specification.new do |s|
     README.md
     Rakefile
     tsms_client.gemspec
-    lib/tsms_client.rb
-    lib/tsms_client/version.rb
-  }
+  } + Dir["lib/**/*"]
 
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }

@@ -51,6 +51,24 @@ class TSMS::Client
     end
   end
 
+  def put(obj)
+    raw_connection.put do |req|
+      req.url @api_root + obj.href
+      req.headers['Content-Type'] = 'application/json'
+      req.body = obj.to_json(true)
+    end
+  end
+
+  def delete(href)
+    response = raw_connection.delete(href)
+    case response.status
+      when 200
+        return response
+      else
+        raise TSMS::Request::Error.new(response.status)
+    end
+  end
+
   def raw_connection
     connection.connection
   end

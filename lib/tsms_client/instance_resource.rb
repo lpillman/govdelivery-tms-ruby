@@ -91,6 +91,29 @@ module TSMS::InstanceResource
       return false
     end
 
+    def put
+      response = client.put(self)
+      case response.status
+        when 200
+          set_attributes_from_hash(response.body)
+          return true
+        when 401
+          raise Exception.new("401 Not Authorized")
+        when 404
+          raise(Exception.new("Can't POST to #{self.href}"))
+        else
+          if response.body['errors']
+            self.errors = response.body['errors']
+          end
+      end
+      return false
+    end
+
+    def delete
+      self.client.delete(href)
+      self
+    end
+
     def to_s
       "<#{self.class.inspect}#{' href=' + self.href if self.href} attributes=#{@attributes.inspect}>"
     end
