@@ -10,7 +10,15 @@ class TSMS::SmsMessages
   include TSMS::CollectionResource
 end
 
+class TSMS::Emails
+  include TSMS::CollectionResource
+end
+
 class TSMS::Recipients
+  include TSMS::CollectionResource
+end
+
+class TSMS::EmailRecipients
   include TSMS::CollectionResource
 end
 

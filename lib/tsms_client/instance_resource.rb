@@ -32,7 +32,7 @@ module TSMS::InstanceResource
     end
 
     #
-    # For collections that are represented at attributes (i.e. inline, no href)
+    # For collections that are represented as attributes (i.e. inline, no href)
     #
     # # message.rb
     # collection_attributes :recipients
@@ -40,9 +40,25 @@ module TSMS::InstanceResource
       @collection_attributes ||= []
       if attrs.any?
         @collection_attributes.map!(&:to_sym).concat(attrs).uniq! if attrs.any?
-        setup_collections(@collection_attributes)
+        @collection_attributes.each { |a| setup_collection(a) }
       end
       @collection_attributes
+    end
+
+    def custom_class_names
+      @custom_class_names ||= {}
+    end
+
+    #
+    # For collections that are represented as attributes (i.e. inline, no href)
+    # and that have a class name other than the one we would infer.
+    #
+    # # email.rb
+    # collection_attributes :recipients, 'EmailRecipient'
+    def collection_attribute(attr, tms_class)
+      @collection_attributes ||= []
+      @collection_attributes.push(attr).uniq!
+      setup_collection(attr, TSMS.const_get(tms_class))
     end
 
     def setup_attributes(attrs, readonly=false)
@@ -52,11 +68,14 @@ module TSMS::InstanceResource
       end
     end
 
-    def setup_collections(attrs)
-      attrs.map(&:to_sym).each do |property|
-        klass = TSMS.const_get(property.to_s.capitalize)
-        self.send :define_method, property.to_sym, &lambda { @attributes[property] ||= klass.new(self.client, nil, nil) }
+    def setup_collection(property, klass=nil)
+      if klass
+        custom_class_names[property] = klass
+      else
+        klass ||= TSMS.const_get(property.to_s.capitalize)
       end
+
+      self.send :define_method, property.to_sym, &lambda { @attributes[property] ||= klass.new(self.client, nil, nil) }
     end
   end
 
@@ -126,7 +145,7 @@ module TSMS::InstanceResource
       "<#{self.class.inspect}#{' href=' + self.href if self.href} attributes=#{@attributes.inspect}>"
     end
 
-    def to_json(include_root=false)
+    def to_json
       json_hash = {}
       self.class.writeable_attributes.each do |attr|
         json_hash[attr] = self.send(attr)
@@ -134,7 +153,7 @@ module TSMS::InstanceResource
       self.class.collection_attributes.each do |coll|
         json_hash[coll] = self.send(coll).to_json
       end
-      include_root ? {tsmsify(self.class.to_s) => json_hash} : json_hash
+      json_hash
     end
 
     private
@@ -142,7 +161,7 @@ module TSMS::InstanceResource
     def set_attributes_from_hash(hash)
       hash.reject { |k, _| k=~/^_/ }.each do |property, value|
         if self.class.collection_attributes.include?(property.to_sym)
-          klass = TSMS.const_get(property.to_s.capitalize)
+          klass = self.class.custom_class_names[property] || TSMS.const_get(property.to_s.capitalize)
           @attributes[property.to_sym] = klass.new(client, nil, value)
         else
           @attributes[property.to_sym] = value

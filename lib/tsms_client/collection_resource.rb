@@ -29,9 +29,9 @@ module TSMS::CollectionResource
     end
 
     def build(attributes=nil)
-      message = instance_class(self.class).new(client, self.href, attributes || {})
-      self.collection << message
-      message
+      thing = instance_class(self.class).new(client, self.href, attributes || {})
+      self.collection << thing
+      thing
     end
 
     def to_json

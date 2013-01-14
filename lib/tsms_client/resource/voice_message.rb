@@ -7,7 +7,7 @@ module TSMS #:nodoc:
     collection_attributes :recipients
 
     def self.to_s
-      "Message"
+      "VoiceMessage"
     end
   end
 end
