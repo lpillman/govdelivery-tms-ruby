@@ -47,7 +47,7 @@ class TSMS::Client
     raw_connection.post do |req|
       req.url @api_root + obj.href
       req.headers['Content-Type'] = 'application/json'
-      req.body = obj.to_json(true)
+      req.body = obj.to_json
     end
   end
 
@@ -55,7 +55,7 @@ class TSMS::Client
     raw_connection.put do |req|
       req.url @api_root + obj.href
       req.headers['Content-Type'] = 'application/json'
-      req.body = obj.to_json(true)
+      req.body = obj.to_json
     end
   end
 
