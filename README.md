@@ -16,10 +16,12 @@ client = TSMS::Client.new('username', 'password', :api_root => 'https://tsms.gov
 client.subresources            #=> {"messages"=><TSMS::Messages href=/messages collection=[]>}
 client.messages                #=> <TSMS::Messages href=/messages collection=[]>
 client.sms_messages.get        #=> #lots of sms stuff
-client.sms_messages.next       #=> <TSMS::Messages href=/messages/page/2 collection=[]> (if there is a second page)
+client.sms_messages.next       #=> <TSMS::Messages href=/messages/page/2 collection=[]> 
+                               #   (if there is a second page)
 client.sms_messages.next.get   #=> # more messages...
 client.voice_messages.get      #=> #lots of voice stuff
-client.voice_messages.next     #=> <TSMS::Messages href=/messages/page/2 collection=[]> (if there is a second page)
+client.voice_messages.next     #=> <TSMS::Messages href=/messages/page/2 collection=[]> 
+                               #   (if there is a second page)
 client.voice_messages.next.get #=> # more messages...
 ```
 
@@ -32,7 +34,7 @@ message.recipients.build(:phone=>'5551112222')
 message.recipients.build(:phone=>'5551112223')
 message.recipients.build # invalid - no phone
 message.post             #=> true
-message.recipients.collection.detect{|r| r.errors } #=> <TSMS::Recipient href= attributes={:provided_phone=>"", :provided_country_code=>nil, :phone=>nil, :country_code=>"1", :status=>nil, :created_at=>nil, :sent_at=>nil, :completed_at=>nil, :errors=>{"phone"=>["is not a number"]}}>
+message.recipients.collection.detect{|r| r.errors } #=> {"phone"=>["is not a number"]}
 # save succeeded, but we have one bad recipient
 message.href             #=> "/messages/87"
 message.get              #=> <TSMS::Message href=/messages/87 attributes={...}>
@@ -46,7 +48,7 @@ message.recipients.build(:phone=>'5551112222')
 message.recipients.build(:phone=>'5551112223')
 message.recipients.build # invalid - no phone
 message.post             #=> true
-message.recipients.collection.detect{|r| r.errors } #=> <TSMS::Recipient href= attributes={:provided_phone=>"", :provided_country_code=>nil, :phone=>nil, :country_code=>"1", :status=>nil, :created_at=>nil, :sent_at=>nil, :completed_at=>nil, :errors=>{"phone"=>["is not a number"]}}>
+message.recipients.collection.detect{|r| r.errors } #=> {"phone"=>["is not a number"]}
 # save succeeded, but we have one bad recipient
 message.href             #=> "/messages/87"
 message.get              #=> <TSMS::Message href=/messages/87 attributes={...}>
@@ -87,12 +89,14 @@ end
 # CRUD
 keywords = client.keywords.get
 keyword = keywords.collection.first.get
-command = keyword.commands.build(:name => "Forward to somewhere else", :params => {:url => "http://example.com", :http_method => "get"}, :command_type => :forward)
+command = keyword.commands.build(
+            :name => "Forward to somewhere else", 
+            :params => {:url => "http://example.com", :http_method => "get"}, 
+            :command_type => :forward)
 command.post
 command.params = {:url => "http://example.com/new_url", :http_method => "post"}
 command.put
 command.delete
-```
 
 # list
 commands = keyword.commands.get
