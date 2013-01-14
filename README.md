@@ -81,6 +81,27 @@ keywords.collection.each do |k|
 end
 ```
 
+# Managing Commands
+
+```ruby
+# CRUD
+keywords = client.keywords.get
+keyword = keywords.collection.first.get
+command = keyword.commands.build(:name => "Forward to somewhere else", :params => {:url => "http://example.com", :http_method => "get"}, :command_type => :forward)
+command.post
+command.params = {:url => "http://example.com/new_url", :http_method => "post"}
+command.put
+command.delete
+```
+
+# list
+commands = keyword.commands.get
+commands.collection.each do |c|
+  puts c.inspect
+end
+```
+
+
 # Logging
 Any instance of a [Logger](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html "Ruby Logger")-like class can be passed in to the client; incoming and outgoing
 request information will then be logged to that instance. 
