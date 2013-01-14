@@ -2,7 +2,7 @@ module TSMS #:nodoc:
   class SmsMessage
     include InstanceResource
 
-    writeable_attributes :short_body
+    writeable_attributes :body
     readonly_attributes :created_at, :completed_at
     collection_attributes :recipients
 

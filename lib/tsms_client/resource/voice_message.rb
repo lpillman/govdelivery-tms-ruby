@@ -2,7 +2,7 @@ module TSMS #:nodoc:
   class VoiceMessage
     include InstanceResource
 
-    writeable_attributes :url
+    writeable_attributes :play_url
     readonly_attributes :created_at, :completed_at
     collection_attributes :recipients
 
