@@ -1,6 +1,6 @@
 module TSMS #:nodoc:
-  # A keyword is a word that TSMS will detect in an incoming SMS message.  Keywords can have actions, and
-  # when an incoming text message has a keyword, TSMS will execute the keyword's actions. 
+  # A keyword is a word that TSMS will detect in an incoming SMS message.  Keywords can have commands, and
+  # when an incoming text message has a keyword, TSMS will execute the keyword's commands. 
   #
   # ==== Attributes  
   # 

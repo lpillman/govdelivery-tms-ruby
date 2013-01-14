@@ -52,11 +52,11 @@ message.href             #=> "/messages/87"
 message.get              #=> <TSMS::Message href=/messages/87 attributes={...}>
 ```
 
-# Listing Action Types
+# Listing Command Types
 
 ``` ruby 
-action_types = client.action_types.get
-action_types.collection.each do |at|
+command_types = client.command_types.get
+command_types.collection.each do |at|
   puts at.name   #=> "forward"
   puts at.fields #=> ["url", "http_method", ...]
 end
