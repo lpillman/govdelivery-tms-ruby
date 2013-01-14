@@ -5,14 +5,14 @@ This is a ruby client to interact with the GovDelivery TSMS REST API.
 
 Usage 
 -----
-# Connecting
+### Connecting
 
 ``` ruby
 client = TSMS::Client.new('username', 'password', :api_root => 'https://tsms.govdelivery.com')
 
 ```
 
-# Getting messages
+### Getting messages
 
 ``` ruby
 client.subresources            #=> {"messages"=><TSMS::Messages href=/messages collection=[]>}
@@ -28,7 +28,7 @@ client.voice_messages.next.get #=> # more messages...
 ```
 
 
-# Sending an SMS Message
+### Sending an SMS Message
 
 ``` ruby
 message = client.sms_messages.build(:short_body=>'Test Message!')
@@ -42,7 +42,7 @@ message.href             #=> "/messages/87"
 message.get              #=> <TSMS::Message href=/messages/87 attributes={...}>
 ```
 
-# Sending an Voice Message
+### Sending an Voice Message
 
 ``` ruby
 message = client.voice_messages.build(:url=>'www.testmessage.com')
@@ -56,7 +56,7 @@ message.href             #=> "/messages/87"
 message.get              #=> <TSMS::Message href=/messages/87 attributes={...}>
 ```
 
-# Listing Command Types
+### Listing Command Types
 
 ``` ruby 
 command_types = client.command_types.get
@@ -66,7 +66,7 @@ command_types.collection.each do |at|
 end
 ````
 
-# Managing Keywords
+### Managing Keywords
 
 ``` ruby 
 # CRUD
@@ -85,7 +85,7 @@ keywords.collection.each do |k|
 end
 ```
 
-# Managing Commands
+### Managing Commands
 
 ```ruby
 # CRUD
@@ -108,7 +108,7 @@ end
 ```
 
 
-# Logging
+### Logging
 Any instance of a [Logger](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html "Ruby Logger")-like class can be passed in to the client; incoming and outgoing
 request information will then be logged to that instance. 
 
