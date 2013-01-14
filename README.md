@@ -3,7 +3,8 @@ Tsms Client
 This is a ruby client to interact with the GovDelivery TSMS REST API.
 
 
-== Usage 
+Usage 
+-----
 # Connecting
 
 ``` ruby
@@ -119,7 +120,8 @@ client = TSMS::Client.new('username', 'password', :logger => logger)
 
 ```
 
-== License
+License
+-------
 Copyright (c) 2013, GovDelivery, Inc.
 
 All rights reserved.
