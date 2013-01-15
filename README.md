@@ -2,6 +2,18 @@ TMS Client
 ===========
 This is a ruby client to interact with the GovDelivery TMS REST API.
 
+Installation
+------------
+### Using Bundler
+``` ruby
+gem 'tms_client'
+```
+
+### Standalone
+```
+$ gem install tms_client
+```
+
 
 Usage 
 -----
