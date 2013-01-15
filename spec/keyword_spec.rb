@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe TSMS::Keyword do
+describe TMS::Keyword do
   context "creating a new keyword" do
     let(:client) do
       double('client')
     end
     before do
-      @keyword = TSMS::Keyword.new(client, nil, {:name => 'LOL'})
+      @keyword = TMS::Keyword.new(client, nil, {:name => 'LOL'})
     end
     it 'should initialize with attrs' do
       @keyword.name.should == 'LOL'
@@ -32,7 +32,7 @@ describe TSMS::Keyword do
     end
     before do
       # blank hash prevents the client from doing a GET in the initialize method
-      @keyword = TSMS::Keyword.new(client, '/keywords/99', {})
+      @keyword = TMS::Keyword.new(client, '/keywords/99', {})
     end
     it 'should GET cleanly' do
       response = {:name => 'FOO'}

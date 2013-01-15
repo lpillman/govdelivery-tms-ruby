@@ -1,4 +1,4 @@
-module TSMS #:nodoc:
+module TMS #:nodoc:
   class EmailRecipient
     include InstanceResource
 

@@ -1,6 +1,6 @@
-module TSMS #:nodoc:
+module TMS #:nodoc:
   module Request
-    # The generic TSMS error class
+    # The generic TMS error class
     class Error < StandardError
       attr_reader :code
 

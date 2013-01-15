@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe TSMS::CommandTypes do
+describe TMS::CommandTypes do
   context "loading command types" do
     let(:client) do
       double('client')
     end
     before do
-      @command_types = TSMS::CommandTypes.new(client, '/command_types')
+      @command_types = TMS::CommandTypes.new(client, '/command_types')
     end
     it 'should GET ok' do
       body = [{"fields"=>["dcm_account_codes"], "name"=>"dcm_unsubscribe"}, 

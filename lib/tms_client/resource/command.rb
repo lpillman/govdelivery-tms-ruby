@@ -1,4 +1,4 @@
-module TSMS #:nodoc:
+module TMS #:nodoc:
   # A command is a combination of behavior and parameters that should be executed 
   # when an incoming SMS message matches the associated Keyword.
   #

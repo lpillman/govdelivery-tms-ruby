@@ -1,8 +1,8 @@
-module TSMS::Util
+module TMS::Util
   module HalLinkParser
 
     #def self.included(base)
-    #  base.send(:include, TSMS::CoreExt)
+    #  base.send(:include, TMS::CoreExt)
     #end
 
     def parse_links(_links)
@@ -29,7 +29,7 @@ module TSMS::Util
         if rel == 'self'
           self.href = href
         else
-          klass = ::TSMS.const_get(classify(rel)) rescue nil
+          klass = ::TMS.const_get(classify(rel)) rescue nil
           klass = self.class if ['first', 'prev', 'next', 'last'].include?(rel)
           if klass
             subresources[rel] = klass.new(self.client, href)

@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe TSMS::SmsMessage do
+describe TMS::SmsMessage do
   context "creating a new message" do
     let(:client) do
       double('client')
     end
     before do
-      @message = TSMS::SmsMessage.new(client, nil, {:body => '12345678', :created_at => 'BAAAAAD'})
+      @message = TMS::SmsMessage.new(client, nil, {:body => '12345678', :created_at => 'BAAAAAD'})
     end
     it 'should not render readonly attrs in json hash' do
       @message.to_json[:body].should == '12345678'
@@ -14,7 +14,7 @@ describe TSMS::SmsMessage do
     end
     it 'should initialize with attrs and collections' do
       @message.body.should == '12345678'
-      @message.recipients.class.should == TSMS::Recipients
+      @message.recipients.class.should == TMS::Recipients
     end
     it 'should post successfully' do
       response = {:body => 'processed', :recipients => [{:phone => '22345678'}], :created_at => 'time'}
@@ -22,8 +22,8 @@ describe TSMS::SmsMessage do
       @message.post
       @message.body.should == 'processed'
       @message.created_at.should == 'time'
-      @message.recipients.class.should == TSMS::Recipients
-      @message.recipients.collection.first.class.should == TSMS::Recipient
+      @message.recipients.class.should == TMS::Recipients
+      @message.recipients.collection.first.class.should == TMS::Recipient
     end
     it 'should handle errors' do
       response = {'errors' => {:body => "can't be nil"}}
@@ -40,7 +40,7 @@ describe TSMS::SmsMessage do
     end
     before do
       # blank hash prevents the client from doing a GET in the initialize method
-      @message = TSMS::SmsMessage.new(client, '/messages/99', {})
+      @message = TMS::SmsMessage.new(client, '/messages/99', {})
     end
     it 'should GET cleanly' do
       response = {:body => 'processed', :recipients => [{:phone => '22345678'}], :created_at => 'time'}

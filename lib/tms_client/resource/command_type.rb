@@ -1,4 +1,4 @@
-module TSMS #:nodoc:
+module TMS #:nodoc:
   # CommandType is a pair of values (name, fields) that can be attached
   # to a Keyword (in a Command object).
   #

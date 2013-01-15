@@ -1,18 +1,18 @@
-module TSMS #:nodoc:
+module TMS #:nodoc:
   module Base
     def self.included(base)
-      base.send(:include, TSMS::Util::HalLinkParser)
+      base.send(:include, TMS::Util::HalLinkParser)
       base.extend(ClassMethods)
       base.send(:include, InstanceMethods)
-      base.send(:include, TSMS::CoreExt)
-      base.send(:extend, TSMS::CoreExt)
+      base.send(:include, TMS::CoreExt)
+      base.send(:extend, TMS::CoreExt)
     end
 
     attr_accessor :client, :href, :errors
 
     module ClassMethods
       def to_param
-        tsmsify(self)
+        tmsify(self)
       end
     end
 

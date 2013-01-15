@@ -1,6 +1,6 @@
-module TSMS::InstanceResource
+module TMS::InstanceResource
   def self.included(base)
-    base.send(:include, TSMS::Base)
+    base.send(:include, TMS::Base)
     base.extend(ClassMethods)
     base.send(:include, InstanceMethods)
   end
@@ -58,7 +58,7 @@ module TSMS::InstanceResource
     def collection_attribute(attr, tms_class)
       @collection_attributes ||= []
       @collection_attributes.push(attr).uniq!
-      setup_collection(attr, TSMS.const_get(tms_class))
+      setup_collection(attr, TMS.const_get(tms_class))
     end
 
     def setup_attributes(attrs, readonly=false)
@@ -72,7 +72,7 @@ module TSMS::InstanceResource
       if klass
         custom_class_names[property] = klass
       else
-        klass ||= TSMS.const_get(property.to_s.capitalize)
+        klass ||= TMS.const_get(property.to_s.capitalize)
       end
 
       self.send :define_method, property.to_sym, &lambda { @attributes[property] ||= klass.new(self.client, nil, nil) }
@@ -161,7 +161,7 @@ module TSMS::InstanceResource
     def set_attributes_from_hash(hash)
       hash.reject { |k, _| k=~/^_/ }.each do |property, value|
         if self.class.collection_attributes.include?(property.to_sym)
-          klass = self.class.custom_class_names[property] || TSMS.const_get(property.to_s.capitalize)
+          klass = self.class.custom_class_names[property] || TMS.const_get(property.to_s.capitalize)
           @attributes[property.to_sym] = klass.new(client, nil, value)
         else
           @attributes[property.to_sym] = value

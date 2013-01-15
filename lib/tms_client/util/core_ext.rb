@@ -1,6 +1,6 @@
 require 'active_support/inflector'
 
-module TSMS::CoreExt
+module TMS::CoreExt
   def demodulize(path)
     ActiveSupport::Inflector.demodulize(path)
   end
@@ -17,7 +17,7 @@ module TSMS::CoreExt
     ActiveSupport::Inflector.pluralize(str)
   end
 
-  def tsmsify(klassname)
+  def tmsify(klassname)
     ActiveSupport::Inflector.underscore(demodulize(klassname))
   end
 

@@ -1,4 +1,4 @@
-class TSMS::Connection
+class TMS::Connection
   attr_accessor :username, :password, :api_root, :connection, :logger
 
   def get(href)
@@ -20,7 +20,7 @@ class TSMS::Connection
 
   def setup_connection
     self.connection = Faraday.new(:url => self.api_root) do |faraday|
-      faraday.use TSMS::Logger, self.logger if self.logger
+      faraday.use TMS::Logger, self.logger if self.logger
       faraday.request :json
       faraday.basic_auth(self.username, self.password)
       faraday.response :json, :content_type => /\bjson$/

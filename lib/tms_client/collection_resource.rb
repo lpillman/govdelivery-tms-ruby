@@ -1,10 +1,10 @@
-module TSMS::CollectionResource
+module TMS::CollectionResource
   def self.included(base)
     base.send(:include, InstanceMethods)
   end
 
   module InstanceMethods
-    include TSMS::Base
+    include TMS::Base
     attr_accessor :collection
 
     def initialize(client, href, items=nil)

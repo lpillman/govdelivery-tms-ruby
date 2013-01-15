@@ -1,6 +1,6 @@
-Tsms Client 
+TMS Client 
 ===========
-This is a ruby client to interact with the GovDelivery TSMS REST API.
+This is a ruby client to interact with the GovDelivery TMS REST API.
 
 
 Usage 
@@ -8,21 +8,21 @@ Usage
 ### Connecting
 
 ``` ruby
-client = TSMS::Client.new('username', 'password', :api_root => 'https://tsms.govdelivery.com')
+client = TMS::Client.new('username', 'password', :api_root => 'https://tms.govdelivery.com')
 
 ```
 
 ### Getting messages
 
 ``` ruby
-client.subresources            #=> {"messages"=><TSMS::Messages href=/messages collection=[]>}
-client.messages                #=> <TSMS::Messages href=/messages collection=[]>
+client.subresources            #=> {"messages"=><TMS::Messages href=/messages collection=[]>}
+client.messages                #=> <TMS::Messages href=/messages collection=[]>
 client.sms_messages.get        #=> #lots of sms stuff
-client.sms_messages.next       #=> <TSMS::Messages href=/messages/page/2 collection=[]> 
+client.sms_messages.next       #=> <TMS::Messages href=/messages/page/2 collection=[]> 
                                #   (if there is a second page)
 client.sms_messages.next.get   #=> # more messages...
 client.voice_messages.get      #=> #lots of voice stuff
-client.voice_messages.next     #=> <TSMS::Messages href=/messages/page/2 collection=[]> 
+client.voice_messages.next     #=> <TMS::Messages href=/messages/page/2 collection=[]> 
                                #   (if there is a second page)
 client.voice_messages.next.get #=> # more messages...
 ```
@@ -39,7 +39,7 @@ message.post             #=> true
 message.recipients.collection.detect{|r| r.errors } #=> {"phone"=>["is not a number"]}
 # save succeeded, but we have one bad recipient
 message.href             #=> "/messages/87"
-message.get              #=> <TSMS::Message href=/messages/87 attributes={...}>
+message.get              #=> <TMS::Message href=/messages/87 attributes={...}>
 ```
 
 ### Sending an Voice Message
@@ -53,7 +53,7 @@ message.post             #=> true
 message.recipients.collection.detect{|r| r.errors } #=> {"phone"=>["is not a number"]}
 # save succeeded, but we have one bad recipient
 message.href             #=> "/messages/87"
-message.get              #=> <TSMS::Message href=/messages/87 attributes={...}>
+message.get              #=> <TMS::Message href=/messages/87 attributes={...}>
 ```
 
 ### Listing Command Types
@@ -112,11 +112,11 @@ end
 Any instance of a [Logger](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html "Ruby Logger")-like class can be passed in to the client; incoming and outgoing
 request information will then be logged to that instance. 
 
-The example below configures `TSMS::Client` to log to STDOUT:
+The example below configures `TMS::Client` to log to STDOUT:
 
 ``` ruby
 logger = Logger.new(STDOUT)
-client = TSMS::Client.new('username', 'password', :logger => logger)
+client = TMS::Client.new('username', 'password', :logger => logger)
 
 ```
 

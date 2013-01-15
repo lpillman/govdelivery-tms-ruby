@@ -1,3 +1,3 @@
-module TSMS #:nodoc:
+module TMS #:nodoc:
   VERSION = "0.0.1"
 end

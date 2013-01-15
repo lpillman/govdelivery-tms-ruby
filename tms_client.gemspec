@@ -1,16 +1,16 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "tsms_client/version"
+require "tms_client/version"
 
 Gem::Specification.new do |s|
-  s.name        = "tsms_client"
-  s.version     = TSMS::VERSION
+  s.name        = "tms_client"
+  s.version     = TMS::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["GovDelivery"]
   s.email       = ["support@govdelivery.com"]
   s.homepage    = "http://govdelivery.com"
-  s.summary     = %q{A ruby client to interact with the GovDelivery TSMS REST API.}
-  s.description = %q{A reference implementation, written in Ruby, to interact with GovDelivery's TSMS API. The client is compatible with Ruby versions 1.8.7 and 1.9.3. }
+  s.summary     = %q{A ruby client to interact with the GovDelivery TMS REST API.}
+  s.description = %q{A reference implementation, written in Ruby, to interact with GovDelivery's TMS API. The client is compatible with Ruby versions 1.8.7 and 1.9.3. }
 
   if RUBY_VERSION < "1.9"
     s.add_runtime_dependency "json" # this is part of 1.9's stdlib
@@ -28,7 +28,7 @@ Gem::Specification.new do |s|
     Gemfile
     README.md
     Rakefile
-    tsms_client.gemspec
+    tms_client.gemspec
   } + Dir["lib/**/*"]
 
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

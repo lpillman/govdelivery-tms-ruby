@@ -1,12 +1,12 @@
 $: << File.expand_path("../lib", __FILE__)
-require 'tsms_client'
+require 'tms_client'
 
-class TSMS::Horse
+class TMS::Horse
   def initialize(client, href)
   end
 end
 
-class TSMS::Rabbits
+class TMS::Rabbits
   def initialize(client, href)
   end
 end

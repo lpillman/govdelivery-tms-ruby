@@ -1,19 +1,19 @@
-# The client class to connect and talk to the TSMS REST API. 
-class TSMS::Client
-  include TSMS::Util::HalLinkParser
-  include TSMS::CoreExt
+# The client class to connect and talk to the TMS REST API. 
+class TMS::Client
+  include TMS::Util::HalLinkParser
+  include TMS::CoreExt
 
   attr_accessor :connection, :href
 
   # Create a new client and issue a request for the available resources for a given account. 
   #
   # === Options
-  # * +:api_root+ - The root URL of the TSMS api. Defaults to localhost:3000
+  # * +:api_root+ - The root URL of the TMS api. Defaults to localhost:3000
   # * +:logger+   - An instance of a Logger class (http transport information will be logged here) - defaults to nil
   #
   # === Examples
-  #   client = TSMS::Client.new("foo@example.com", "onetwothree", {
-  #                               :api_root => "https://tsms.govdelivery.com", 
+  #   client = TMS::Client.new("foo@example.com", "onetwothree", {
+  #                               :api_root => "https://tms.govdelivery.com", 
   #                               :logger => Logger.new(STDOUT)})
   # 
   def initialize(username, password, options = {:api_root => 'http://localhost:3000', :logger => nil})
@@ -23,7 +23,7 @@ class TSMS::Client
   end
 
   def connect!(username, password, logger)
-    self.connection = TSMS::Connection.new(:username => username, :password => password, :api_root => @api_root, :logger => logger)
+    self.connection = TMS::Connection.new(:username => username, :password => password, :api_root => @api_root, :logger => logger)
   end
 
   def discover!
@@ -35,9 +35,9 @@ class TSMS::Client
     response = raw_connection.get(href)
     case response.status
       when 401..499
-        raise TSMS::Request::Error.new(response.status)
+        raise TMS::Request::Error.new(response.status)
       when 202
-        raise TSMS::Request::InProgress.new(response.body['message'])
+        raise TMS::Request::InProgress.new(response.body['message'])
       else
         return response
     end
@@ -65,7 +65,7 @@ class TSMS::Client
       when 200
         return response
       else
-        raise TSMS::Request::Error.new(response.status)
+        raise TMS::Request::Error.new(response.status)
     end
   end
 

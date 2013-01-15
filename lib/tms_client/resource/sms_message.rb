@@ -1,13 +1,9 @@
-module TSMS #:nodoc:
-  class VoiceMessage
+module TMS #:nodoc:
+  class SmsMessage
     include InstanceResource
 
-    writeable_attributes :play_url
+    writeable_attributes :from, :body, :subject
     readonly_attributes :created_at, :completed_at
     collection_attributes :recipients
-
-    def self.to_s
-      "VoiceMessage"
-    end
   end
 end

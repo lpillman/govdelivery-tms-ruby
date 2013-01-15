@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe TSMS::Keywords do
+describe TMS::Keywords do
   context "loading keywords" do
     let(:client) do
       double('client')
     end
     before do
-      @keywords = TSMS::Keywords.new(client, '/keywords')
+      @keywords = TMS::Keywords.new(client, '/keywords')
     end
     it 'should GET ok' do
       body = [
