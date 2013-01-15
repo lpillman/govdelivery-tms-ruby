@@ -132,6 +132,10 @@ client = TMS::Client.new('username', 'password', :logger => logger)
 
 ```
 
+Compatibility
+-------------
+This project is tested and compatible with REE 1.8.7 and MRI 1.9.3.  
+
 License
 -------
 Copyright (c) 2013, GovDelivery, Inc.
