@@ -1,5 +1,5 @@
 module TMS #:nodoc:
-  class InboundMessage
+  class InboundSmsMessage
     include InstanceResource
 
     readonly_attributes :created_at, :completed_at, :from, :body, :to

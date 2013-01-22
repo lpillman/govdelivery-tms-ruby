@@ -31,7 +31,7 @@ class TMS::Keywords
   include TMS::CollectionResource
 end
 
-class TMS::InboundMessages
+class TMS::InboundSmsMessages
   include TMS::CollectionResource
 end
 
