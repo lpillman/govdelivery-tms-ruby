@@ -8,7 +8,7 @@ module TMS #:nodoc:
       base.send(:extend, TMS::CoreExt)
     end
 
-    attr_accessor :client, :href, :errors
+    attr_accessor :client, :href, :errors, :new_record
 
     module ClassMethods
       def to_param
@@ -20,6 +20,10 @@ module TMS #:nodoc:
       def initialize(client, href)
         self.client = client
         self.href = href
+      end
+
+      def new_record?
+        !!self.new_record
       end
     end
 

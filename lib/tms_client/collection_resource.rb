@@ -30,6 +30,7 @@ module TMS::CollectionResource
 
     def build(attributes=nil)
       thing = instance_class(self.class).new(client, self.href, attributes || {})
+      thing.new_record = true
       self.collection << thing
       thing
     end

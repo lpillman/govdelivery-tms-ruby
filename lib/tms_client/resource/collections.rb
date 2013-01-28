@@ -10,7 +10,7 @@ class TMS::SmsMessages
   include TMS::CollectionResource
 end
 
-class TMS::Emails
+class TMS::EmailMessages
   include TMS::CollectionResource
 end
 
@@ -31,7 +31,7 @@ class TMS::Keywords
   include TMS::CollectionResource
 end
 
-class TMS::InboundMessages
+class TMS::InboundSmsMessages
   include TMS::CollectionResource
 end
 

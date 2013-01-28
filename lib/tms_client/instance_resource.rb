@@ -88,16 +88,18 @@ module TMS::InstanceResource
     end
 
     def get
+      raise TMS::Errors::InvalidGet if self.new_record?
       set_attributes_from_hash(self.client.get(href).body)
       self
     end
 
     def post
       response = client.post(self)
+
       case response.status
-        when 201
+        when 200..299
           set_attributes_from_hash(response.body)
-          return true
+          self.new_record=false
         when 401
           raise Exception.new("401 Not Authorized")
         when 404
@@ -114,6 +116,7 @@ module TMS::InstanceResource
       response = client.put(self)
       case response.status
         when 200
+          self.new_record=false
           set_attributes_from_hash(response.body)
           return true
         when 401
