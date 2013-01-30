@@ -100,6 +100,7 @@ module TMS::InstanceResource
         when 200..299
           set_attributes_from_hash(response.body)
           self.new_record=false
+          return true
         when 401
           raise Exception.new("401 Not Authorized")
         when 404
