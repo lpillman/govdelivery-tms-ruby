@@ -3,5 +3,6 @@ module TMS #:nodoc:
     include InstanceResource
 
     writeable_attributes :email
+    readonly_attributes :completed_at
   end
 end

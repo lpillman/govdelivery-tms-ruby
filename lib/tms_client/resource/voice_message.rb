@@ -3,7 +3,7 @@ module TMS #:nodoc:
     include InstanceResource
 
     writeable_attributes :play_url
-    readonly_attributes :created_at, :completed_at
+    readonly_attributes :created_at, :completed_at, :status
     collection_attributes :recipients
 
     def self.to_s

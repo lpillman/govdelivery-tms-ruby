@@ -3,7 +3,7 @@ module TMS #:nodoc:
     include InstanceResource
 
     writeable_attributes :body, :from_name, :subject
-    readonly_attributes :created_at, :completed_at
+    readonly_attributes :created_at, :status
     collection_attribute :recipients, 'EmailRecipients'
   end
 end

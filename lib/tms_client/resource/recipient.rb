@@ -3,6 +3,6 @@ module TMS #:nodoc:
     include InstanceResource
 
     writeable_attributes :phone
-    readonly_attributes :formatted_phone, :error_message, :status
+    readonly_attributes :formatted_phone, :error_message, :status, :completed_at
   end
 end
