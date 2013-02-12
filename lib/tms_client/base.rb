@@ -25,6 +25,11 @@ module TMS #:nodoc:
       def new_record?
         !!self.new_record
       end
+
+      def href=(href)
+        self.new_record=false
+        @href=href
+      end
     end
 
   end
