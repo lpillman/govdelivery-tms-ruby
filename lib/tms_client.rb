@@ -27,6 +27,5 @@ require 'tms_client/resource/email_message'
 require 'tms_client/resource/inbound_sms_message'
 require 'tms_client/resource/command_type'
 require 'tms_client/resource/command'
-require 'tms_client/resource/commands'
 require 'tms_client/resource/keyword'
 

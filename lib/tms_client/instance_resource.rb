@@ -160,6 +160,12 @@ module TMS::InstanceResource
       json_hash
     end
 
+    protected
+
+    def relation_class(rel)
+      self.class.custom_class_names[rel.to_sym] || super
+    end
+
     private
 
     def set_attributes_from_hash(hash)

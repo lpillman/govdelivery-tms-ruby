@@ -2,6 +2,7 @@ require 'spec_helper'
 class Foo
   include TMS::InstanceResource
   writeable_attributes :bar
+  collection_attribute :blah, 'EmailMessage'
 end
 
 describe TMS::InstanceResource do
@@ -22,6 +23,10 @@ describe TMS::InstanceResource do
     it 'should POST' do
       @instance_resource.bar = "OMG"
       @instance_resource.post.should be_true
+    end
+
+    it 'should correctly reflect on collection resources' do
+      @instance_resource.blah.class.should == TMS::EmailMessage
     end
   end
 end

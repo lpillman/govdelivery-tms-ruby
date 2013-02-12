@@ -29,7 +29,7 @@ module TMS::Util
         if rel == 'self'
           self.href = href
         else
-          klass = ::TMS.const_get(classify(rel)) rescue nil
+          klass = relation_class(rel)
           klass = self.class if ['first', 'prev', 'next', 'last'].include?(rel)
           if klass
             subresources[rel] = klass.new(self.client, href)
@@ -40,6 +40,10 @@ module TMS::Util
 
         end
       end
+    end
+
+    def relation_class(rel)
+      ::TMS.const_get(classify(rel)) rescue nil
     end
 
     def setup_subresource(link)

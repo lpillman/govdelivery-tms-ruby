@@ -47,3 +47,7 @@ end
 class TMS::CommandTypes
   include TMS::CollectionResource
 end
+
+class TMS::Commands
+  include TMS::CollectionResource
+end
