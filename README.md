@@ -1,6 +1,6 @@
 TMS Client 
 ===========
-This is a ruby client to interact with the GovDelivery TMS REST API.
+This is a reference Ruby client to interact with the [GovDelivery TMS REST API](https://govdelivery.atlassian.net/wiki/display/PM/TMS+Customer+API+Documentation "GovDelivery TMS REST API").
 
 Installation
 ------------
@@ -15,28 +15,23 @@ $ gem install tms_client
 ```
 
 
-Usage 
------
-### Connecting
+Connecting
+----------
+Loading an instance of `TMS::Client` will automatically connect to the API to query the available resources for your account.
 
 ``` ruby
 client = TMS::Client.new('username', 'password', :api_root => 'https://tms.govdelivery.com')
-
 ```
 
-### Getting messages
+Messages
+--------
+
+### Loading messages
+Sms, Email, and voice messages can be retrieved with the `get` collection method.  Messages are paged in groups of 50.  To retrieve another page, used the `next` method.  This method will not be defined if another page is not available.
 
 ``` ruby
-client.subresources            #=> {"messages"=><TMS::Messages href=/messages collection=[]>}
-client.messages                #=> <TMS::Messages href=/messages collection=[]>
-client.sms_messages.get        #=> #lots of sms stuff
-client.sms_messages.next       #=> <TMS::Messages href=/messages/page/2 collection=[]> 
-                               #   (if there is a second page)
-client.sms_messages.next.get   #=> # more messages...
-client.voice_messages.get      #=> #lots of voice stuff
-client.voice_messages.next     #=> <TMS::Messages href=/messages/page/2 collection=[]> 
-                               #   (if there is a second page)
-client.voice_messages.next.get #=> # more messages...
+client.sms_messages.get        # get the first page of sms messages
+client.sms_messages.next.get   # get the next page of sms messages
 ```
 
 
@@ -47,11 +42,23 @@ message = client.sms_messages.build(:short_body=>'Test Message!')
 message.recipients.build(:phone=>'5551112222')
 message.recipients.build(:phone=>'5551112223')
 message.recipients.build # invalid - no phone
-message.post             #=> true
-message.recipients.collection.detect{|r| r.errors } #=> {"phone"=>["is not a number"]}
+message.post             # true
+message.recipients.collection.detect{|r| r.errors } # {"phone"=>["is not a number"]}
 # save succeeded, but we have one bad recipient
-message.href             #=> "/messages/87"
-message.get              #=> <TMS::Message href=/messages/87 attributes={...}>
+message.href             # "/messages/sms/87"
+message.get              # <TMS::SmsMessage href=/messages/sms/87 attributes={...}>
+```
+
+### Sending Email
+``` ruby
+message = client.email_messages.build(:body=>"<p><a href='http://example.com'>Visit here</a>", :subject => 'Hey')
+message.recipients.build(:email=>'example1@example.com')
+message.recipients.build(:email=>'example2@example.com')
+message.post             # true
+message.recipients.collection.detect{|r| r.errors } # {"phone"=>["is not a number"]}
+# save succeeded, but we have one bad recipient
+message.href             # "/messages/email/87"
+message.get              # <TMS::EmailMessage href=/messages/email/88 attributes={...}>
 ```
 
 ### Sending an Voice Message
@@ -61,34 +68,39 @@ message = client.voice_messages.build(:url=>'www.testmessage.com')
 message.recipients.build(:phone=>'5551112222')
 message.recipients.build(:phone=>'5551112223')
 message.recipients.build # invalid - no phone
-message.post             #=> true
-message.recipients.collection.detect{|r| r.errors } #=> {"phone"=>["is not a number"]}
+message.post             # true
+message.recipients.collection.detect{|r| r.errors } # {"phone"=>["is not a number"]}
 # save succeeded, but we have one bad recipient
-message.href             #=> "/messages/87"
-message.get              #=> <TMS::Message href=/messages/87 attributes={...}>
+message.href             # "/messages/voice/87"
+message.get              # <TMS::VoiceMessage href=/messages/voice/87 attributes={...}>
 ```
 
+Configuring 2-way SMS
+---------------------
+
 ### Listing Command Types
+Command Types are the available commands that can be used to respond to an incoming SMS message.  
 
 ``` ruby 
 command_types = client.command_types.get
 command_types.collection.each do |at|
-  puts at.name   #=> "forward"
-  puts at.fields #=> ["url", "http_method", ...]
+  puts at.name   # "forward"
+  puts at.fields # ["url", "http_method", ...]
 end
 ````
 
 ### Managing Keywords
+Keywords are chunks of text that are used to match an incoming SMS message. 
 
 ``` ruby 
 # CRUD
 keyword = client.keywords.build(:name => "BUSRIDE")
-keyword.post                #=> true
-keyword.name                #=> 'busride'
+keyword.post                # true
+keyword.name                # 'busride'
 keyword.name = "TRAINRIDE"
-keyword.put                 #=> true
-keyword.name                #=> 'trainride'
-keyword.delete              #=> true
+keyword.put                 # true
+keyword.name                # 'trainride'
+keyword.delete              # true
 
 # list
 keywords = client.keywords.get
@@ -98,11 +110,12 @@ end
 ```
 
 ### Managing Commands
+Commands have a command type and one or more keywords.  The example below configures the system to respond to an incoming SMS message containing the string "RIDE" (or "ride") by forwarding an http POST to `http://example.com/new_url`.  The POST body variables are documented in GovDelivery's [TMS REST API documentation](https://govdelivery.atlassian.net/wiki/display/PM/TMS+Customer+API+Documentation#TMSCustomerAPIDocumentation-Configuring2-waySMS "GovDelivery TMS REST API").
 
 ```ruby
 # CRUD
-keywords = client.keywords.get
-keyword = keywords.collection.first.get
+keyword = client.keywords.build(:name => "RIDE")
+keyword.post
 command = keyword.commands.build(
             :name => "Forward to somewhere else", 
             :params => {:url => "http://example.com", :http_method => "get"}, 
@@ -120,9 +133,10 @@ end
 ```
 
 
-### Logging
-Any instance of a [Logger](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html "Ruby Logger")-like class can be passed in to the client; incoming and outgoing
-request information will then be logged to that instance. 
+Logging
+-------
+
+Any instance of a [Logger](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html "Ruby Logger")-like class can be passed in to the client; incoming and outgoing request information will then be logged to that instance. 
 
 The example below configures `TMS::Client` to log to STDOUT:
 
