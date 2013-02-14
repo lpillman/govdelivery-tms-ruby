@@ -15,7 +15,12 @@ module TMS #:nodoc:
   class Keyword
     include InstanceResource
 
+    ##
+    # :attr_accessor: name
     writeable_attributes :name
+
+    ##
+    # A CollectionResource of Command objects
     collection_attributes :commands
 
   end

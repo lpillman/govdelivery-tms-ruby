@@ -1,11 +1,11 @@
-# The client class to connect and talk to the TMS REST API. 
+# The client class to connect and talk to the TMS REST API.
 class TMS::Client
   include TMS::Util::HalLinkParser
   include TMS::CoreExt
 
   attr_accessor :connection, :href
 
-  # Create a new client and issue a request for the available resources for a given account. 
+  # Create a new client and issue a request for the available resources for a given account.
   #
   # === Options
   # * +:api_root+ - The root URL of the TMS api. Defaults to localhost:3000
@@ -13,9 +13,9 @@ class TMS::Client
   #
   # === Examples
   #   client = TMS::Client.new("foo@example.com", "onetwothree", {
-  #                               :api_root => "https://tms.govdelivery.com", 
+  #                               :api_root => "https://tms.govdelivery.com",
   #                               :logger => Logger.new(STDOUT)})
-  # 
+  #
   def initialize(username, password, options = {:api_root => 'http://localhost:3000', :logger => nil})
     @api_root = options[:api_root]
     connect!(username, password, options[:logger])
@@ -34,12 +34,12 @@ class TMS::Client
   def get(href)
     response = raw_connection.get(href)
     case response.status
-      when 401..499
-        raise TMS::Request::Error.new(response.status)
-      when 202
-        raise TMS::Request::InProgress.new(response.body['message'])
-      else
-        return response
+    when 401..499
+      raise TMS::Request::Error.new(response.status)
+    when 202
+      raise TMS::Request::InProgress.new(response.body['message'])
+    else
+      return response
     end
   end
 
@@ -62,10 +62,10 @@ class TMS::Client
   def delete(href)
     response = raw_connection.delete(href)
     case response.status
-      when 200
-        return response
-      else
-        raise TMS::Request::Error.new(response.status)
+    when 200
+      return response
+    else
+      raise TMS::Request::Error.new(response.status)
     end
   end
 

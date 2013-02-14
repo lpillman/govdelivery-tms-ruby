@@ -38,7 +38,7 @@ client.sms_messages.next.get   # get the next page of sms messages
 ### Sending an SMS Message
 
 ``` ruby
-message = client.sms_messages.build(:short_body=>'Test Message!')
+message = client.sms_messages.build(:body=>'Test Message!')
 message.recipients.build(:phone=>'5551112222')
 message.recipients.build(:phone=>'5551112223')
 message.recipients.build # invalid - no phone
@@ -64,7 +64,7 @@ message.get              # <TMS::EmailMessage href=/messages/email/88 attributes
 ### Sending an Voice Message
 
 ``` ruby
-message = client.voice_messages.build(:url=>'www.testmessage.com')
+message = client.voice_messages.build(:play_url=>'www.testmessage.com')
 message.recipients.build(:phone=>'5551112222')
 message.recipients.build(:phone=>'5551112223')
 message.recipients.build # invalid - no phone
@@ -73,6 +73,22 @@ message.recipients.collection.detect{|r| r.errors } # {"phone"=>["is not a numbe
 # save succeeded, but we have one bad recipient
 message.href             # "/messages/voice/87"
 message.get              # <TMS::VoiceMessage href=/messages/voice/87 attributes={...}>
+```
+
+Metrics
+-------
+### Viewing recipients that clicked on a link in an email
+```ruby
+email_message.get
+email_message.clicked.get
+email_message.clicked.collection # => [<#EmailRecipient>,...]
+```
+
+### Viewing recipients that opened an email
+```ruby
+email_message.get
+email_message.opened.get
+email_message.opened.collection # => [<#EmailRecipient>,...]
 ```
 
 Configuring 2-way SMS
