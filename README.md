@@ -91,6 +91,15 @@ email_message.opened.get
 email_message.opened.collection # => [<#EmailRecipient>,...]
 ```
 
+### Viewing a list of opens for a recipient
+```ruby
+email_message.get
+email_message.opened.get
+email_recipient = email_message.opened.collection.first # => <#EmailRecipient>
+email_recipient.opens.get
+email_recipient.opens.collection #=> [<#EmailRecipientOpen>,...]
+```
+
 Configuring 2-way SMS
 ---------------------
 

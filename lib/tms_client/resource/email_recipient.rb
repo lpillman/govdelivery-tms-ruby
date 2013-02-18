@@ -9,5 +9,9 @@ module TMS #:nodoc:
     ##
     # :attr_reader: completed_at
     readonly_attributes :completed_at
+
+    ##
+    # A CollectionResource of EmailRecipientOpens for this EmailRecipient
+    collection_attribute :opens, 'EmailRecipientOpens'
   end
 end
