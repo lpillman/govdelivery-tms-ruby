@@ -93,15 +93,8 @@ email_message.opened.collection # => [<#EmailRecipient>,...]
 
 ### Viewing a list of statistics for a recipient
 ```ruby
-# first get the recipients that clicked or opened
-email_message.get
-email_message.clicked.get
-email_message.opened.get
-
-email_recipient = email_message.clicked.collection.first # => <#EmailRecipient>
 email_recipient.clicks.get.collection #=> [<#EmailRecipientClick>,...]
 
-email_recipient = email_message.opened.collection.first # => <#EmailRecipient>
 email_recipient.opens.get.collection #=> [<#EmailRecipientOpen>,...]
 ```
 
