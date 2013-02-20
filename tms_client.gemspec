@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec"
   s.add_development_dependency "rake"
   s.add_development_dependency "rubygems-tasks"
+  s.add_development_dependency "guard-rspec"
 
   s.files       = %w{
     Gemfile
