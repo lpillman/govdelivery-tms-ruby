@@ -26,6 +26,10 @@ class TMS::EmailRecipientOpens
   include TMS::CollectionResource
 end
 
+class TMS::EmailRecipientClicks
+  include TMS::CollectionResource
+end
+
 # A collection of Keyword objects.
 #
 # === Example
