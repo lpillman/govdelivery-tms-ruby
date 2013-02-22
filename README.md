@@ -51,7 +51,7 @@ message.get              # <TMS::SmsMessage href=/messages/sms/87 attributes={..
 
 ### Sending Email
 ``` ruby
-message = client.email_messages.build(:body=>"<p><a href='http://example.com'>Visit here</a>", :subject => 'Hey')
+message = client.email_messages.build(:body=>'<p><a href="http://example.com">Visit here</a>', :subject => 'Hey')
 message.recipients.build(:email=>'example1@example.com')
 message.recipients.build(:email=>'example2@example.com')
 message.post             # true
