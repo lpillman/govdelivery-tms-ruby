@@ -1,7 +1,6 @@
 TMS Client 
-==========
-
-This is a reference Ruby client to interact with the [GovDelivery TMS REST API](https://govdelivery.atlassian.net/wiki/display/PM/TMS+Customer+API+Documentation "GovDelivery TMS REST API").
+===========
+This is a reference Ruby client to interact with the GovDelivery TMS REST API.
 
 Installation
 ------------
@@ -21,7 +20,7 @@ Connecting
 Loading an instance of `TMS::Client` will automatically connect to the API to query the available resources for your account.
 
 ``` ruby
-client = TMS::Client.new('username', 'password', :api_root => 'https://tms.govdelivery.com')
+client = TMS::Client.new('username', 'password', :api_root => 'https://stage-tms.govdelivery.com')
 ```
 
 Messages
@@ -52,7 +51,7 @@ message.get              # <TMS::SmsMessage href=/messages/sms/87 attributes={..
 
 ### Sending Email
 ``` ruby
-message = client.email_messages.build(:body=>"<p><a href='http://example.com'>Visit here</a>", :subject => 'Hey')
+message = client.email_messages.build(:body=>'<p><a href="http://example.com">Visit here</a>', :subject => 'Hey')
 message.recipients.build(:email=>'example1@example.com')
 message.recipients.build(:email=>'example2@example.com')
 message.post             # true
@@ -90,6 +89,13 @@ email_message.clicked.collection # => [<#EmailRecipient>,...]
 email_message.get
 email_message.opened.get
 email_message.opened.collection # => [<#EmailRecipient>,...]
+```
+
+### Viewing a list of statistics for a recipient
+```ruby
+email_recipient.clicks.get.collection #=> [<#EmailRecipientClick>,...]
+
+email_recipient.opens.get.collection #=> [<#EmailRecipientOpen>,...]
 ```
 
 Configuring 2-way SMS
