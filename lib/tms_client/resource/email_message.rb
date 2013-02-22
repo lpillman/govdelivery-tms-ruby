@@ -31,21 +31,10 @@ module TMS #:nodoc:
   class EmailMessage
     include InstanceResource
 
-    ##
-    # :attr_accessor: body
-
-    ##
-    # :attr_accessor: from_name
-
-    ##
-    # :attr_accessor: subject
+    # @!parse attr_accessor :body, :from_name, :subject
     writeable_attributes :body, :from_name, :subject
 
-    ##
-    # :attr_reader: created_at
-
-    ##
-    # :attr_reader: status
+    # @!parse attr_reader :created_at, :status
     readonly_attributes :created_at, :status
 
     ##

@@ -14,11 +14,7 @@ module TMS #:nodoc:
 
     include InstanceResource
     
-    ##
-    # :attr_reader: name
-
-    ##
-    # :attr_reader: fields
+    # @!parse attr_reader :fields, :name
     readonly_attributes :name, :fields
   end
 end

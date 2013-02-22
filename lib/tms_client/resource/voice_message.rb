@@ -16,18 +16,10 @@ module TMS #:nodoc:
   class VoiceMessage
     include InstanceResource
 
-    ## 
-    # :attr_accessor: play_url
+    # @!parse attr_accessor :play_url
     writeable_attributes :play_url
 
-    ##
-    # :attr_reader: created_at
-
-    ##
-    # :attr_reader: completed_at
-
-    ##
-    # :attr_reader: status
+    # @!parse attr_reader :created_at, :completed_at, :status
     readonly_attributes :created_at, :completed_at, :status
 
     ##

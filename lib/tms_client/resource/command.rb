@@ -17,23 +17,10 @@ module TMS #:nodoc:
   class Command
     include InstanceResource
 
-    
-    ##
-    # :attr_accessor: name
-    
-    ##
-    # :attr_accessor: command_type
-    
-    ##
-    # :attr_accessor: params
-
-    ##
-    # :attr_reader: created_at
-
-    ##
-    # :attr_reader: updated_at
-
+    # @!parse attr_accessor :name, :command_type, :params
     writeable_attributes :name, :command_type, :params
+    
+    # @!parse attr_reader :created_at, :updated_at
     readonly_attributes :created_at, :updated_at
 
   end

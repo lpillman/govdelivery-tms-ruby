@@ -15,8 +15,7 @@ module TMS #:nodoc:
   class Keyword
     include InstanceResource
 
-    ##
-    # :attr_accessor: name
+    # @!parse attr_accessor :name
     writeable_attributes :name
 
     ##
