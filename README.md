@@ -1,6 +1,6 @@
 TMS Client 
 ===========
-This is a reference Ruby client to interact with the [GovDelivery TMS REST API](https://govdelivery.atlassian.net/wiki/display/PM/TMS+Customer+API+Documentation "GovDelivery TMS REST API").
+This is a reference Ruby client to interact with the GovDelivery TMS REST API.
 
 Installation
 ------------
@@ -20,7 +20,7 @@ Connecting
 Loading an instance of `TMS::Client` will automatically connect to the API to query the available resources for your account.
 
 ``` ruby
-client = TMS::Client.new('username', 'password', :api_root => 'https://tms.govdelivery.com')
+client = TMS::Client.new('username', 'password', :api_root => 'https://stage-tms.govdelivery.com')
 ```
 
 Messages
