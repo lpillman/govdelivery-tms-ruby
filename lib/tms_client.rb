@@ -4,9 +4,9 @@ end
 require 'active_support'
 require 'tms_client/version'
 require 'faraday'
-require 'link_header'
 require 'faraday_middleware'
 
+require 'tms_client/link_header'
 require 'tms_client/util/hal_link_parser'
 require 'tms_client/util/core_ext'
 require 'tms_client/connection'
