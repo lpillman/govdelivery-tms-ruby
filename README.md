@@ -123,7 +123,7 @@ Keywords are chunks of text that are used to match an incoming SMS message.
 
 ```ruby 
 # CRUD
-keyword = client.keywords.build(:name => "BUSRIDE")
+keyword = client.keywords.build(:name => "BUSRIDE", :response_text => "Visit example.com/rides for more info")
 keyword.post                # true
 keyword.name                # 'busride'
 keyword.name = "TRAINRIDE"
@@ -134,7 +134,7 @@ keyword.delete              # true
 # list
 keywords = client.keywords.get
 keywords.collection.each do |k|
-  puts k.name
+  puts k.name, k.response_text
 end
 ```
 
