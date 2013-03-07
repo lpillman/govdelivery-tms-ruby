@@ -6,10 +6,11 @@ module TMS #:nodoc:
   #
   # ==== Attributes  
   # 
-  # * +from_name+ - The name of the person or entity sending the email.  
-  # * +subject+   - The subject of the email
-  # * +body+      - The body of the email
-  #
+  # * +from_name+              - The name of the person or entity sending the email.  
+  # * +subject+                - The subject of the email
+  # * +body+                   - The body of the email
+  # * +open_tracking_enabled+  - Whether to track opens on this message. Optional, defaults to true.
+  # * +click_tracking_enabled+ - Whether to track clicks on links in this message. Optional, defaults to true.
   # 
   # === Example
   # Sending a message
@@ -31,8 +32,8 @@ module TMS #:nodoc:
   class EmailMessage
     include InstanceResource
 
-    # @!parse attr_accessor :body, :from_name, :subject
-    writeable_attributes :body, :from_name, :subject
+    # @!parse attr_accessor :body, :from_name, :subject, :open_tracking_enabled, :click_tracking_enabled
+    writeable_attributes :body, :from_name, :subject, :open_tracking_enabled, :click_tracking_enabled
 
     # @!parse attr_reader :created_at, :status
     readonly_attributes :created_at, :status
