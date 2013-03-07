@@ -113,8 +113,9 @@ Command Types are the available commands that can be used to respond to an incom
 ```ruby 
 command_types = client.command_types.get
 command_types.collection.each do |at|
-  puts at.name   # "forward"
-  puts at.fields # ["url", "http_method", ...]
+  puts at.name          # "forward"
+  puts at.string_fields # ["url", ...]
+  puts at.array_fields  # ["foo", ...]
 end
 ```
 
