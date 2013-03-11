@@ -4,11 +4,9 @@ module TMS #:nodoc:
   # played to them.  Accepted sound formats include +wav+, +mp3+, and +aiff+. 
   # 
   #
-  # ==== Attributes  
+  # @attr play_url [String] The url to the sound file to be played back to the call recipients
   # 
-  # * +play_url+ - The url to the sound file to be played back to the call recipients
-  # 
-  # === Example
+  # @example
   #    voice_message = client.voice_messages.build(:play_url => "http://example.com/emergency_weather.mp3")
   #    voice_message.recipients.build(:phone => "+18001002000")
   #    voice_message.post

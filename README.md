@@ -51,14 +51,15 @@ message.href             # "/messages/sms/87"
 message.get              # <TMS::SmsMessage href=/messages/sms/87 attributes={...}>
 ```
 
-### Sending Email
+### Sending an Email
 
 ```ruby
-message = client.email_messages.build(:body=>'<p><a href="http://example.com">Visit here</a>', :subject => 'Hey')
+message = client.email_messages.build(:body=>'<p><a href="http://example.com">Visit here</a>', 
+                                      :subject => 'Hey')
 message.recipients.build(:email=>'example1@example.com')
-message.recipients.build(:email=>'example2@example.com')
+message.recipients.build(:email=>'')
 message.post             # true
-message.recipients.collection.detect{|r| r.errors } # {"phone"=>["is not a number"]}
+message.recipients.collection.detect{|r| r.errors } # {"email"=>["can't be blank"]}
 # save succeeded, but we have one bad recipient
 message.href             # "/messages/email/87"
 message.get              # <TMS::EmailMessage href=/messages/email/88 attributes={...}>

@@ -6,7 +6,7 @@ module TMS::InstanceResource
   end
 
   module ClassMethods
-    #
+    ##
     # Writeable attributes are sent on POST/PUT.
     #
     def writeable_attributes(*attrs)
@@ -18,7 +18,7 @@ module TMS::InstanceResource
       @writeable_attributes
     end
 
-    #
+    ##
     # Readonly attributes don't get POSTed.
     # (timestamps are included by default)
     #
@@ -31,11 +31,12 @@ module TMS::InstanceResource
       @readonly_attributes
     end
 
-    #
+    ##
     # For collections that are represented as attributes (i.e. inline, no href)
     #
-    # # message.rb
-    # collection_attributes :recipients
+    # @example
+    #     collection_attributes :recipients
+    #
     def collection_attributes(*attrs)
       @collection_attributes ||= []
       if attrs.any?
@@ -49,12 +50,13 @@ module TMS::InstanceResource
       @custom_class_names ||= {}
     end
 
-    #
+    ##
     # For collections that are represented as attributes (i.e. inline, no href)
     # and that have a class name other than the one we would infer.
     #
-    # # email.rb
-    # collection_attributes :recipients, 'EmailRecipient'
+    # @example
+    #    collection_attributes :recipients, 'EmailRecipient'
+    #
     def collection_attribute(attr, tms_class)
       @collection_attributes ||= []
       @collection_attributes.push(attr).uniq!

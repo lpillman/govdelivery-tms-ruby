@@ -4,12 +4,10 @@ module TMS #:nodoc:
   #
   # This resource is read-only. 
   #
-  # ==== Attributes  
-  #  
-  # * +name+ - The name of the CommandType.
-  # * +string_fields+ - An Array of strings representing the different string_fields on this 
+  # @attr name [String] The name of the CommandType.
+  # @attr string_fields [Array] An Array of strings representing the different string_fields on this 
   #   CommandType.  Field values will always be strings.  
-  # * +array_fields+ - An array of strings representing the different array fields on this 
+  # @attr array_fields [Array] An array of strings representing the different array fields on this 
   #   CommandType.  Field values will always be arrays of strings. 
   #  
   class CommandType

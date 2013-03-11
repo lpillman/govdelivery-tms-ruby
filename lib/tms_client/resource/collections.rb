@@ -32,7 +32,7 @@ end
 
 # A collection of Keyword objects.
 #
-# === Example
+# @example
 #    keywords = client.keywords.get
 #
 class TMS::Keywords
@@ -49,7 +49,7 @@ end
 #
 # This resource is read-only.
 #
-# === Example
+# @example
 #    client.command_types.get
 #    client.command_types.collection.each {|at| ... }
 class TMS::CommandTypes
