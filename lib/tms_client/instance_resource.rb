@@ -40,7 +40,7 @@ module TMS::InstanceResource
     def collection_attributes(*attrs)
       @collection_attributes ||= []
       if attrs.any?
-        @collection_attributes.map!(&:to_sym).concat(attrs).uniq! if attrs.any?
+        @collection_attributes.map!(&:to_sym).concat(attrs).uniq!
         @collection_attributes.each { |a| setup_collection(a) }
       end
       @collection_attributes
@@ -60,6 +60,19 @@ module TMS::InstanceResource
     def collection_attribute(attr, tms_class)
       @collection_attributes ||= []
       @collection_attributes.push(attr).uniq!
+      setup_collection(attr, TMS.const_get(tms_class))
+    end
+
+    ##
+    # Read-only collection attributes don't get POSTed. 
+    # Use this for collections that are represented as attributes, but cannot be modified. 
+    #
+    # @example
+    #      readonly_collection_attribute :opens
+    #
+    def readonly_collection_attribute(attr, tms_class)
+      @readonly_collection_attributes ||= []
+      @readonly_collection_attributes.push(attr).uniq!
       setup_collection(attr, TMS.const_get(tms_class))
     end
 

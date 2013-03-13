@@ -22,10 +22,10 @@ module TMS #:nodoc:
 
     ##
     # A CollectionResource of EmailRecipientOpens for this EmailRecipient
-    collection_attribute :opens, 'EmailRecipientOpens'
+    readonly_collection_attribute :opens, 'EmailRecipientOpens'
 
     ##
     # A CollectionResource of EmailRecipientClicks for this EmailRecipient
-    collection_attribute :clicks, 'EmailRecipientClicks'
+    readonly_collection_attribute :clicks, 'EmailRecipientClicks'
   end
 end
