@@ -17,7 +17,7 @@ module TMS #:nodoc:
 
     ##
     # :attr_accessor: name
-    writeable_attributes :name
+    writeable_attributes :name, :response_text
 
     ##
     # A CollectionResource of Command objects
