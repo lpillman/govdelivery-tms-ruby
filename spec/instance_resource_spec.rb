@@ -3,6 +3,7 @@ class Foo
   include TMS::InstanceResource
   writeable_attributes :bar
   collection_attribute :blah, 'EmailMessage'
+  readonly_collection_attribute :shah, 'EmailMessage'
 end
 
 describe TMS::InstanceResource do
@@ -27,6 +28,7 @@ describe TMS::InstanceResource do
 
     it 'should correctly reflect on collection resources' do
       @instance_resource.blah.class.should == TMS::EmailMessage
+      @instance_resource.shah.class.should == TMS::EmailMessage
     end
   end
 end

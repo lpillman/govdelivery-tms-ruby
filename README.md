@@ -1,15 +1,17 @@
 TMS Client 
 ===========
-This is a reference Ruby client to interact with the [GovDelivery TMS REST API](https://govdelivery.atlassian.net/wiki/display/PM/TMS+Customer+API+Documentation "GovDelivery TMS REST API").
+This is a reference Ruby client to interact with the GovDelivery TMS REST API.
 
 Installation
 ------------
 ### Using Bundler
-``` ruby
+
+```ruby
 gem 'tms_client'
 ```
 
 ### Standalone
+
 ```
 $ gem install tms_client
 ```
@@ -19,8 +21,8 @@ Connecting
 ----------
 Loading an instance of `TMS::Client` will automatically connect to the API to query the available resources for your account.
 
-``` ruby
-client = TMS::Client.new('username', 'password', :api_root => 'https://tms.govdelivery.com')
+```ruby
+client = TMS::Client.new('username', 'password', :api_root => 'https://stage-tms.govdelivery.com')
 ```
 
 Messages
@@ -29,7 +31,7 @@ Messages
 ### Loading messages
 Sms, Email, and voice messages can be retrieved with the `get` collection method.  Messages are paged in groups of 50.  To retrieve another page, used the `next` method.  This method will not be defined if another page is not available.
 
-``` ruby
+```ruby
 client.sms_messages.get        # get the first page of sms messages
 client.sms_messages.next.get   # get the next page of sms messages
 ```
@@ -37,7 +39,7 @@ client.sms_messages.next.get   # get the next page of sms messages
 
 ### Sending an SMS Message
 
-``` ruby
+```ruby
 message = client.sms_messages.build(:body=>'Test Message!')
 message.recipients.build(:phone=>'5551112222')
 message.recipients.build(:phone=>'5551112223')
@@ -49,21 +51,23 @@ message.href             # "/messages/sms/87"
 message.get              # <TMS::SmsMessage href=/messages/sms/87 attributes={...}>
 ```
 
-### Sending Email
-``` ruby
-message = client.email_messages.build(:body=>"<p><a href='http://example.com'>Visit here</a>", :subject => 'Hey')
+### Sending an Email
+
+```ruby
+message = client.email_messages.build(:body=>'<p><a href="http://example.com">Visit here</a>', 
+                                      :subject => 'Hey')
 message.recipients.build(:email=>'example1@example.com')
-message.recipients.build(:email=>'example2@example.com')
+message.recipients.build(:email=>'')
 message.post             # true
-message.recipients.collection.detect{|r| r.errors } # {"phone"=>["is not a number"]}
+message.recipients.collection.detect{|r| r.errors } # {"email"=>["can't be blank"]}
 # save succeeded, but we have one bad recipient
 message.href             # "/messages/email/87"
 message.get              # <TMS::EmailMessage href=/messages/email/88 attributes={...}>
 ```
 
-### Sending an Voice Message
+### Sending a Voice Message
 
-``` ruby
+```ruby
 message = client.voice_messages.build(:play_url=>'www.testmessage.com')
 message.recipients.build(:phone=>'5551112222')
 message.recipients.build(:phone=>'5551112223')
@@ -78,6 +82,7 @@ message.get              # <TMS::VoiceMessage href=/messages/voice/87 attributes
 Metrics
 -------
 ### Viewing recipients that clicked on a link in an email
+
 ```ruby
 email_message.get
 email_message.clicked.get
@@ -85,6 +90,7 @@ email_message.clicked.collection # => [<#EmailRecipient>,...]
 ```
 
 ### Viewing recipients that opened an email
+
 ```ruby
 email_message.get
 email_message.opened.get
@@ -92,6 +98,7 @@ email_message.opened.collection # => [<#EmailRecipient>,...]
 ```
 
 ### Viewing a list of statistics for a recipient
+
 ```ruby
 email_recipient.clicks.get.collection #=> [<#EmailRecipientClick>,...]
 
@@ -104,20 +111,21 @@ Configuring 2-way SMS
 ### Listing Command Types
 Command Types are the available commands that can be used to respond to an incoming SMS message.  
 
-``` ruby 
+```ruby 
 command_types = client.command_types.get
 command_types.collection.each do |at|
-  puts at.name   # "forward"
-  puts at.fields # ["url", "http_method", ...]
+  puts at.name          # "forward"
+  puts at.string_fields # ["url", ...]
+  puts at.array_fields  # ["foo", ...]
 end
-````
+```
 
 ### Managing Keywords
 Keywords are chunks of text that are used to match an incoming SMS message. 
 
-``` ruby 
+```ruby 
 # CRUD
-keyword = client.keywords.build(:name => "BUSRIDE")
+keyword = client.keywords.build(:name => "BUSRIDE", :response_text => "Visit example.com/rides for more info")
 keyword.post                # true
 keyword.name                # 'busride'
 keyword.name = "TRAINRIDE"
@@ -128,7 +136,7 @@ keyword.delete              # true
 # list
 keywords = client.keywords.get
 keywords.collection.each do |k|
-  puts k.name
+  puts k.name, k.response_text
 end
 ```
 
@@ -161,17 +169,28 @@ Logging
 
 Any instance of a [Logger](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html "Ruby Logger")-like class can be passed in to the client; incoming and outgoing request information will then be logged to that instance. 
 
-The example below configures `TMS::Client` to log to STDOUT:
+The example below configures `TMS::Client` to log to `STDOUT`:
 
-``` ruby
+```ruby
 logger = Logger.new(STDOUT)
 client = TMS::Client.new('username', 'password', :logger => logger)
-
 ```
+
+Generating Documentation
+------------------------
+This project uses [yard](https://github.com/lsegal/yard) to generate documentation.  To generate API documentation yourself, use the following series of commands from the project root: 
+
+```ruby
+# install development gems
+bundle install
+# generate documentation
+rake yard
+```
+The generated documentation will be placed in the `doc` folder.
 
 Compatibility
 -------------
-This project is tested and compatible with REE 1.8.7 and MRI 1.9.3.  
+This project is tested and compatible with REE 1.8.7, MRI 1.9.3, and MRI 2.0.0.
 
 License
 -------

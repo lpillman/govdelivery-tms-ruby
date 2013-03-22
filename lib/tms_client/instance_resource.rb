@@ -6,7 +6,7 @@ module TMS::InstanceResource
   end
 
   module ClassMethods
-    #
+    ##
     # Writeable attributes are sent on POST/PUT.
     #
     def writeable_attributes(*attrs)
@@ -18,7 +18,7 @@ module TMS::InstanceResource
       @writeable_attributes
     end
 
-    #
+    ##
     # Readonly attributes don't get POSTed.
     # (timestamps are included by default)
     #
@@ -31,15 +31,16 @@ module TMS::InstanceResource
       @readonly_attributes
     end
 
-    #
+    ##
     # For collections that are represented as attributes (i.e. inline, no href)
     #
-    # # message.rb
-    # collection_attributes :recipients
+    # @example
+    #     collection_attributes :recipients
+    #
     def collection_attributes(*attrs)
       @collection_attributes ||= []
       if attrs.any?
-        @collection_attributes.map!(&:to_sym).concat(attrs).uniq! if attrs.any?
+        @collection_attributes.map!(&:to_sym).concat(attrs).uniq!
         @collection_attributes.each { |a| setup_collection(a) }
       end
       @collection_attributes
@@ -49,15 +50,29 @@ module TMS::InstanceResource
       @custom_class_names ||= {}
     end
 
-    #
+    ##
     # For collections that are represented as attributes (i.e. inline, no href)
     # and that have a class name other than the one we would infer.
     #
-    # # email.rb
-    # collection_attributes :recipients, 'EmailRecipient'
+    # @example
+    #    collection_attributes :recipients, 'EmailRecipient'
+    #
     def collection_attribute(attr, tms_class)
       @collection_attributes ||= []
       @collection_attributes.push(attr).uniq!
+      setup_collection(attr, TMS.const_get(tms_class))
+    end
+
+    ##
+    # Read-only collection attributes don't get POSTed. 
+    # Use this for collections that are represented as attributes, but cannot be modified. 
+    #
+    # @example
+    #      readonly_collection_attribute :opens
+    #
+    def readonly_collection_attribute(attr, tms_class)
+      @readonly_collection_attributes ||= []
+      @readonly_collection_attributes.push(attr).uniq!
       setup_collection(attr, TMS.const_get(tms_class))
     end
 

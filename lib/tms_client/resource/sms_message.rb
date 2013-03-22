@@ -3,30 +3,20 @@ module TMS #:nodoc:
   # objects.
   # 
   #
-  # ==== Attributes  
+  # @attr body [String] The content of the SMS.  This field will be truncated to 160 characters. 
   # 
-  # * +body+ - The content of the SMS.  This field will be truncated to 160 characters. 
-  # 
-  # === Example
+  # @example
   #    sms = client.sms_messages.build(:body => "Hello")
   #    sms.recipients.build(:phone => "+18001002000")
   #    sms.post
   #    sms.get
   class SmsMessage
     include InstanceResource
-
-    ##
-    # :attr_accessor: body
+    
+    # @!parse attr_accessor :body
     writeable_attributes :body
 
-    ##
-    # :attr_reader: created_at
-
-    ##
-    # :attr_reader: completed_at
-
-    ##
-    # :attr_reader: status
+    # @!parse attr_reader :created_at, :completed_at, :status
     readonly_attributes :created_at, :completed_at, :status
 
     ##

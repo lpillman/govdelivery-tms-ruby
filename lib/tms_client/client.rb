@@ -7,11 +7,13 @@ class TMS::Client
 
   # Create a new client and issue a request for the available resources for a given account.
   #
-  # === Options
-  # * +:api_root+ - The root URL of the TMS api. Defaults to localhost:3000
-  # * +:logger+   - An instance of a Logger class (http transport information will be logged here) - defaults to nil
+  # @param [String] username The username of your account
+  # @param [String] password The password of your account
+  # @param [Hash] options
+  # @option options [String] :api_root The root URL of the TMS api. Defaults to localhost:3000
+  # @option options [Logger] :logger An instance of a Logger class (http transport information will be logged here) - defaults to nil
   #
-  # === Examples
+  # @example
   #   client = TMS::Client.new("foo@example.com", "onetwothree", {
   #                               :api_root => "https://tms.govdelivery.com",
   #                               :logger => Logger.new(STDOUT)})

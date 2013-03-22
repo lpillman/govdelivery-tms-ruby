@@ -1,21 +1,31 @@
 module TMS #:nodoc:
+  # An EmailRecipient is used in conjunction with an EmailMessage to send email.
+  #
+  # @attr email [String] The recipient email address
+  # @attr macros [Hash] A dictionary of key/value pairs to resolve in the subject and body as macros. This value can be nil.
+  # 
+  # @example Sending a message
+  #    email_message = client.email_messages.build(:subject => "Great news!", :body => "You win! <a href='http://example.com/'>click here</a>.")
+  #    email_message.recipients.build(:email => "john@example.com")
+  #    email_message.recipients.build(:email => "jeff@example.com")
+  #    email_message.post
+  #    email_message.get
+  #
   class EmailRecipient
     include InstanceResource
 
-    ##
-    # :attr_accessor: email
-    writeable_attributes :email
+    # @!parse attr_accessor :email, :macros
+    writeable_attributes :email, :macros
 
-    ##
-    # :attr_reader: completed_at
+    # @!parse attr_reader :completed_at
     readonly_attributes :completed_at
 
     ##
     # A CollectionResource of EmailRecipientOpens for this EmailRecipient
-    collection_attribute :opens, 'EmailRecipientOpens'
+    readonly_collection_attribute :opens, 'EmailRecipientOpens'
 
     ##
     # A CollectionResource of EmailRecipientClicks for this EmailRecipient
-    collection_attribute :clicks, 'EmailRecipientClicks'
+    readonly_collection_attribute :clicks, 'EmailRecipientClicks'
   end
 end

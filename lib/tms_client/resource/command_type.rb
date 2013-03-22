@@ -1,24 +1,20 @@
 module TMS #:nodoc:
-  # CommandType is a pair of values (name, fields) that can be attached
+  # CommandType is a pair of values (name, string_fields, array_fields) that can be attached
   # to a Keyword (in a Command object).
   #
   # This resource is read-only. 
   #
-  # ==== Attributes  
-  #  
-  # * +name+ - The name of the CommandType.
-  # * +fields+ - An Array of strings representing the different fields on this 
+  # @attr name [String] The name of the CommandType.
+  # @attr string_fields [Array] An Array of strings representing the different string_fields on this 
   #   CommandType.  Field values will always be strings.  
+  # @attr array_fields [Array] An array of strings representing the different array fields on this 
+  #   CommandType.  Field values will always be arrays of strings. 
   #  
   class CommandType
 
     include InstanceResource
     
-    ##
-    # :attr_reader: name
-
-    ##
-    # :attr_reader: fields
-    readonly_attributes :name, :fields
+    # @!parse attr_reader :string_fields, :array_fields, :name
+    readonly_attributes :name, :string_fields, :array_fields
   end
 end
