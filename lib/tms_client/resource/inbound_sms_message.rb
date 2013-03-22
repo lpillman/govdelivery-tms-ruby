@@ -15,6 +15,7 @@ module TMS #:nodoc:
     
     ##
     # :attr_reader: to
-    readonly_attributes :created_at, :completed_at, :from, :body, :to
+
+    readonly_attributes :created_at, :completed_at, :from, :body, :to, :command_status
   end
 end

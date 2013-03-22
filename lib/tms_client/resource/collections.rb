@@ -59,3 +59,7 @@ end
 class TMS::Commands
   include TMS::CollectionResource
 end
+
+class TMS::CommandActions
+  include TMS::CollectionResource
+end
