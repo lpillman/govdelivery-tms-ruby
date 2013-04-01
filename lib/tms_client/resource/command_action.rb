@@ -12,6 +12,6 @@ module TMS #:nodoc:
   class CommandAction
     include InstanceResource
 
-    readonly_attributes :http_response_code, :http_content_type, :http_body
+    readonly_attributes :status, :content_type, :response_body, :created_at
   end
 end
