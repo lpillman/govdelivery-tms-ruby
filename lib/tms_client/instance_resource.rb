@@ -109,6 +109,7 @@ module TMS::InstanceResource
     end
 
     def post
+      self.errors = nil
       response = client.post(self)
 
       case response.status
