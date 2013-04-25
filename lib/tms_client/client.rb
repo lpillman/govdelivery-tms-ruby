@@ -5,6 +5,8 @@ class TMS::Client
 
   attr_accessor :connection, :href
 
+  DEFAULTS = {:api_root => 'http://localhost:3000', :logger => nil}.freeze
+
   # Create a new client and issue a request for the available resources for a given account.
   #
   # @param [String] username The username of your account
@@ -18,7 +20,7 @@ class TMS::Client
   #                               :api_root => "https://tms.govdelivery.com",
   #                               :logger => Logger.new(STDOUT)})
   #
-  def initialize(username, password, options = {:api_root => 'http://localhost:3000', :logger => nil})
+  def initialize(username, password, options = DEFAULTS)
     @api_root = options[:api_root]
     connect!(username, password, options[:logger])
     discover!

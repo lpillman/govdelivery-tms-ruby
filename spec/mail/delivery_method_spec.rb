@@ -1,0 +1,29 @@
+require 'spec_helper'
+require 'mail'
+require 'tms_client/mail/delivery_method'
+describe TMS::Mail::DeliveryMethod do
+  subject { TMS::Mail::DeliveryMethod.new({}) }
+  let(:client) { stub('TMS::Client') }
+  let(:email_messages) { double('email_messages') }
+  let(:tms_message) { double('tms_message', :recipients => double(:build => TMS::Recipient.new('href'))) }
+
+  it 'should work with a basic Mail::Message' do
+    mail = Mail.new do
+      subject 'hi'
+      from '"My mom" <my@mom.com>'
+      to '"A Nice Fellow" <tyler@sink.govdelivery.com>'
+      body '<blink>HI</blink>'
+    end
+    client.stub(:email_messages).and_return(email_messages)
+    subject.stub(:client).and_return(client)
+    email_messages.should_receive(:build).with(
+      :from_name => mail[:from].display_names.first,
+      :subject => mail.subject,
+      :body => mail.body.to_s || mail.html_part.body.to_s || mail.text_part.body.to_s
+    ).and_return(tms_message)
+    tms_message.should_receive(:post!).and_return(true)
+
+    subject.deliver!(mail)
+  end
+
+end

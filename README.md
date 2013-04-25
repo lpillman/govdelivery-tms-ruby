@@ -176,6 +176,24 @@ logger = Logger.new(STDOUT)
 client = TMS::Client.new('username', 'password', :logger => logger)
 ```
 
+ActionMailer integration
+------------------------
+
+You can use TMS from the mail gem or ActionMailer as a delivery method.
+
+```ruby
+# e.g. in config/initializers/tms.rb
+require 'tms_client/mail/delivery_method'
+
+Rails.configuration.action_mailer.delivery_method = :govdelivery_tms
+Rails.configuration.action_mailer.govdelivery_tms_settings = {
+:username=>'email@foo.com',
+:password=>'pass',
+:api_root=>'https://tms.govdelivery.com'
+}
+```
+
+
 Generating Documentation
 ------------------------
 This project uses [yard](https://github.com/lsegal/yard) to generate documentation.  To generate API documentation yourself, use the following series of commands from the project root: 
