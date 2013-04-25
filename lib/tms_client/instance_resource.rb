@@ -104,61 +104,24 @@ module TMS::InstanceResource
 
     def get
       raise TMS::Errors::InvalidGet if self.new_record?
-      set_attributes_from_hash(self.client.get(href).body)
-      self
+      process_response(client.get(self.href), :get)
     end
 
     def post
       self.errors = nil
-      response = client.post(self)
+      process_response(client.post(self), :post)
+    end
 
-      case response.status
-        when 200..299
-          set_attributes_from_hash(response.body)
-          self.new_record=false
-          return true
-        when 401
-          raise Exception.new("401 Not Authorized")
-        when 404
-          raise(Exception.new("Can't POST to #{self.href}"))
-        else
-          if response.body['errors']
-            self.errors = response.body['errors']
-          end
-      end
-      return false
+    def post!
+      self.post or raise TMS::Errors::InvalidPost.new(self)
     end
 
     def put
-      response = client.put(self)
-      case response.status
-        when 200
-          self.new_record=false
-          set_attributes_from_hash(response.body)
-          return true
-        when 401
-          raise Exception.new("401 Not Authorized")
-        when 404
-          raise(Exception.new("Can't POST to #{self.href}"))
-        else
-          if response.body['errors']
-            self.errors = response.body['errors']
-          end
-      end
-      return false
+      process_response(client.put(self), :put)
     end
 
     def delete
-      response = self.client.delete(href)
-      case response.status
-        when 200
-          return true
-        else
-          if response.body['errors']
-            self.errors = response.body['errors']
-          end
-      end
-      return false
+      process_response(client.delete(self.href), :delete)
     end
 
     def to_s
@@ -182,7 +145,28 @@ module TMS::InstanceResource
       self.class.custom_class_names[rel.to_sym] || super
     end
 
-    private
+    def process_response(response, method)
+      error_class = TMS::Errors.const_get("Invalid#{method.to_s.capitalize}")
+      case response.status
+        when 204
+          return true
+        when 200..299
+          set_attributes_from_hash(response.body) if response.body.is_a?(Hash)
+          self.new_record=false
+          return true
+        when 401
+          raise error_class.new("401 Not Authorized")
+        when 404
+          raise(error_class.new("Can't POST to #{self.href}"))
+        when 500..599
+          raise(TMS::Errors::ServerError.new(response))
+        else # 422?
+          if response.body['errors']
+            self.errors = response.body['errors']
+          end
+      end
+      return false
+    end
 
     def set_attributes_from_hash(hash)
       hash.reject { |k, _| k=~/^_/ }.each do |property, value|
