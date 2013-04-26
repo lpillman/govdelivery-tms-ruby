@@ -181,16 +181,19 @@ ActionMailer integration
 
 You can use TMS from the mail gem or ActionMailer as a delivery method.
 
+Gemfile
 ```ruby
-# e.g. in config/initializers/tms.rb
-require 'tms_client/mail/delivery_method'
+gem 'tms_client', :require=>'tms_client/mail/delivery_method'
+```
 
-Rails.configuration.action_mailer.delivery_method = :govdelivery_tms
-Rails.configuration.action_mailer.govdelivery_tms_settings = {
-:username=>'email@foo.com',
-:password=>'pass',
-:api_root=>'https://tms.govdelivery.com'
-}
+config/environment.rb
+```ruby
+config.action_mailer.delivery_method = :govdelivery_tms
+config.action_mailer.govdelivery_tms_settings = {
+    :username=>'email@foo.com',
+    :password=>'pass',
+    :api_root=>'https://stage-tms.govdelivery.com'
+    }
 ```
 
 

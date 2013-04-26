@@ -5,11 +5,12 @@ module TMS
   module Mail
     # Use TMS from the mail gem or ActionMailer as a delivery method.
     #
-    #   # e.g. in config/initializers/tms.rb
-    #   require 'tms_client/mail/delivery_method'
+    #   # Gemfile
+    #   gem 'tms_client', :require=>'tms_client/mail/delivery_method'
     #
-    #   Rails.configuration.action_mailer.delivery_method = :govdelivery_tms
-    #   Rails.configuration.action_mailer.govdelivery_tms_settings = {
+    #   # config/environment.rb
+    #   config.action_mailer.delivery_method = :govdelivery_tms
+    #   config.action_mailer.govdelivery_tms_settings = {
     #     :username=>'email@foo.com',
     #     :password=>'pass',
     #     :api_root=>'https://stage-tms.govdelivery.com'
@@ -32,7 +33,7 @@ module TMS
         tms_message = client.email_messages.build(
           :from_name => mail[:from].display_names.first,
           :subject => mail.subject,
-          :body => mail.body.to_s || mail.html_part.body.to_s || mail.text_part.body.to_s
+          :body => (mail.body || mail.html_part.body || mail.text_part.body).to_s
         )
 
         mail.to.each { |recip| tms_message.recipients.build(:email => recip) }
