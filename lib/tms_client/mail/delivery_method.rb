@@ -25,7 +25,7 @@ module TMS
       attr_accessor :settings
 
       def deliver!(mail)
-        check_params(mail)
+        #check_params(mail)
         raise TMS::Errors::NoRelation.new('email_messages', client) unless client.respond_to?(:email_messages)
 
         envelope_from = mail.return_path || mail.sender || mail.from_addrs.first
