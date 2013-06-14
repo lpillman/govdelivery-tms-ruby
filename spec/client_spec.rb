@@ -5,7 +5,7 @@ describe TMS::Client do
       response = double('response', :status=>200, :body => {"_links" => [{"self" => "/"}, {"horse" => "/horses/new"}, {"rabbits" => "/rabbits"}]})
       @raw_connection = double('raw_connection', :get => response)
       @connection = TMS::Connection.stub(:new).and_return(double('connection', :connection => @raw_connection))
-      @client = TMS::Client.new('username', 'password', :api_root => 'null_url')
+      @client = TMS::Client.new('auth_token', :api_root => 'null_url')
     end
     it 'should discover endpoints for known services' do
       @client.horse.should be_kind_of(TMS::Horse)

@@ -22,7 +22,7 @@ Connecting
 Loading an instance of `TMS::Client` will automatically connect to the API to query the available resources for your account.
 
 ```ruby
-client = TMS::Client.new('username', 'password', :api_root => 'https://stage-tms.govdelivery.com')
+client = TMS::Client.new('auth_token', :api_root => 'https://stage-tms.govdelivery.com')
 ```
 
 Messages
@@ -173,7 +173,7 @@ The example below configures `TMS::Client` to log to `STDOUT`:
 
 ```ruby
 logger = Logger.new(STDOUT)
-client = TMS::Client.new('username', 'password', :logger => logger)
+client = TMS::Client.new('auth_token', :logger => logger)
 ```
 
 ActionMailer integration
@@ -190,8 +190,7 @@ config/environment.rb
 ```ruby
 config.action_mailer.delivery_method = :govdelivery_tms
 config.action_mailer.govdelivery_tms_settings = {
-    :username=>'email@foo.com',
-    :password=>'pass',
+    :auth_token=>'auth_token',
     :api_root=>'https://stage-tms.govdelivery.com'
     }
 ```

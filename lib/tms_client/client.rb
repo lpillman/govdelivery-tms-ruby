@@ -9,25 +9,24 @@ class TMS::Client
 
   # Create a new client and issue a request for the available resources for a given account.
   #
-  # @param [String] username The username of your account
-  # @param [String] password The password of your account
+  # @param [String] auth_token The auth_token of your account
   # @param [Hash] options
   # @option options [String] :api_root The root URL of the TMS api. Defaults to localhost:3000
   # @option options [Logger] :logger An instance of a Logger class (http transport information will be logged here) - defaults to nil
   #
   # @example
-  #   client = TMS::Client.new("foo@example.com", "onetwothree", {
+  #   client = TMS::Client.new("auth_token", {
   #                               :api_root => "https://tms.govdelivery.com",
   #                               :logger => Logger.new(STDOUT)})
   #
-  def initialize(username, password, options = DEFAULTS)
+  def initialize(auth_token, options = DEFAULTS)
     @api_root = options[:api_root]
-    connect!(username, password, options[:logger])
+    connect!(auth_token, options[:logger])
     discover!
   end
 
-  def connect!(username, password, logger)
-    self.connection = TMS::Connection.new(:username => username, :password => password, :api_root => @api_root, :logger => logger)
+  def connect!(auth_token, logger)
+    self.connection = TMS::Connection.new(:auth_token => auth_token, :api_root => @api_root, :logger => logger)
   end
 
   def discover!

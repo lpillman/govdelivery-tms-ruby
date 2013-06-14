@@ -1,5 +1,5 @@
 class TMS::Connection
-  attr_accessor :username, :password, :api_root, :connection, :logger
+  attr_accessor :auth_token, :api_root, :connection, :logger
 
   def get(href)
     resp = connection.get("#{href}.json")
@@ -11,10 +11,9 @@ class TMS::Connection
   end
 
   def initialize(opts={})
-    self.username = opts[:username]
-    self.password = opts[:password]
-    self.api_root = opts[:api_root]
-    self.logger   = opts[:logger]
+    self.auth_token = opts[:auth_token]
+    self.api_root   = opts[:api_root]
+    self.logger     = opts[:logger]
     setup_connection
   end
 
@@ -22,7 +21,8 @@ class TMS::Connection
     self.connection = Faraday.new(:url => self.api_root) do |faraday|
       faraday.use TMS::Logger, self.logger if self.logger
       faraday.request :json
-      faraday.basic_auth(self.username, self.password)
+      faraday.headers['X-AUTH-TOKEN'] = auth_token
+      faraday.headers[:user_agent] = "GovDelivery Ruby TMS::Client #{TMS::VERSION}"
       faraday.response :json, :content_type => /\bjson$/
       faraday.adapter :net_http
     end

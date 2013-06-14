@@ -11,8 +11,7 @@ module TMS
     #   # config/environment.rb
     #   config.action_mailer.delivery_method = :govdelivery_tms
     #   config.action_mailer.govdelivery_tms_settings = {
-    #     :username=>'email@foo.com',
-    #     :password=>'pass',
+    #     :auth_token=>'auth_token',
     #     :api_root=>'https://stage-tms.govdelivery.com'
     #     }
     class DeliveryMethod
@@ -42,7 +41,7 @@ module TMS
       end
 
       def client
-        @client ||= TMS::Client.new(settings[:username], settings[:password], settings)
+        @client ||= TMS::Client.new(settings[:auth_token], settings)
       end
     end
   end
@@ -50,8 +49,7 @@ end
 
 if defined?(ActionMailer)
   ActionMailer::Base.add_delivery_method :govdelivery_tms, TMS::Mail::DeliveryMethod, {
-    :username => nil,
-    :password => nil,
+    :auth_token => nil,
     :logger => ActionMailer::Base.logger,
     :api_root => TMS::Client::DEFAULTS[:api_root]}
 end
