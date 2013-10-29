@@ -1,6 +1,22 @@
 module TMS
+  module Request
+# The generic TMS error class
+    class Error < StandardError
+      attr_reader :code
+
+      def initialize(code)
+        super("HTTP Error: #{code}")
+        @code=code
+      end
+    end
+
+    # Raised when a recipient list is still being constructed and a request is made to view the
+    # recipient list for a message.
+    class InProgress < StandardError;end
+  end
+
   module Errors
-    class ServerError
+    class ServerError < StandardError
       def initialize(response)
         super("TMS client encountered a server error: #{response.status} \n#{response.body}")
       end

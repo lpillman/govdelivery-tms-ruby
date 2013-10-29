@@ -1,9 +1,10 @@
+require 'logger'
 # The client class to connect and talk to the TMS REST API.
 class TMS::Client
   include TMS::Util::HalLinkParser
   include TMS::CoreExt
 
-  attr_accessor :connection, :href
+  attr_accessor :connection, :href, :api_root, :logger
 
   DEFAULTS = {:api_root => 'http://localhost:3000', :logger => nil}.freeze
 
@@ -20,13 +21,14 @@ class TMS::Client
   #                               :logger => Logger.new(STDOUT)})
   #
   def initialize(auth_token, options = DEFAULTS)
-    @api_root = options[:api_root]
-    connect!(auth_token, options[:logger])
+    @api_root = options.delete(:api_root)
+    @logger = options.delete(:logger) || setup_logging(options.delete(:debug))
+    connect!(auth_token, options)
     discover!
   end
 
-  def connect!(auth_token, logger)
-    self.connection = TMS::Connection.new(:auth_token => auth_token, :api_root => @api_root, :logger => logger)
+  def connect!(auth_token, options={})
+    self.connection = TMS::Connection.new({:auth_token => auth_token, :api_root => api_root, :logger => logger}.merge!(options))
   end
 
   def discover!
@@ -37,12 +39,14 @@ class TMS::Client
   def get(href)
     response = raw_connection.get(href)
     case response.status
-    when 401..499
-      raise TMS::Request::Error.new(response.status)
-    when 202
-      raise TMS::Request::InProgress.new(response.body['message'])
-    else
-      return response
+      when 500..599
+        raise TMS::Request::Error.new(response.status)
+      when 401..499
+        raise TMS::Request::Error.new(response.status)
+      when 202
+        raise TMS::Request::InProgress.new(response.body['message'])
+      else
+        return response
     end
   end
 
@@ -65,10 +69,10 @@ class TMS::Client
   def delete(href)
     response = raw_connection.delete(href)
     case response.status
-    when 200
-      return response
-    else
-      raise TMS::Request::Error.new(response.status)
+      when 200
+        return response
+      else
+        raise TMS::Request::Error.new(response.status)
     end
   end
 
@@ -78,6 +82,14 @@ class TMS::Client
 
   def client
     self
+  end
+
+  private
+
+  def setup_logging(debug)
+    logger = Logger.new(STDOUT)
+    logger.level = debug ? Logger::DEBUG : Logger::INFO
+    logger
   end
 
 end

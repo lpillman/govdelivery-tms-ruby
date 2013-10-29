@@ -15,7 +15,6 @@ require 'tms_client/logger'
 require 'tms_client/base'
 require 'tms_client/instance_resource'
 require 'tms_client/collection_resource'
-require 'tms_client/request'
 require 'tms_client/errors'
 
 require 'tms_client/resource/collections'
