@@ -51,7 +51,7 @@ message.href             # "/messages/sms/87"
 message.get              # <TMS::SmsMessage href=/messages/sms/87 attributes={...}>
 ```
 
-### Sending an Email
+### Sending an Email Message
 
 ```ruby
 message = client.email_messages.build(:body=>'<p><a href="http://example.com">Visit here</a>', 
