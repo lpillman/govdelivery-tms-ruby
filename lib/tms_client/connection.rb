@@ -1,5 +1,5 @@
 class TMS::Connection
-  attr_accessor :auth_token, :api_root, :connection, :logger, :debug
+  attr_accessor :auth_token, :api_root, :connection, :logger
 
   def get(href)
     resp = connection.get("#{href}.json")
@@ -14,7 +14,6 @@ class TMS::Connection
     self.auth_token = opts[:auth_token]
     self.api_root = opts[:api_root]
     self.logger = opts[:logger]
-    self.debug = opts[:debug]
     setup_connection
   end
 
