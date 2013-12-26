@@ -2,6 +2,8 @@
 $:.push File.expand_path("../lib", __FILE__)
 require "tms_client/version"
 
+asversion = ENV['ACTIVE_SUPPORT_VERSION']
+  
 Gem::Specification.new do |s|
   s.name        = "tms_client"
   s.version     = TMS::VERSION
@@ -14,7 +16,9 @@ Gem::Specification.new do |s|
                      to interact with GovDelivery's TMS API. The client is 
                      compatible with Ruby 1.9 and 2.0. }
 
-  s.add_runtime_dependency "activesupport"
+  # This will default active support to the latest stable version
+  # if the variable is nil. 
+  s.add_runtime_dependency "activesupport", asversion
   s.add_runtime_dependency "faraday"
   s.add_runtime_dependency "faraday_middleware"
 
