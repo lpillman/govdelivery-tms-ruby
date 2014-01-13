@@ -3,7 +3,7 @@ require 'mail'
 require 'tms_client/mail/delivery_method'
 describe TMS::Mail::DeliveryMethod do
   subject { TMS::Mail::DeliveryMethod.new({}) }
-  let(:client) { stub('TMS::Client') }
+  let(:client) { double('TMS::Client') }
   let(:email_messages) { double('email_messages') }
   let(:tms_message) { double('tms_message', :recipients => double(:build => TMS::Recipient.new('href'))) }
 

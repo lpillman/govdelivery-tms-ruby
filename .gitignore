@@ -6,3 +6,5 @@ doc
 .tags
 .tags_sorted_by_file
 .yardoc
+.ruby-version
+.ruby-gemset

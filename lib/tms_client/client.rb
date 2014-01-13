@@ -21,9 +21,9 @@ class TMS::Client
   #                               :logger => Logger.new(STDOUT)})
   #
   def initialize(auth_token, options = DEFAULTS)
-    @api_root = options.delete(:api_root)
-    @logger = options.delete(:logger) || setup_logging(options.delete(:debug))
-    connect!(auth_token, options)
+    @api_root = options[:api_root]
+    @logger = options[:logger] || setup_logging(options[:debug])
+    connect!(auth_token, options.except(:api_root, :logger, :debug))
     discover!
   end
 

@@ -3,16 +3,21 @@ module TMS #:nodoc:
   # objects.  Certain metrics are available after the email is sent, including
   # the collection of recipients who clicked or opened the email. 
   #
-  # @attr from_name [String]             The name of the person or entity sending the email.  
-  # @attr subject   [String]             The subject of the email
-  # @attr body      [String]             The body of the email
-  # @attr open_tracking_enabled [Boolean] Whether to track opens on this message. Optional, defaults to true.
-  # @attr click_tracking_enabled [Boolean] Whether to track clicks on links in this message. Optional, defaults to true.
-  # @attr macros [Hash]                A dictionary of key/value pairs to use in the subject and body as default macros. 
-  #                              The message-level macros are used when a recipient has no value for a given macro key.
+  # @attr from_name  [String]              The name of the person or entity sending the email.  
+  # @attr from_email [String]              Optional - the email address of the person or entity sending the email.  Must be configured in TMS beforehand.  Defaults to the account default from address. 
+  # @attr reply_to   [String]              Optional - the email address used for the Reply-To header of this email. Defaults to the account default reply_to_email address (which itself defaults to the default from address if not specified).
+  # @attr errors_to  [String]              Optional - the email address used for the Errors-To header of this email. Defaults to the account default bounce_email address (which itself defaults to the default from address if not specified).
+  # @attr subject    [String]              The subject of the email.
+  # @attr body       [String]              The body of the email.
+  # @attr open_tracking_enabled  [Boolean] Optional - Whether to track opens on this message. Defaults to true.
+  # @attr click_tracking_enabled [Boolean] Optional - Whether to track clicks on links in this message. Defaults to true.
+  # @attr macros     [Hash]                Optional - A dictionary of key/value pairs to use in the subject and body as default macros. 
+  # The message-level macros are used when a recipient has no value for a given macro key.
   # 
   # @example Sending a message
-  #    email_message = client.email_messages.build(:subject => "Great news!", :body => "You win! <a href='http://example.com/'>click here</a>.")
+  #    email_message = client.email_messages.build(:subject => "Great news!", 
+  #                                                :body => "You win! <a href='http://example.com/'>click here</a>.",
+  #                                                :from_email => 'foo@example.com')
   #    email_message.recipients.build(:email => "john@example.com")
   #    email_message.recipients.build(:email => "jeff@example.com")
   #    email_message.post
@@ -38,8 +43,17 @@ module TMS #:nodoc:
   class EmailMessage
     include InstanceResource
 
-    # @!parse attr_accessor :body, :from_name, :subject, :open_tracking_enabled, :click_tracking_enabled, :macros
-    writeable_attributes :body, :from_name, :subject, :open_tracking_enabled, :click_tracking_enabled, :macros
+    # @!parse attr_accessor :body, :from_name, :from_email, :reply_to, :errors_to, :subject, :open_tracking_enabled, :click_tracking_enabled, :macros
+    writeable_attributes :body,
+                         :click_tracking_enabled,
+                         :errors_to,
+                         :from_email,
+                         :from_name,
+                         :macros,
+                         :open_tracking_enabled,
+                         :reply_to,
+                         :subject
+
 
     # @!parse attr_reader :created_at, :status
     readonly_attributes :created_at, :status
