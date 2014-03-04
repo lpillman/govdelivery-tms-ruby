@@ -30,4 +30,7 @@ require 'tms_client/resource/command_type'
 require 'tms_client/resource/command_action'
 require 'tms_client/resource/command'
 require 'tms_client/resource/keyword'
-
+require 'tms_client/resource/ipaws_static_resource'
+require 'tms_client/resource/ipaws_category'
+require 'tms_client/resource/ipaws_event_code'
+require 'tms_client/resource/ipaws_response_type'
