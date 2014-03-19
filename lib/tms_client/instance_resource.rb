@@ -98,13 +98,12 @@ module TMS::InstanceResource
     def initialize(client, href=nil, attrs=nil)
       super(client, href)
       @attributes = {}
-      attrs ||= self.client.get(href).body if href
       set_attributes_from_hash(attrs) if attrs
     end
 
     def get
       raise TMS::Errors::InvalidGet if self.new_record?
-      process_response(client.get(self.href), :get)
+      process_response(client.get(self.href), :get) && self
     end
 
     def post
