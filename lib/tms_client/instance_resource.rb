@@ -101,6 +101,10 @@ module TMS::InstanceResource
       set_attributes_from_hash(attrs) if attrs
     end
 
+    def attributes
+      @attributes
+    end
+
     def get
       raise TMS::Errors::InvalidGet if self.new_record?
       process_response(client.get(self.href), :get) && self
