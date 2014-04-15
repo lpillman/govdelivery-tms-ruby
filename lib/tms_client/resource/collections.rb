@@ -75,3 +75,7 @@ end
 class TMS::IpawsResponseTypes
   include TMS::CollectionResource
 end
+
+class TMS::IpawsAlerts
+  include TMS::CollectionResource
+end
