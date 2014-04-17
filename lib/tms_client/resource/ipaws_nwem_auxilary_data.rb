@@ -1,5 +1,5 @@
 module TMS
-  class IpawsCogProfile
+  class IpawsNwemAuxilaryData
 
     include InstanceResource
     include IpawsResponse
