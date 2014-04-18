@@ -79,3 +79,7 @@ end
 class TMS::IpawsAlerts
   include TMS::CollectionResource
 end
+
+class TMS::IpawsNwemAreas
+  include TMS::CollectionResource
+end

@@ -2,7 +2,8 @@ module TMS
   class IpawsNwemAuthorization
 
     include InstanceResource
-    include IpawsResponse
+
+    readonly_attributes :cogid
 
   end
 end

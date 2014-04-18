@@ -2,7 +2,8 @@ module TMS
   class IpawsAcknowledgement
 
     include InstanceResource
-    include IpawsResponse
+    
+    readonly_attributes :ACK
 
   end
 end
