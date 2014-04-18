@@ -19,10 +19,12 @@ class TMS::Client
   #   client = TMS::Client.new("auth_token", {
   #                               :api_root => "https://tms.govdelivery.com",
   #                               :logger => Logger.new(STDOUT)})
-  #
+  #   client = TMS::Client.new("auth_token", {
+  #                               api_root: "https://tms.govdelivery.com",
+  #                               logger:   false})
   def initialize(auth_token, options = DEFAULTS)
     @api_root = options[:api_root]
-    @logger = options[:logger] || setup_logging(options[:debug])
+    @logger = options.fetch(:logger, setup_logging(options[:debug]))
     connect!(auth_token, options.except(:api_root, :logger, :debug))
     discover!
   end

@@ -27,7 +27,11 @@ describe TMS::Client do
       @raw_connection.stub(:get).and_return(double('response', :status => 202, :body => {'message' => 'hi'}))
       expect { @client.get('/blargh') }.to raise_error(TMS::Request::InProgress)
     end
+
+    context 'creating a new client without output' do
+      subject { TMS::Client.new('auth_token', api_root: 'null_url', logger: false) }
+      its(:logger){ should be_false }
+      its(:horse) { should be_kind_of(TMS::Horse) }
+    end
   end
-
-
 end
