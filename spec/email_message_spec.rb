@@ -6,7 +6,7 @@ describe TMS::EmailMessage do
       double('client')
     end
     before do
-      @message = TMS::EmailMessage.new(client, nil, {
+      @message = TMS::EmailMessage.new(client, '/messages/email', {
         :body       => '12345678', 
         :subject    => 'blah', 
         :created_at => 'BAAAAAD',
@@ -52,6 +52,16 @@ describe TMS::EmailMessage do
       @message.post
       @message.body.should == '12345678'
       @message.errors.should == {:body => "can't be nil"}
+    end
+
+    it 'should handle 401 errors' do
+      @message.client.should_receive('post').with(@message).and_return(double('response', :status => 401))
+      expect {@message.post}.to raise_error(StandardError, "401 Not Authorized")
+    end
+
+    it 'should handle 404 errors' do
+      @message.client.should_receive('post').with(@message).and_return(double('response', :status => 404))
+      expect {@message.post}.to raise_error(StandardError, "Can't POST to /messages/email")
     end
   end
 

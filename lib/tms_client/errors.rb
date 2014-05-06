@@ -30,7 +30,7 @@ module TMS
         super(message)
       end
     end
-    class InvalidVerb
+    class InvalidVerb < StandardError
       attr_reader :record
 
       def initialize(record_or_string)
