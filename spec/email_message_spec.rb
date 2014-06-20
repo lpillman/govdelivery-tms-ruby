@@ -7,8 +7,8 @@ describe TMS::EmailMessage do
     end
     before do
       @message = TMS::EmailMessage.new(client, '/messages/email', {
-        :body       => '12345678', 
-        :subject    => 'blah', 
+        :body       => '12345678',
+        :subject    => 'blah',
         :created_at => 'BAAAAAD',
         :from_email => 'eric@evotest.govdelivery.com',
         :errors_to  => 'errors@evotest.govdelivery.com',
@@ -28,12 +28,14 @@ describe TMS::EmailMessage do
     end
     it 'should post successfully' do
       response = {
-          :body       => 'processed', 
-          :subject    => 'blah', 
-          :from_email => 'eric@evotest.govdelivery.com', 
+          :body       => 'processed',
+          :subject    => 'blah',
+          :from_email => 'eric@evotest.govdelivery.com',
           :errors_to  => 'errors@evotest.govdelivery.com',
           :reply_to   => 'replyto@evotest.govdelivery.com',
-          :recipients => [{:email => 'billy@evotest.govdelivery.com'}], 
+          :recipients => [{:email => 'billy@evotest.govdelivery.com'}],
+          :failed => [{:email => 'billy@evotest.govdelivery.com'}],
+          :sent => [{:email => 'billy@evotest.govdelivery.com'}],
           :created_at => 'time'
       }
       @message.client.should_receive('post').with(@message).and_return(double('response', :status => 201, :body => response))
@@ -45,6 +47,10 @@ describe TMS::EmailMessage do
       @message.errors_to.should                         == 'errors@evotest.govdelivery.com'
       @message.recipients.class.should                  == TMS::EmailRecipients
       @message.recipients.collection.first.class.should == TMS::EmailRecipient
+      @message.sent.class.should == TMS::EmailRecipients
+      @message.sent.collection.first.class.should == TMS::EmailRecipient
+      @message.failed.class.should == TMS::EmailRecipients
+      @message.failed.collection.first.class.should == TMS::EmailRecipient
     end
     it 'should handle errors' do
       response = {'errors' => {:body => "can't be nil"}}
@@ -74,12 +80,12 @@ describe TMS::EmailMessage do
       @message = TMS::EmailMessage.new(client, '/messages/99', {})
     end
     it 'should GET cleanly' do
-      response = {:body => 'processed', 
+      response = {:body => 'processed',
                   :subject    => 'hey',
                   :from_email => 'eric@evotest.govdelivery.com',
                   :errors_to  => 'errors@evotest.govdelivery.com',
                   :reply_to   => 'replyto@evotest.govdelivery.com',
-                  :recipients => [{:email => 'billy@evotest.govdelivery.com'}], 
+                  :recipients => [{:email => 'billy@evotest.govdelivery.com'}],
                   :created_at => 'time'}
       @message.client.should_receive('get').with(@message.href).and_return(double('response', :status => 200, :body => response))
       @message.get
