@@ -2,6 +2,7 @@ source "https://rubygems.org"
 gemspec
 
 group :development, :test do
+  gem "appraisal"
   gem 'rspec', '~> 2.99'
   gem 'rspec-its'
   gem 'rake'

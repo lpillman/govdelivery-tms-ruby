@@ -1,8 +1,6 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
 require "tms_client/version"
-
-asversion = ENV['ACTIVE_SUPPORT_VERSION']
   
 Gem::Specification.new do |s|
   s.name        = "tms_client"
@@ -18,7 +16,7 @@ Gem::Specification.new do |s|
 
   # This will default active support to the latest stable version
   # if the variable is nil. 
-  s.add_runtime_dependency "activesupport", asversion
+  s.add_runtime_dependency "activesupport"
   s.add_runtime_dependency "faraday"
   s.add_runtime_dependency "faraday_middleware"
 
