@@ -5,6 +5,7 @@ module TMS #:nodoc:
   #
   #
   # @attr play_url [String] The url to the sound file to be played back to the call recipients
+  # @attr say_text [String] A string to be read (and repeated on request) to the call recipients.
   #
   # @example
   #    voice_message = client.voice_messages.build(:play_url => "http://example.com/emergency_weather.mp3")
@@ -14,7 +15,7 @@ module TMS #:nodoc:
   class VoiceMessage
     include InstanceResource
 
-    # @!parse attr_accessor :play_url
+    # @!parse attr_accessor :play_url, :play_url
     writeable_attributes :play_url, :say_text
 
     # @!parse attr_reader :created_at, :completed_at, :status
