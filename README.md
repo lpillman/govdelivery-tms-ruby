@@ -240,9 +240,20 @@ rake yard
 ```
 The generated documentation will be placed in the `doc` folder.
 
+
+Running Tests
+-------------
+```ruby
+appraisal install
+# optionally specify an activesupport version to test against (2/3/4), e.g.
+# appraisal 4 rake          ## for ruby 2.1.2
+appraisal rake
+```
+
+
 Compatibility
 -------------
-This project is tested and compatible with REE 1.8.7, MRI 1.9.3, and MRI 2.0.0.
+This project is tested and compatible with MRI 1.9.3, JRuby 1.7.12, and MRI 2.1.2.
 
 License
 -------
