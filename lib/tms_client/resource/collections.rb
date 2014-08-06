@@ -63,3 +63,23 @@ end
 class TMS::CommandActions
   include TMS::CollectionResource
 end
+
+class TMS::IpawsEventCodes
+  include TMS::CollectionResource
+end
+
+class TMS::IpawsCategories
+  include TMS::CollectionResource
+end
+
+class TMS::IpawsResponseTypes
+  include TMS::CollectionResource
+end
+
+class TMS::IpawsAlerts
+  include TMS::CollectionResource
+end
+
+class TMS::IpawsNwemAreas
+  include TMS::CollectionResource
+end

@@ -1,11 +1,11 @@
 module TMS #:nodoc:
   # A VoiceMessage is used to create and send a voice message to a collection of Recipient
-  # objects.  The recipients are called and the provided +play_url+ is 
-  # played to them.  Accepted sound formats include +wav+, +mp3+, and +aiff+. 
-  # 
+  # objects.  The recipients are called and the provided +play_url+ is
+  # played to them.  Accepted sound formats include +wav+, +mp3+, and +aiff+.
+  #
   #
   # @attr play_url [String] The url to the sound file to be played back to the call recipients
-  # 
+  #
   # @example
   #    voice_message = client.voice_messages.build(:play_url => "http://example.com/emergency_weather.mp3")
   #    voice_message.recipients.build(:phone => "+18001002000")
@@ -23,6 +23,14 @@ module TMS #:nodoc:
     ##
     # A CollectionResource of Recipient objects
     collection_attributes :recipients
+
+    ##
+    # A CollectionResource of Recipients that sent successfully
+    collection_attribute :sent, 'Recipients'
+
+    ##
+    # A CollectionResource of Recipients that failed
+    collection_attribute :failed, 'Recipients'
 
     def self.to_s
       "VoiceMessage"

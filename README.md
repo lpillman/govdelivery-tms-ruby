@@ -80,6 +80,37 @@ message.href             # "/messages/voice/87"
 message.get              # <TMS::VoiceMessage href=/messages/voice/87 attributes={...}>
 ```
 
+### Obtaining IPAWS Ack ###
+```ruby
+client.ipaws_acknowledgement.get
+client.ipaws_acknowledgement.ACK # "PONG"
+```
+
+### Obtaining IPAWS COG Profile
+```ruby
+client.ipaws_cog_profile.get
+client.ipaws_cog_profile.attributes # {:cogid=>"120082", :name=>"GovDelivery" ... }
+```
+
+### Determining NWEM COG Authorization ###
+```ruby
+client.ipaws_nwem_authorization.get
+client.ipaws_nwem_authorization.cogid # true
+```
+
+### Obtaining NWEM Auxilary Data (Authorized areas) ###
+```ruby
+client.ipaws_nwem_areas.get
+client.ipaws_nwem_areas.collection.first.countyFipsCd # "51013"
+```
+
+### Sending an IPAWS Alert ###
+```ruby
+alert = client.ipaws_alerts.build({ identifier: "CAP12-TEST-12345", sender: 'test@open.com' ...})
+alert.post # true
+alert.ipaws_response # { "identifier"=>"CAP12-TEST-1397743203", "statuses"=> [{"CHANNELNAME"=>"CAPEXCH" ... }]}
+```
+
 Metrics
 -------
 ### Viewing recipients that clicked on a link in an email

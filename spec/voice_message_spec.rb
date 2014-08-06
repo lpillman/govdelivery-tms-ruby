@@ -1,19 +1,19 @@
 require 'spec_helper'
 
-describe TMS::SmsMessage do
+describe TMS::VoiceMessage do
   context "creating a new message" do
     let(:client) do
       double('client')
     end
     before do
-      @message = TMS::SmsMessage.new(client, nil, {:body => '12345678', :created_at => 'BAAAAAD'})
+      @message = TMS::VoiceMessage.new(client, nil, {:play_url => 'http://what.cd'})
     end
     it 'should not render readonly attrs in json hash' do
-      @message.to_json[:body].should == '12345678'
+      @message.to_json[:play_url].should == 'http://what.cd'
       @message.to_json[:created_at].should == nil
     end
     it 'should initialize with attrs and collections' do
-      @message.body.should == '12345678'
+      @message.play_url.should == 'http://what.cd'
       @message.recipients.class.should == TMS::Recipients
     end
     it 'should post successfully' do
@@ -21,10 +21,10 @@ describe TMS::SmsMessage do
                    :recipients => [{:phone => '22345678'}],
                    :failed => [{:phone => '22345678'}],
                    :sent => [{:phone => '22345678'}],
-                    :created_at => 'time'}
+                   :created_at => 'time'}
       @message.client.should_receive('post').with(@message).and_return(double('response', :status => 201, :body => response))
       @message.post
-      @message.body.should == 'processed'
+      # @message.body.should == 'processed'
       @message.created_at.should == 'time'
       @message.recipients.class.should == TMS::Recipients
       @message.recipients.collection.first.class.should == TMS::Recipient
@@ -34,11 +34,11 @@ describe TMS::SmsMessage do
       @message.failed.collection.first.class.should == TMS::Recipient
     end
     it 'should handle errors' do
-      response = {'errors' => {:body => "can't be nil"}}
+      response = {'errors' => {:play_url => "can't be nil"}}
       @message.client.should_receive('post').with(@message).and_return(double('response', :status => 422, :body => response))
       @message.post
-      @message.body.should == '12345678'
-      @message.errors.should == {:body => "can't be nil"}
+      # @message.body.should == '12345678'
+      @message.errors.should == {:play_url => "can't be nil"}
     end
   end
 
@@ -48,13 +48,13 @@ describe TMS::SmsMessage do
     end
     before do
       # blank hash prevents the client from doing a GET in the initialize method
-      @message = TMS::SmsMessage.new(client, '/messages/99', {})
+      @message = TMS::VoiceMessage.new(client, '/messages/99', {})
     end
     it 'should GET cleanly' do
-      response = {:body => 'processed', :recipients => [{:phone => '22345678'}], :created_at => 'time'}
+      response = {:play_url => 'processed', :recipients => [{:phone => '22345678'}], :created_at => 'time'}
       @message.client.should_receive('get').with(@message.href).and_return(double('response', :status => 200, :body => response))
       @message.get
-      @message.body.should == 'processed'
+      @message.play_url.should == 'processed'
       @message.created_at.should == 'time'
     end
   end

@@ -13,7 +13,7 @@ describe TMS::InstanceResource do
     end
 
     let(:client) do
-      double('client', :post => happy_response)
+      double('client', :post => happy_response, :get => happy_response)
     end
 
 
@@ -30,5 +30,22 @@ describe TMS::InstanceResource do
       @instance_resource.blah.class.should == TMS::EmailMessage
       @instance_resource.shah.class.should == TMS::EmailMessage
     end
+
+    it 'should not GET on initialization' do
+      client.should_not receive(:get)
+      Foo.new(client, 'https://example.com/foos/1')
+    end
+
+    it 'should return self on successful get' do
+      client.should receive(:get)
+      foo = Foo.new(client, 'https://example.com/foos/1')
+      foo.should_not be_new_record
+      foo.get.should == foo
+    end
+
+    it 'it exposes its attributes hash' do
+      @instance_resource.attributes.should == {}
+    end
+
   end
 end
