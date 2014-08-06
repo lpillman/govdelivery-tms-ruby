@@ -2,7 +2,8 @@ source "https://rubygems.org"
 gemspec
 
 group :development, :test do
-  gem 'rspec', '~> 2'
+  gem 'rspec', '~> 2.99'
+  gem 'rspec-its'
   gem 'rake'
   gem 'redcarpet', :platform => :ruby
   gem 'yard'

@@ -23,7 +23,7 @@ describe TMS::InstanceResource do
 
     it 'should POST' do
       @instance_resource.bar = "OMG"
-      @instance_resource.post.should be_true
+      @instance_resource.post.should be_truthy
     end
 
     it 'should correctly reflect on collection resources' do

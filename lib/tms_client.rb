@@ -1,7 +1,7 @@
 module TMS #:nodoc:
 end
 
-require 'active_support'
+require 'active_support/core_ext/hash'
 require 'tms_client/version'
 require 'faraday'
 require 'faraday_middleware'

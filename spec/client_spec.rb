@@ -30,7 +30,7 @@ describe TMS::Client do
 
     context 'creating a new client without output' do
       subject { TMS::Client.new('auth_token', api_root: 'null_url', logger: false) }
-      its(:logger){ should be_false }
+      its(:logger){ should be_falsey }
       its(:horse) { should be_kind_of(TMS::Horse) }
     end
   end
