@@ -83,3 +83,7 @@ end
 class TMS::IpawsNwemAreas
   include TMS::CollectionResource
 end
+
+class TMS::Webhooks
+  include TMS::CollectionResource
+end

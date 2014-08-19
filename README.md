@@ -111,6 +111,29 @@ alert.post # true
 alert.ipaws_response # { "identifier"=>"CAP12-TEST-1397743203", "statuses"=> [{"CHANNELNAME"=>"CAPEXCH" ... }]}
 ```
 
+
+Webhooks
+-------
+### POST to a URL when a recipient is blacklisted (i.e. to remove from your list)  
+    
+
+```ruby
+webhook = client.webhooks.build(:url=>'http://your.url', :event_type=>'blacklisted')
+webhook.post # true
+```
+
+POSTs will include in the body the following attributes:
+
+  attribute   |  description
+------------- | -------------
+message_type  | 'sms', 'email', or 'voice'
+status:       |  message state
+recipient_url |  recipient URL
+messsage_url  |  message URL 
+error_message |  (failures only)
+completed_at  |  (sent or failed recipients only)
+
+
 Metrics
 -------
 ### Viewing recipients that clicked on a link in an email
