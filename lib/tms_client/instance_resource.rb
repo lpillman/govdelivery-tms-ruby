@@ -5,6 +5,8 @@ module TMS::InstanceResource
     base.send(:include, InstanceMethods)
   end
 
+  attr_accessor :response
+
   module ClassMethods
     ##
     # Writeable attributes are sent on POST/PUT.
@@ -149,6 +151,7 @@ module TMS::InstanceResource
     end
 
     def process_response(response, method)
+      self.response = response
       error_class = TMS::Errors.const_get("Invalid#{method.to_s.capitalize}")
       case response.status
         when 204
