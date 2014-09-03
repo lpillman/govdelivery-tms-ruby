@@ -71,7 +71,7 @@ class TMS::Client
   def delete(href)
     response = raw_connection.delete(href)
     case response.status
-      when 200
+      when 200...299
         return response
       else
         raise TMS::Request::Error.new(response.status)
