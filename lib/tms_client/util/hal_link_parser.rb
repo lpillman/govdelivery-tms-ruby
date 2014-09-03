@@ -1,10 +1,6 @@
 module TMS::Util
   module HalLinkParser
 
-    #def self.included(base)
-    #  base.send(:include, TMS::CoreExt)
-    #end
-
     def parse_links(_links)
       @resources = {}
       return if _links.nil?
