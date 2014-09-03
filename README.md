@@ -22,6 +22,7 @@ Connecting
 Loading an instance of `TMS::Client` will automatically connect to the API to query the available resources for your account.
 
 ```ruby
+# default api root endpoint is https://tms.govdelivery.com
 client = TMS::Client.new('auth_token', :api_root => 'https://stage-tms.govdelivery.com')
 ```
 
