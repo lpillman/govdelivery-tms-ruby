@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/govdelivery/tms_client.svg?branch=master)](https://travis-ci.org/govdelivery/tms_client)
+
 TMS Client 
 ===========
 This is a reference Ruby client to interact with the GovDelivery TMS REST API.
