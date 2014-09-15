@@ -36,7 +36,7 @@ module TMS
       def initialize(record_or_string)
         if record_or_string.respond_to?(:href)
           @record = record_or_string
-          super("Couldn't POST #{record.class} to #{record.href}: #{record.errors.join(', ')}")
+          super("Couldn't POST #{record.class} to #{record.href}: #{record.errors.map { |k, v| "#{k} #{v.join(' and ')}" }.join(', ')}")
         else
           super(record_or_string)
         end
