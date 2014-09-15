@@ -31,7 +31,7 @@ module TMS::Util
             subresources[rel] = klass.new(self.client, href)
             setup_subresource(link)
           else
-            puts "Don't know what to do with link rel '#{rel}' for class #{self.class.to_s}!"
+            logger.info("Don't know what to do with link rel '#{rel}' for class #{self.class.to_s}!") if self.respond_to?(:logger)
           end
 
         end
