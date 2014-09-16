@@ -24,15 +24,23 @@ module TMS
       attr_accessor :settings
 
       def deliver!(mail)
-        #check_params(mail)
         raise TMS::Errors::NoRelation.new('email_messages', client) unless client.respond_to?(:email_messages)
 
         envelope_from = mail.return_path || mail.sender || mail.from_addrs.first
 
+        body = case
+                 when mail.html_part
+                   mail.html_part.body
+                 when mail.text_part
+                   mail.text_part.body
+                 else
+                   mail.body
+               end.decoded
+
         tms_message = client.email_messages.build(
           :from_name => mail[:from].display_names.first,
           :subject => mail.subject,
-          :body => (mail.body || mail.html_part.body || mail.text_part.body).to_s
+          :body => body
         )
 
         mail.to.each { |recip| tms_message.recipients.build(:email => recip) }

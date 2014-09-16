@@ -17,10 +17,33 @@ describe TMS::Mail::DeliveryMethod do
     client.stub(:email_messages).and_return(email_messages)
     subject.stub(:client).and_return(client)
     email_messages.should_receive(:build).with(
-      :from_name => mail[:from].display_names.first,
-      :subject => mail.subject,
-      :body => mail.body.to_s || mail.html_part.body.to_s || mail.text_part.body.to_s
-    ).and_return(tms_message)
+        :from_name => mail[:from].display_names.first,
+        :subject   => mail.subject,
+        :body      => '<blink>HI</blink>'
+      ).and_return(tms_message)
+    tms_message.should_receive(:post!).and_return(true)
+
+    subject.deliver!(mail)
+  end
+
+  it 'should work with a multipart Mail::Message' do
+    mail = Mail.new do
+      subject 'hi'
+      from '"My mom" <my@mom.com>'
+      to '"A Nice Fellow" <tyler@sink.govdelivery.com>'
+
+      html_part do
+        content_type 'text/html; charset=UTF-8'
+        body '<blink>HTML</blink>'
+      end
+    end
+    client.stub(:email_messages).and_return(email_messages)
+    subject.stub(:client).and_return(client)
+    email_messages.should_receive(:build).with(
+        :from_name => mail[:from].display_names.first,
+        :subject   => mail.subject,
+        :body      => '<blink>HTML</blink>'
+      ).and_return(tms_message)
     tms_message.should_receive(:post!).and_return(true)
 
     subject.deliver!(mail)
