@@ -43,6 +43,16 @@ describe TMS::InstanceResource do
       foo.get.should == foo
     end
 
+    %w{get post put delete}.each do |verb|
+      it "should blow up on invalid #{verb}!" do
+        client.should(receive(verb)).and_return(double('response', status: 404, body: "{}"))
+        foo = Foo.new(client, 'https://example.com/foos/1')
+        expect do
+          foo.send("#{verb}!")
+        end.to raise_error("TMS::Errors::Invalid#{verb.capitalize}".constantize)
+      end
+    end
+
     it 'it exposes its attributes hash' do
       @instance_resource.attributes.should == {}
     end

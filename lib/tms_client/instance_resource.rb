@@ -111,6 +111,7 @@ module TMS::InstanceResource
       raise TMS::Errors::InvalidGet if self.new_record?
       process_response(client.get(self.href), :get) && self
     end
+    alias_method :get!, :get
 
     def post
       self.errors = nil
@@ -125,8 +126,16 @@ module TMS::InstanceResource
       process_response(client.put(self), :put)
     end
 
+    def put!
+      process_response(client.put(self), :put) or raise TMS::Errors::InvalidPut.new(self)
+    end
+
     def delete
       process_response(client.delete(self.href), :delete)
+    end
+
+    def delete!
+      process_response(client.delete(self.href), :delete) or raise TMS::Errors::InvalidDelete.new(self)
     end
 
     def to_s
@@ -152,7 +161,7 @@ module TMS::InstanceResource
 
     def process_response(response, method)
       self.response = response
-      error_class = TMS::Errors.const_get("Invalid#{method.to_s.capitalize}")
+      error_class   = TMS::Errors.const_get("Invalid#{method.to_s.capitalize}")
       case response.status
         when 204
           return true
@@ -177,7 +186,7 @@ module TMS::InstanceResource
     def set_attributes_from_hash(hash)
       hash.reject { |k, _| k=~/^_/ }.each do |property, value|
         if self.class.collection_attributes.include?(property.to_sym)
-          klass = self.class.custom_class_names[property] || TMS.const_get(property.to_s.capitalize)
+          klass                        = self.class.custom_class_names[property] || TMS.const_get(property.to_s.capitalize)
           @attributes[property.to_sym] = klass.new(client, nil, value)
         else
           @attributes[property.to_sym] = value
