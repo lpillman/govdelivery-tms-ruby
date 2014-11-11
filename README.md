@@ -231,6 +231,20 @@ commands.collection.each do |c|
 end
 ```
 
+### Viewing Command Actions
+Each time a given command is executed, a command action is created.
+
+```ruby
+# Using the command from above
+command_actions = command.command_actions
+command_actions.get
+command_action = command_actions.collection.first
+command_action.inbound_sms_message		# InboundSmsMessage object that initiated this command execution 
+command_action.response_body			# String returned by the forwarded to URL
+command_action.status				# HTTP Status returned by the forwarded to URL
+command_action.content_type			# Content-Type header returned by the forwarded to URL
+```
+
 
 Logging
 -------
