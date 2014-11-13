@@ -54,6 +54,16 @@ message.href             # "/messages/sms/87"
 message.get              # <TMS::SmsMessage href=/messages/sms/87 attributes={...}>
 ```
 
+### Retrieving Inbound SMS Messages
+```ruby
+client.inbound_sms_messages.get                             # <TMS::InboundSmsMessages href=/inbound/sms attributes={...}>
+inbound_sms = client.inbound_sms_messages.collection.first  # <TMS::InboundSmsMessage href=/inbound/sms/10041 attributes={...}>
+inbound_sms.to                                              # "+15559999999"
+inbound_sms.from                                            # "+15005550006"
+inbound_sms.attributes                                      # {:from=>"+15005550006", :to=>"+15559999999", :body=>"test", :command_status=>"success", :keyword_response=>"kwidjebo", :created_at=>"2014-11-05T17:15:01Z"}
+
+```
+
 ### Sending an Email Message
 
 ```ruby
@@ -219,6 +229,20 @@ commands = keyword.commands.get
 commands.collection.each do |c|
   puts c.inspect
 end
+```
+
+### Viewing Command Actions
+Each time a given command is executed, a command action is created.
+
+```ruby
+# Using the command from above
+command_actions = command.command_actions
+command_actions.get
+command_action = command_actions.collection.first
+command_action.inbound_sms_message		# InboundSmsMessage object that initiated this command execution 
+command_action.response_body			# String returned by the forwarded to URL
+command_action.status				# HTTP Status returned by the forwarded to URL
+command_action.content_type			# Content-Type header returned by the forwarded to URL
 ```
 
 
