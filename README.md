@@ -234,17 +234,24 @@ end
 ### Viewing Command Actions
 Each time a given command is executed, a command action is created.
 
+**Note** The actions relationship does not exist on commands that have 0 command actions. Because of this, an attempt to access the command_actions attribute of a 
+command that has 0 command actions will result in a NoMethodError.
+
 ```ruby
 # Using the command from above
-command_actions = command.command_actions
-command_actions.get
-command_action = command_actions.collection.first
-command_action.inbound_sms_message		# InboundSmsMessage object that initiated this command execution 
-command_action.response_body			# String returned by the forwarded to URL
-command_action.status				# HTTP Status returned by the forwarded to URL
-command_action.content_type			# Content-Type header returned by the forwarded to URL
+begin
+  command.get
+  command_actions = command.command_actions
+  command_actions.get
+  command_action = command_actions.collection.first
+  command_action.inbound_sms_message		# InboundSmsMessage object that initiated this command execution 
+  command_action.response_body			# String returned by the forwarded to URL
+  command_action.status				# HTTP Status returned by the forwarded to URL
+  command_action.content_type			# Content-Type header returned by the forwarded to URL
+rescue NoMethodError => e
+  # No command actions to view
+end
 ```
-
 
 Logging
 -------
