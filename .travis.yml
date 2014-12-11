@@ -3,16 +3,16 @@ cache: bundler
 rvm:
   - 1.9.3
   - jruby-19mode
-  - 2.1.2
+  - 2.1.4
 gemfile:
   - gemfiles/2.gemfile
   - gemfiles/3.gemfile
   - gemfiles/4.gemfile
 matrix:
   exclude:
-    - rvm: 2.1.2
+    - rvm: 2.1.4
       gemfile: gemfiles/2.gemfile
-    - rvm: 2.1.2
+    - rvm: 2.1.4
       gemfile: gemfiles/3.gemfile
 script: "bundle exec rake spec"
 notifications:
