@@ -16,7 +16,7 @@ module TMS #:nodoc:
     include InstanceResource
 
     # @!parse attr_accessor :play_url, :play_url
-    writeable_attributes :play_url, :say_text
+    writeable_attributes :play_url, :say_text, :from_number
 
     # @!parse attr_reader :created_at, :completed_at, :status
     readonly_attributes :created_at, :completed_at, :status
