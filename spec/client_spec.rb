@@ -33,5 +33,9 @@ describe TMS::Client do
       its(:logger){ should be_falsey }
       its(:horse) { should be_kind_of(TMS::Horse) }
     end
+
+    it 'defaults to the public API URL' do
+      expect(TMS::Client.new('auth_token').api_root).to eq('https://tms.govdelivery.com')
+    end
   end
 end

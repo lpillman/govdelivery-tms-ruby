@@ -6,7 +6,7 @@ class TMS::Client
 
   attr_accessor :connection, :href, :api_root, :logger
 
-  DEFAULTS = {:api_root => 'http://localhost:3000', :logger => nil}.freeze
+  DEFAULTS = {:api_root => 'https://tms.govdelivery.com', :logger => nil}.freeze
 
   # Create a new client and issue a request for the available resources for a given account.
   #
