@@ -17,8 +17,8 @@ module TMS #:nodoc:
     # @!parse attr_accessor :email, :macros
     writeable_attributes :email, :macros
 
-    # @!parse attr_reader :completed_at
-    readonly_attributes :completed_at
+    # @!parse attr_reader :completed_at, :status, :error_message
+    readonly_attributes :completed_at, :status, :error_message
 
     ##
     # A CollectionResource of EmailRecipientOpens for this EmailRecipient
