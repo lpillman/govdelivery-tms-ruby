@@ -7,7 +7,7 @@ GIT
 PATH
   remote: ../
   specs:
-    tms_client (0.5.4)
+    tms_client (0.6.0)
       activesupport
       faraday
       faraday_middleware
@@ -26,7 +26,7 @@ GEM
       rake
       thor (>= 0.14.0)
     diff-lcs (1.2.5)
-    faraday (0.9.0)
+    faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.9.1)
       faraday (>= 0.7.4, < 0.10)
