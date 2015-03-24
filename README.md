@@ -79,6 +79,18 @@ message.href             # "/messages/email/87"
 message.get              # <TMS::EmailMessage href=/messages/email/88 attributes={...}>
 ```
 
+#### Sending an Email with Macros
+
+```ruby
+message = client.email_messages.build(:subject=>'Hello!',
+                                      :body=>'<p>Hi <span style="color:red;">[[name]]</span>!</p>',
+                                      :macros=>{"name"=>"there"})
+message.recipients.build(:email=>'jim@example.com', :macros=>{"name"=>"Jim"})
+message.recipients.build(:email=>'amy@example.com', :macros=>{"name"=>"Amy"})
+message.recipients.build(:email=>'bill@example.com')
+message.post
+```
+
 ### Sending a Voice Message
 
 ```ruby
