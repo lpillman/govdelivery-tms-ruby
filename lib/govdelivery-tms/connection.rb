@@ -18,12 +18,12 @@ class TMS::Connection
   end
 
   def setup_connection
-    self.connection = Faraday.new(:url => self.api_root) do |faraday|
+    self.connection = Faraday.new(url: self.api_root) do |faraday|
       faraday.use TMS::Logger, self.logger if self.logger
       faraday.request :json
       faraday.headers['X-AUTH-TOKEN'] = auth_token
       faraday.headers[:user_agent] = "GovDelivery Ruby TMS::Client #{TMS::VERSION}"
-      faraday.response :json, :content_type => /\bjson$/
+      faraday.response :json, content_type: /\bjson$/
       faraday.adapter :net_http
     end
   end

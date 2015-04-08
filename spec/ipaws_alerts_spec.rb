@@ -142,7 +142,7 @@ describe TMS::IpawsAlert do
       }
     ])
 
-    expect(alert.client).to receive('post').with(alert).and_return(double('response', :status => 200, :body => response_body))
+    expect(alert.client).to receive('post').with(alert).and_return(double('response', status: 200, body: response_body))
     expect(alert.post).to eq(true)
     expect(alert.ipaws_response).to eq(response_body)
 

@@ -37,7 +37,7 @@ describe TMS::IpawsCogProfile do
     }
     cog_profile = TMS::IpawsCogProfile.new(client, '/ipaws/cog_profile', {})
     expect(cog_profile.client).to receive('get').with(cog_profile.href).and_return(
-      double('response', :status => 200, :body => response_body)
+      double('response', status: 200, body: response_body)
     )
     expect(cog_profile.get).to eq(cog_profile)
     expect(cog_profile.cogid).to eq("120082")

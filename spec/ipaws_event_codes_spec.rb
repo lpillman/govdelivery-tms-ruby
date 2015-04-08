@@ -24,7 +24,7 @@ describe TMS::IpawsEventCodes do
           eas_and_public: true,
           cmas: false        }
       ]
-      expect(client).to receive(:get).and_return(double('response', :body => body, :status => 200, :headers => {}))
+      expect(client).to receive(:get).and_return(double('response', body: body, status: 200, headers: {}))
       event_codes.get
       expect(event_codes.collection.length).to eq(2)
       event_codes.collection.each do |event_code|

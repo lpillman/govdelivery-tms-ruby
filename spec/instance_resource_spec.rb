@@ -9,11 +9,11 @@ end
 describe TMS::InstanceResource do
   context "creating a new inbound messages list" do
     let(:happy_response) do
-      double(:status => 201,  :body => {})
+      double(status: 201,  body: {})
     end
 
     let(:client) do
-      double('client', :post => happy_response, :get => happy_response)
+      double('client', post: happy_response, get: happy_response)
     end
 
 

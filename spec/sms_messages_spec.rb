@@ -9,8 +9,8 @@ describe TMS::SmsMessages do
       @messages = TMS::SmsMessages.new(client, '/messages')
     end
     it 'should GET itself' do
-      body = [{:short_body => 'hi ho', :created_at => 'a while ago'}, {:short_body => 'feel me flow', :created_at => 'longer ago'}]
-      expect(@messages.client).to receive(:get).and_return(double('response', :body => body, :status => 200, :headers => {'link' => "</messages/page/2>; rel=\"next\",</messages/page/11>; rel=\"last\""}))
+      body = [{short_body: 'hi ho', created_at: 'a while ago'}, {short_body: 'feel me flow', created_at: 'longer ago'}]
+      expect(@messages.client).to receive(:get).and_return(double('response', body: body, status: 200, headers: {'link' => "</messages/page/2>; rel=\"next\",</messages/page/11>; rel=\"last\""}))
 
       @messages.get
       expect(@messages.collection.length).to eq(2)

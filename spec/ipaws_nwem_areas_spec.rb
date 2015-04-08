@@ -29,7 +29,7 @@ describe TMS::IpawsNwemAreas do
     nwem_areas = TMS::IpawsNwemAreas.new(client, '/ipaws/nwem_areas')
 
     expect(nwem_areas.client).to receive('get').with(nwem_areas.href).and_return(
-      double('response', :status => 200, :body => response_body, :headers => {})
+      double('response', status: 200, body: response_body, headers: {})
     )
     expect(nwem_areas.get).to eq(nwem_areas)
     expect(nwem_areas.collection.size).to eq(2)

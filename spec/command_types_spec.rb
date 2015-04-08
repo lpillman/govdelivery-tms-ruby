@@ -18,7 +18,7 @@ describe TMS::CommandTypes do
               {"name"=>"forward",
                "string_fields"=>["http_method", "username", "password", "url"],
                "array_fields"=>[]}] 
-      expect(@command_types.client).to receive(:get).and_return(double('response', :body => body, :status => 200, :headers => {}))
+      expect(@command_types.client).to receive(:get).and_return(double('response', body: body, status: 200, headers: {}))
       @command_types.get
       expect(@command_types.collection.length).to eq(3)
       ct = @command_types.collection.find{|c| c.name == "dcm_subscribe"}

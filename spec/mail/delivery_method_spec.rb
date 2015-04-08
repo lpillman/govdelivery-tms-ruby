@@ -5,7 +5,7 @@ describe TMS::Mail::DeliveryMethod do
   subject { TMS::Mail::DeliveryMethod.new({}) }
   let(:client) { double('TMS::Client') }
   let(:email_messages) { double('email_messages') }
-  let(:tms_message) { double('tms_message', :recipients => double(:build => TMS::Recipient.new('href'))) }
+  let(:tms_message) { double('tms_message', recipients: double(build: TMS::Recipient.new('href'))) }
 
   it 'should work with a basic Mail::Message' do
     mail = Mail.new do
@@ -17,9 +17,9 @@ describe TMS::Mail::DeliveryMethod do
     allow(client).to receive(:email_messages).and_return(email_messages)
     allow(subject).to receive(:client).and_return(client)
     expect(email_messages).to receive(:build).with(
-        :from_name => mail[:from].display_names.first,
-        :subject   => mail.subject,
-        :body      => '<blink>HI</blink>'
+        from_name: mail[:from].display_names.first,
+        subject:   mail.subject,
+        body:      '<blink>HI</blink>'
       ).and_return(tms_message)
     expect(tms_message).to receive(:post!).and_return(true)
 
@@ -40,9 +40,9 @@ describe TMS::Mail::DeliveryMethod do
     allow(client).to receive(:email_messages).and_return(email_messages)
     allow(subject).to receive(:client).and_return(client)
     expect(email_messages).to receive(:build).with(
-        :from_name => mail[:from].display_names.first,
-        :subject   => mail.subject,
-        :body      => '<blink>HTML</blink>'
+        from_name: mail[:from].display_names.first,
+        subject:   mail.subject,
+        body:      '<blink>HTML</blink>'
       ).and_return(tms_message)
     expect(tms_message).to receive(:post!).and_return(true)
 
