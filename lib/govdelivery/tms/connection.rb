@@ -22,7 +22,7 @@ class GovDelivery::TMS::Connection
       faraday.use GovDelivery::TMS::Logger, self.logger if self.logger
       faraday.request :json
       faraday.headers['X-AUTH-TOKEN'] = auth_token
-      faraday.headers[:user_agent] = "GovDelivery Ruby TMS::Client #{TMS::VERSION}"
+      faraday.headers[:user_agent] = "GovDelivery Ruby GovDelivery::TMS::Client #{GovDelivery::TMS::VERSION}"
       faraday.response :json, content_type: /\bjson$/
       faraday.adapter :net_http
     end
