@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe TMS, "version" do
+describe GovDelivery::TMS, "version" do
   it "should exist" do
-    expect(TMS::VERSION).to be_an_instance_of(String)
+    expect(GovDelivery::TMS::VERSION).to be_an_instance_of(String)
   end
 end

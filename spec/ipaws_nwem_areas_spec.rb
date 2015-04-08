@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TMS::IpawsNwemAreas do
+describe GovDelivery::TMS::IpawsNwemAreas do
 
   it 'gets IPAWS NWEM areas from client' do
     client = double(:client)
@@ -26,7 +26,7 @@ describe TMS::IpawsNwemAreas do
         "zoneName"=>"Arlington/Falls Church/Alexandria"
       }
     ]
-    nwem_areas = TMS::IpawsNwemAreas.new(client, '/ipaws/nwem_areas')
+    nwem_areas = GovDelivery::TMS::IpawsNwemAreas.new(client, '/ipaws/nwem_areas')
 
     expect(nwem_areas.client).to receive('get').with(nwem_areas.href).and_return(
       double('response', status: 200, body: response_body, headers: {})

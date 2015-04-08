@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe TMS::Keyword do
+describe GovDelivery::TMS::Keyword do
   context "creating a new keyword" do
     let(:client) do
       double('client')
     end
     before do
-      @keyword = TMS::Keyword.new(client, nil, {name: 'LOL', response_text: 'very funny!'})
+      @keyword = GovDelivery::TMS::Keyword.new(client, nil, {name: 'LOL', response_text: 'very funny!'})
     end
     it 'should initialize with attrs' do
       expect(@keyword.name).to eq('LOL')
@@ -35,7 +35,7 @@ describe TMS::Keyword do
     end
     before do
       # blank hash prevents the client from doing a GET in the initialize method
-      @keyword = TMS::Keyword.new(client, '/keywords/99', {})
+      @keyword = GovDelivery::TMS::Keyword.new(client, '/keywords/99', {})
     end
     it 'should GET cleanly' do
       response = {name: 'FOO', response_text: 'hello'}

@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe TMS::SmsMessages do
+describe GovDelivery::TMS::SmsMessages do
   context "creating a new messages list" do
     let(:client) do
       double('client')
     end
     before do
-      @messages = TMS::SmsMessages.new(client, '/messages')
+      @messages = GovDelivery::TMS::SmsMessages.new(client, '/messages')
     end
     it 'should GET itself' do
       body = [{short_body: 'hi ho', created_at: 'a while ago'}, {short_body: 'feel me flow', created_at: 'longer ago'}]

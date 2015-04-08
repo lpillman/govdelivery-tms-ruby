@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe TMS::EmailTemplate do
+describe GovDelivery::TMS::EmailTemplate do
   context "creating a list of email templates" do
     let(:client) do
       double('client')
     end
     before do
-      @templates = TMS::EmailTemplates.new(client, '/templates/email')
+      @templates = GovDelivery::TMS::EmailTemplates.new(client, '/templates/email')
     end
 
     it 'should be able to get a list of email templates' do
@@ -35,7 +35,7 @@ describe TMS::EmailTemplate do
       double('client')
     end
     before do
-      @template = TMS::EmailTemplate.new(client, '/templates/email', {
+      @template = GovDelivery::TMS::EmailTemplate.new(client, '/templates/email', {
         body:                       "Template 1",
         subject:                    "This is the template 1 subject",
         link_tracking_parameters:   "test=ok&hello=world",
@@ -91,7 +91,7 @@ describe TMS::EmailTemplate do
       expect(@template.open_tracking_enabled).to             eq(true)
       expect(@template.click_tracking_enabled).to            eq(true)
       expect(@template.created_at).to                        eq('sometime')
-      expect(@template.from_address).to                      be_a(TMS::FromAddress)
+      expect(@template.from_address).to                      be_a(GovDelivery::TMS::FromAddress)
     end
   end
 
@@ -100,7 +100,7 @@ describe TMS::EmailTemplate do
       double('client')
     end
     before do
-      @template = TMS::EmailTemplate.new(client, '/templates/email/1')
+      @template = GovDelivery::TMS::EmailTemplate.new(client, '/templates/email/1')
     end
 
     it 'should handle errors' do
@@ -126,7 +126,7 @@ describe TMS::EmailTemplate do
       double('client')
     end
     before do
-      @template = TMS::EmailTemplate.new(client, '/templates/email')
+      @template = GovDelivery::TMS::EmailTemplate.new(client, '/templates/email')
     end
 
     it 'should handle errors' do

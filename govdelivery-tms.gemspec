@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "govdelivery-tms/version"
+require "govdelivery/tms/version"
 
 Gem::Specification.new do |s|
   s.name        = "govdelivery-tms"
-  s.version     = TMS::VERSION
+  s.version     = GovDelivery::TMS::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["GovDelivery"]
   s.email       = ["support@govdelivery.com"]

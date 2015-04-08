@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe TMS::EmailMessage do
+describe GovDelivery::TMS::EmailMessage do
   context "creating a new message" do
     let(:client) do
       double('client')
     end
     before do
-      @message = TMS::EmailMessage.new(client, '/messages/email', {
+      @message = GovDelivery::TMS::EmailMessage.new(client, '/messages/email', {
         body:       '12345678',
         subject:    'blah',
         created_at: 'BAAAAAD',
@@ -24,7 +24,7 @@ describe TMS::EmailMessage do
       expect(@message.from_email).to       eq('eric@evotest.govdelivery.com')
       expect(@message.reply_to).to         eq('replyto@evotest.govdelivery.com')
       expect(@message.errors_to).to        eq('errors@evotest.govdelivery.com')
-      expect(@message.recipients.class).to eq(TMS::EmailRecipients)
+      expect(@message.recipients.class).to eq(GovDelivery::TMS::EmailRecipients)
     end
     it 'should post successfully' do
       response = {
@@ -45,12 +45,12 @@ describe TMS::EmailMessage do
       expect(@message.from_email).to                        eq('eric@evotest.govdelivery.com')
       expect(@message.reply_to).to                          eq('replyto@evotest.govdelivery.com')
       expect(@message.errors_to).to                         eq('errors@evotest.govdelivery.com')
-      expect(@message.recipients.class).to                  eq(TMS::EmailRecipients)
-      expect(@message.recipients.collection.first.class).to eq(TMS::EmailRecipient)
-      expect(@message.sent.class).to eq(TMS::EmailRecipients)
-      expect(@message.sent.collection.first.class).to eq(TMS::EmailRecipient)
-      expect(@message.failed.class).to eq(TMS::EmailRecipients)
-      expect(@message.failed.collection.first.class).to eq(TMS::EmailRecipient)
+      expect(@message.recipients.class).to                  eq(GovDelivery::TMS::EmailRecipients)
+      expect(@message.recipients.collection.first.class).to eq(GovDelivery::TMS::EmailRecipient)
+      expect(@message.sent.class).to eq(GovDelivery::TMS::EmailRecipients)
+      expect(@message.sent.collection.first.class).to eq(GovDelivery::TMS::EmailRecipient)
+      expect(@message.failed.class).to eq(GovDelivery::TMS::EmailRecipients)
+      expect(@message.failed.collection.first.class).to eq(GovDelivery::TMS::EmailRecipient)
     end
     it 'should handle errors' do
       response = {'errors' => {body: "can't be nil"}}
@@ -77,7 +77,7 @@ describe TMS::EmailMessage do
     end
     before do
       # blank hash prevents the client from doing a GET in the initialize method
-      @message = TMS::EmailMessage.new(client, '/messages/99', {})
+      @message = GovDelivery::TMS::EmailMessage.new(client, '/messages/99', {})
     end
     it 'should GET cleanly' do
       response = {body: 'processed',

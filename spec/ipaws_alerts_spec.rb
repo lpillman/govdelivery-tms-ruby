@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TMS::IpawsAlert do
+describe GovDelivery::TMS::IpawsAlert do
 
   it 'post new IPAWS alerts to client, and capture status response from IPAWS' do
     client = double(:client)
@@ -97,7 +97,7 @@ describe TMS::IpawsAlert do
       ]
     }
 
-    alerts = TMS::IpawsAlerts.new(client, '/ipaws/alerts')
+    alerts = GovDelivery::TMS::IpawsAlerts.new(client, '/ipaws/alerts')
     alert = alerts.build(alert_attributes)
 
     expect(alert.identifier).to eq("CAP12-TEST-123")

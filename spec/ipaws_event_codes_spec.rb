@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe TMS::IpawsEventCodes do
+describe GovDelivery::TMS::IpawsEventCodes do
   context "loading Ipaws event codes" do
     let(:client) { double('client') }
-    let(:event_codes) { TMS::IpawsEventCodes.new(client, '/ipaws/event_codes') }
+    let(:event_codes) { GovDelivery::TMS::IpawsEventCodes.new(client, '/ipaws/event_codes') }
     it 'should GET itself' do
       body = [
         {
@@ -28,7 +28,7 @@ describe TMS::IpawsEventCodes do
       event_codes.get
       expect(event_codes.collection.length).to eq(2)
       event_codes.collection.each do |event_code|
-        expect(event_code).to be_an_instance_of(TMS::IpawsEventCode)
+        expect(event_code).to be_an_instance_of(GovDelivery::TMS::IpawsEventCode)
       end
     end
   end

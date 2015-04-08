@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe TMS::FromAddress do
+describe GovDelivery::TMS::FromAddress do
   context "creating a list of from addresses" do
     let(:client) do
       double('client')
     end
     before do
-      @fromaddresses = TMS::FromAddress.new(client, '/from_addresses')
+      @fromaddresses = GovDelivery::TMS::FromAddress.new(client, '/from_addresses')
     end
 
     it 'should be able to get a list of email templates' do
@@ -31,7 +31,7 @@ describe TMS::FromAddress do
     end
 
     before do
-      @fromaddress = TMS::FromAddress.new(client, '/from_addresses', {
+      @fromaddress = GovDelivery::TMS::FromAddress.new(client, '/from_addresses', {
            from_email:      "something@evotest.govdelivery.com",
            reply_to_email:  "something@evotest.govdelivery.com",
            bounce_email:    "something@evotest.govdelivery.com",
@@ -63,7 +63,7 @@ describe TMS::FromAddress do
       double('client')
     end
     before do
-      @fromaddress = TMS::FromAddress.new(client, '/from_addresses/1')
+      @fromaddress = GovDelivery::TMS::FromAddress.new(client, '/from_addresses/1')
     end
 
     it 'should handle errors' do

@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe TMS::CommandTypes do
+describe GovDelivery::TMS::CommandTypes do
   context "loading command types" do
     let(:client) do
       double('client')
     end
     before do
-      @command_types = TMS::CommandTypes.new(client, '/command_types')
+      @command_types = GovDelivery::TMS::CommandTypes.new(client, '/command_types')
     end
     it 'should GET ok' do
       body = [{"name"=>"dcm_unsubscribe",
