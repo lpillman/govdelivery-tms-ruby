@@ -28,31 +28,31 @@ describe TMS::IpawsNwemAreas do
     ]
     nwem_areas = TMS::IpawsNwemAreas.new(client, '/ipaws/nwem_areas')
 
-    nwem_areas.client.should_receive('get').with(nwem_areas.href).and_return(
+    expect(nwem_areas.client).to receive('get').with(nwem_areas.href).and_return(
       double('response', :status => 200, :body => response_body, :headers => {})
     )
-    nwem_areas.get.should == nwem_areas
-    nwem_areas.collection.size.should == 2
+    expect(nwem_areas.get).to eq(nwem_areas)
+    expect(nwem_areas.collection.size).to eq(2)
 
     nwem_area = nwem_areas.collection[0]
-    nwem_area.countyFipsCd.should == '51013'
-    nwem_area.countyName.should == 'Arlington'
-    nwem_area.geoType.should == 'C'
-    nwem_area.stateCd.should == 'VA'
-    nwem_area.stateFips.should == '51'
-    nwem_area.stateName.should == 'Virginia'
-    nwem_area.zoneCd.should == '054'
-    nwem_area.zoneName.should == 'Arlington/Falls Church/Alexandria'
+    expect(nwem_area.countyFipsCd).to eq('51013')
+    expect(nwem_area.countyName).to eq('Arlington')
+    expect(nwem_area.geoType).to eq('C')
+    expect(nwem_area.stateCd).to eq('VA')
+    expect(nwem_area.stateFips).to eq('51')
+    expect(nwem_area.stateName).to eq('Virginia')
+    expect(nwem_area.zoneCd).to eq('054')
+    expect(nwem_area.zoneName).to eq('Arlington/Falls Church/Alexandria')
 
     nwem_area = nwem_areas.collection[1]
-    nwem_area.countyFipsCd.should == '51510'
-    nwem_area.countyName.should == 'City of Alexandria'
-    nwem_area.geoType.should == 'C'
-    nwem_area.stateCd.should == 'VA'
-    nwem_area.stateFips.should == '51'
-    nwem_area.stateName.should == 'Virginia'
-    nwem_area.zoneCd.should == '054'
-    nwem_area.zoneName.should == 'Arlington/Falls Church/Alexandria'
+    expect(nwem_area.countyFipsCd).to eq('51510')
+    expect(nwem_area.countyName).to eq('City of Alexandria')
+    expect(nwem_area.geoType).to eq('C')
+    expect(nwem_area.stateCd).to eq('VA')
+    expect(nwem_area.stateFips).to eq('51')
+    expect(nwem_area.stateName).to eq('Virginia')
+    expect(nwem_area.zoneCd).to eq('054')
+    expect(nwem_area.zoneName).to eq('Arlington/Falls Church/Alexandria')
   end
 
 end

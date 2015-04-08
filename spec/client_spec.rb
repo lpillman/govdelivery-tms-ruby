@@ -4,27 +4,27 @@ describe TMS::Client do
     before do
       response = double('response', :status => 200, :body => {"_links" => [{"self" => "/"}, {"horse" => "/horses/new"}, {"rabbits" => "/rabbits"}]})
       @raw_connection = double('raw_connection', :get => response)
-      @connection = TMS::Connection.stub(:new).and_return(double('connection', :connection => @raw_connection))
+      @connection = allow(TMS::Connection).to receive(:new).and_return(double('connection', :connection => @raw_connection))
       @client = TMS::Client.new('auth_token', :api_root => 'null_url')
     end
     it 'should set up logging' do
-      @client.logger.should_not be_nil
-      @client.logger.level.should eq(Logger::INFO)
+      expect(@client.logger).not_to be_nil
+      expect(@client.logger.level).to eq(Logger::INFO)
     end
     it 'should discover endpoints for known services' do
-      @client.horse.should be_kind_of(TMS::Horse)
-      @client.rabbits.should be_kind_of(TMS::Rabbits)
+      expect(@client.horse).to be_kind_of(TMS::Horse)
+      expect(@client.rabbits).to be_kind_of(TMS::Rabbits)
     end
     it 'should handle 4xx responses' do
-      @raw_connection.stub(:get).and_return(double('response', :status => 404, :body => {'message' => 'hi'}))
+      allow(@raw_connection).to receive(:get).and_return(double('response', :status => 404, :body => {'message' => 'hi'}))
       expect { @client.get('/blargh') }.to raise_error(TMS::Request::Error)
     end
     it 'should handle 5xx responses' do
-      @raw_connection.stub(:get).and_return(double('response', :status => 503, :body => {'message' => 'oops'}))
+      allow(@raw_connection).to receive(:get).and_return(double('response', :status => 503, :body => {'message' => 'oops'}))
       expect { @client.get('/blargh') }.to raise_error(TMS::Request::Error)
     end
     it 'should handle 202 responses' do
-      @raw_connection.stub(:get).and_return(double('response', :status => 202, :body => {'message' => 'hi'}))
+      allow(@raw_connection).to receive(:get).and_return(double('response', :status => 202, :body => {'message' => 'hi'}))
       expect { @client.get('/blargh') }.to raise_error(TMS::Request::InProgress)
     end
 

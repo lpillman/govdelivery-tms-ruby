@@ -100,18 +100,18 @@ describe TMS::IpawsAlert do
     alerts = TMS::IpawsAlerts.new(client, '/ipaws/alerts')
     alert = alerts.build(alert_attributes)
 
-    alert.identifier.should == "CAP12-TEST-123"
-    alert.sender.should == 'test@open.com'
-    alert.sent.should == "2014-04-18T15:02:26-05:00"
-    alert.status.should == 'Actual'
-    alert.msgType.should == 'Alert'
-    alert.source.should == 'IPAWS-TEST'
-    alert.scope.should == 'Public'
-    alert.addresses.should == '999'
-    alert.code.should == ['IPAWSv1.0']
-    alert.note.should == 'test'
-    alert.incidents.should == 'IPAWS-9999'
-    alert.info.should == [
+    expect(alert.identifier).to eq("CAP12-TEST-123")
+    expect(alert.sender).to eq('test@open.com')
+    expect(alert.sent).to eq("2014-04-18T15:02:26-05:00")
+    expect(alert.status).to eq('Actual')
+    expect(alert.msgType).to eq('Alert')
+    expect(alert.source).to eq('IPAWS-TEST')
+    expect(alert.scope).to eq('Public')
+    expect(alert.addresses).to eq('999')
+    expect(alert.code).to eq(['IPAWSv1.0'])
+    expect(alert.note).to eq('test')
+    expect(alert.incidents).to eq('IPAWS-9999')
+    expect(alert.info).to eq([
       {
         language: 'en-US',
         category: ['Safety'],
@@ -140,24 +140,24 @@ describe TMS::IpawsAlert do
           }
         ]
       }
-    ]
+    ])
 
-    alert.client.should_receive('post').with(alert).and_return(double('response', :status => 200, :body => response_body))
-    alert.post.should == true
-    alert.ipaws_response.should == response_body
+    expect(alert.client).to receive('post').with(alert).and_return(double('response', :status => 200, :body => response_body))
+    expect(alert.post).to eq(true)
+    expect(alert.ipaws_response).to eq(response_body)
 
-    alert.identifier.should == "CAP12-TEST-123"
-    alert.sender.should == 'test@open.com'
-    alert.sent.should == "2014-04-18T15:02:26-05:00"
-    alert.status.should == 'Actual'
-    alert.msgType.should == 'Alert'
-    alert.source.should == 'IPAWS-TEST'
-    alert.scope.should == 'Public'
-    alert.addresses.should == '999'
-    alert.code.should == ['IPAWSv1.0']
-    alert.note.should == 'test'
-    alert.incidents.should == 'IPAWS-9999'
-    alert.info.should == [
+    expect(alert.identifier).to eq("CAP12-TEST-123")
+    expect(alert.sender).to eq('test@open.com')
+    expect(alert.sent).to eq("2014-04-18T15:02:26-05:00")
+    expect(alert.status).to eq('Actual')
+    expect(alert.msgType).to eq('Alert')
+    expect(alert.source).to eq('IPAWS-TEST')
+    expect(alert.scope).to eq('Public')
+    expect(alert.addresses).to eq('999')
+    expect(alert.code).to eq(['IPAWSv1.0'])
+    expect(alert.note).to eq('test')
+    expect(alert.incidents).to eq('IPAWS-9999')
+    expect(alert.info).to eq([
       {
         language: 'en-US',
         category: ['Safety'],
@@ -186,7 +186,7 @@ describe TMS::IpawsAlert do
           }
         ]
       }
-    ]
+    ])
   end
 
 end

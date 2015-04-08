@@ -14,14 +14,14 @@ describe TMS::Mail::DeliveryMethod do
       to '"A Nice Fellow" <tyler@sink.govdelivery.com>'
       body '<blink>HI</blink>'
     end
-    client.stub(:email_messages).and_return(email_messages)
-    subject.stub(:client).and_return(client)
-    email_messages.should_receive(:build).with(
+    allow(client).to receive(:email_messages).and_return(email_messages)
+    allow(subject).to receive(:client).and_return(client)
+    expect(email_messages).to receive(:build).with(
         :from_name => mail[:from].display_names.first,
         :subject   => mail.subject,
         :body      => '<blink>HI</blink>'
       ).and_return(tms_message)
-    tms_message.should_receive(:post!).and_return(true)
+    expect(tms_message).to receive(:post!).and_return(true)
 
     subject.deliver!(mail)
   end
@@ -37,14 +37,14 @@ describe TMS::Mail::DeliveryMethod do
         body '<blink>HTML</blink>'
       end
     end
-    client.stub(:email_messages).and_return(email_messages)
-    subject.stub(:client).and_return(client)
-    email_messages.should_receive(:build).with(
+    allow(client).to receive(:email_messages).and_return(email_messages)
+    allow(subject).to receive(:client).and_return(client)
+    expect(email_messages).to receive(:build).with(
         :from_name => mail[:from].display_names.first,
         :subject   => mail.subject,
         :body      => '<blink>HTML</blink>'
       ).and_return(tms_message)
-    tms_message.should_receive(:post!).and_return(true)
+    expect(tms_message).to receive(:post!).and_return(true)
 
     subject.deliver!(mail)
   end

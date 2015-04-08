@@ -24,11 +24,11 @@ describe TMS::IpawsEventCodes do
           eas_and_public: true,
           cmas: false        }
       ]
-      client.should_receive(:get).and_return(double('response', :body => body, :status => 200, :headers => {}))
+      expect(client).to receive(:get).and_return(double('response', :body => body, :status => 200, :headers => {}))
       event_codes.get
-      event_codes.collection.length.should == 2
+      expect(event_codes.collection.length).to eq(2)
       event_codes.collection.each do |event_code|
-        event_code.should be_an_instance_of(TMS::IpawsEventCode)
+        expect(event_code).to be_an_instance_of(TMS::IpawsEventCode)
       end
     end
   end

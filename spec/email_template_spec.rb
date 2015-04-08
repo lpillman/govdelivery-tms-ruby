@@ -24,9 +24,9 @@ describe TMS::EmailTemplate do
         }
       ]
 
-      @templates.client.should_receive('get').with('/templates/email').and_return(double('response', :status => 200, :body => response, :headers => {}))
+      expect(@templates.client).to receive('get').with('/templates/email').and_return(double('response', :status => 200, :body => response, :headers => {}))
       @templates.get
-      @templates.collection.length.should == 1
+      expect(@templates.collection.length).to eq(1)
     end
   end
 
@@ -49,24 +49,24 @@ describe TMS::EmailTemplate do
       @template.links[:from_address] = "1"
       @template.links[:invalid] = "2"
       links = @template.to_json[:_links]
-      links[:from_address].should == '1'
-      links[:invalid].should be_nil
+      expect(links[:from_address]).to eq('1')
+      expect(links[:invalid]).to be_nil
     end
 
     it 'should clear the links property after a successful post' do
       @template.links[:from_address] = "1"
-      @template.client.should_receive('post').with(@template).and_return(double('response', :status => 201, :body => {}))
+      expect(@template.client).to receive('post').with(@template).and_return(double('response', :status => 201, :body => {}))
       @template.post
       links = @template.to_json[:_links]
-      links[:from_address].should be_nil
+      expect(links[:from_address]).to be_nil
     end
 
     it 'should not clear the links property after an invalid post' do
       @template.links[:from_address] = "1"
-      @template.client.should_receive('post').with(@template).and_return(double('response', :status => 400, :body => {}))
+      expect(@template.client).to receive('post').with(@template).and_return(double('response', :status => 400, :body => {}))
       @template.post
       links = @template.to_json[:_links]
-      links[:from_address].should == "1"
+      expect(links[:from_address]).to eq("1")
     end
 
     it 'should post successfully' do
@@ -81,17 +81,17 @@ describe TMS::EmailTemplate do
         'created_at'                 => "sometime",
         '_links'                     => {"self" => "/templates/email/1","account" => "/accounts/1","from_address" => "/from_addresses/1"}
       }
-      @template.client.should_receive('post').with(@template).and_return(double('response', :status => 201, :body => response))
+      expect(@template.client).to receive('post').with(@template).and_return(double('response', :status => 201, :body => response))
       @template.post
-      @template.id.should                                == '1'
-      @template.body.should                              == 'Template 1'
-      @template.subject.should                           == 'This is the template 1 subject'
-      @template.link_tracking_parameters.should          == 'test=ok&hello=world'
-      @template.macros.should                            == {"MACRO1"=>"1"}
-      @template.open_tracking_enabled.should             == true
-      @template.click_tracking_enabled.should            == true
-      @template.created_at.should                        == 'sometime'
-      @template.from_address.should                      be_a(TMS::FromAddress)
+      expect(@template.id).to                                eq('1')
+      expect(@template.body).to                              eq('Template 1')
+      expect(@template.subject).to                           eq('This is the template 1 subject')
+      expect(@template.link_tracking_parameters).to          eq('test=ok&hello=world')
+      expect(@template.macros).to                            eq({"MACRO1"=>"1"})
+      expect(@template.open_tracking_enabled).to             eq(true)
+      expect(@template.click_tracking_enabled).to            eq(true)
+      expect(@template.created_at).to                        eq('sometime')
+      expect(@template.from_address).to                      be_a(TMS::FromAddress)
     end
   end
 
@@ -105,18 +105,18 @@ describe TMS::EmailTemplate do
 
     it 'should handle errors' do
       response = {'errors' => {:body => "can't be nil"}}
-      @template.client.should_receive('post').with(@template).and_return(double('response', :status => 422, :body => response))
+      expect(@template.client).to receive('post').with(@template).and_return(double('response', :status => 422, :body => response))
       @template.post
-      @template.errors.should == {:body => "can't be nil"}
+      expect(@template.errors).to eq({:body => "can't be nil"})
     end
 
     it 'should handle 401 errors' do
-      @template.client.should_receive('post').with(@template).and_return(double('response', :status => 401))
+      expect(@template.client).to receive('post').with(@template).and_return(double('response', :status => 401))
       expect {@template.post}.to raise_error("401 Not Authorized")
     end
 
     it 'should handle 404 errors' do
-      @template.client.should_receive('post').with(@template).and_return(double('response', :status => 404))
+      expect(@template.client).to receive('post').with(@template).and_return(double('response', :status => 404))
       expect {@template.post}.to raise_error("Can't POST to /templates/email/1")
     end
   end
@@ -131,18 +131,18 @@ describe TMS::EmailTemplate do
 
     it 'should handle errors' do
       response = {'errors' => {:body => "can't be nil"}}
-      @template.client.should_receive('post').with(@template).and_return(double('response', :status => 422, :body => response))
+      expect(@template.client).to receive('post').with(@template).and_return(double('response', :status => 422, :body => response))
       @template.post
-      @template.errors.should == {:body => "can't be nil"}
+      expect(@template.errors).to eq({:body => "can't be nil"})
     end
 
     it 'should handle 401 errors' do
-      @template.client.should_receive('post').with(@template).and_return(double('response', :status => 401))
+      expect(@template.client).to receive('post').with(@template).and_return(double('response', :status => 401))
       expect {@template.post}.to raise_error("401 Not Authorized")
     end
 
     it 'should handle 404 errors' do
-      @template.client.should_receive('post').with(@template).and_return(double('response', :status => 404))
+      expect(@template.client).to receive('post').with(@template).and_return(double('response', :status => 404))
       expect {@template.post}.to raise_error("Can't POST to /templates/email")
     end
   end

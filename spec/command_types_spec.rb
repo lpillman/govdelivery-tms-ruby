@@ -18,12 +18,12 @@ describe TMS::CommandTypes do
               {"name"=>"forward",
                "string_fields"=>["http_method", "username", "password", "url"],
                "array_fields"=>[]}] 
-      @command_types.client.should_receive(:get).and_return(double('response', :body => body, :status => 200, :headers => {}))
+      expect(@command_types.client).to receive(:get).and_return(double('response', :body => body, :status => 200, :headers => {}))
       @command_types.get
-      @command_types.collection.length.should == 3
+      expect(@command_types.collection.length).to eq(3)
       ct = @command_types.collection.find{|c| c.name == "dcm_subscribe"}
-      ct.array_fields.should eq(["dcm_topic_codes"])
-      ct.string_fields.should eq(["dcm_account_code"])
+      expect(ct.array_fields).to eq(["dcm_topic_codes"])
+      expect(ct.string_fields).to eq(["dcm_account_code"])
     end
   end
 end
