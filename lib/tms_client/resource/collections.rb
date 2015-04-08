@@ -1,3 +1,7 @@
+class TMS::Accounts
+  include TMS::CollectionResource
+end
+
 class TMS::Emails
   include TMS::CollectionResource
 end
@@ -85,5 +89,18 @@ class TMS::IpawsNwemAreas
 end
 
 class TMS::Webhooks
+  include TMS::CollectionResource
+end
+
+# A collection of Email Template objects.
+#
+# @example
+#    email_template = client.email_template.get
+#
+class TMS::EmailTemplates
+  include TMS::CollectionResource
+end
+
+class TMS::FromAddresses
   include TMS::CollectionResource
 end

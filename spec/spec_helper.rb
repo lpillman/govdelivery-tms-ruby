@@ -1,5 +1,6 @@
 $: << File.expand_path("../lib", __FILE__)
 require 'tms_client'
+require 'pry'
 
 class TMS::Horse
   def initialize(client, href)
