@@ -1,7 +1,3 @@
-class TMS::Accounts
-  include TMS::CollectionResource
-end
-
 class TMS::Emails
   include TMS::CollectionResource
 end
