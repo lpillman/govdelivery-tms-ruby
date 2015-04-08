@@ -7,7 +7,7 @@ describe TMS::Errors do
     end
     subject { TMS::Errors::InvalidVerb.new(object_with_errors) }
     it 'should work' do
-      subject.message.should =~ /body can't be blank, subject can't be blank/
+      expect(subject.message).to match(/body can't be blank, subject can't be blank/)
     end
   end
 end

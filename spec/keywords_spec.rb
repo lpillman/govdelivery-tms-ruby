@@ -13,9 +13,9 @@ describe TMS::Keywords do
         {"name"=>"services", "_links"=>{"self"=>"/keywords/1"}}, 
         {"name"=>"subscribe", "_links"=>{"self"=>"/keywords/2"}}
       ]
-      @keywords.client.should_receive(:get).and_return(double('response', :body => body, :status => 200, :headers => {}))
+      expect(@keywords.client).to receive(:get).and_return(double('response', body: body, status: 200, headers: {}))
       @keywords.get
-      @keywords.collection.length.should == 2
+      expect(@keywords.collection.length).to eq(2)
     end
   end
 end

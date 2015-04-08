@@ -6,39 +6,39 @@ describe TMS::SmsMessage do
       double('client')
     end
     before do
-      @message = TMS::SmsMessage.new(client, nil, {:body => '12345678', :created_at => 'BAAAAAD'})
+      @message = TMS::SmsMessage.new(client, nil, {body: '12345678', created_at: 'BAAAAAD'})
     end
     it 'should not render readonly attrs in json hash' do
-      @message.to_json[:body].should == '12345678'
-      @message.to_json[:created_at].should == nil
+      expect(@message.to_json[:body]).to eq('12345678')
+      expect(@message.to_json[:created_at]).to eq(nil)
     end
     it 'should initialize with attrs and collections' do
-      @message.body.should == '12345678'
-      @message.recipients.class.should == TMS::Recipients
+      expect(@message.body).to eq('12345678')
+      expect(@message.recipients.class).to eq(TMS::Recipients)
     end
     it 'should post successfully' do
-      response = { :body => 'processed',
-                   :recipients => [{:phone => '22345678'}],
-                   :failed => [{:phone => '22345678'}],
-                   :sent => [{:phone => '22345678'}],
-                    :created_at => 'time'}
-      @message.client.should_receive('post').with(@message).and_return(double('response', :status => 201, :body => response))
+      response = { body: 'processed',
+                   recipients: [{phone: '22345678'}],
+                   failed: [{phone: '22345678'}],
+                   sent: [{phone: '22345678'}],
+                    created_at: 'time'}
+      expect(@message.client).to receive('post').with(@message).and_return(double('response', status: 201, body: response))
       @message.post
-      @message.body.should == 'processed'
-      @message.created_at.should == 'time'
-      @message.recipients.class.should == TMS::Recipients
-      @message.recipients.collection.first.class.should == TMS::Recipient
-      @message.sent.class.should == TMS::Recipients
-      @message.sent.collection.first.class.should == TMS::Recipient
-      @message.failed.class.should == TMS::Recipients
-      @message.failed.collection.first.class.should == TMS::Recipient
+      expect(@message.body).to eq('processed')
+      expect(@message.created_at).to eq('time')
+      expect(@message.recipients.class).to eq(TMS::Recipients)
+      expect(@message.recipients.collection.first.class).to eq(TMS::Recipient)
+      expect(@message.sent.class).to eq(TMS::Recipients)
+      expect(@message.sent.collection.first.class).to eq(TMS::Recipient)
+      expect(@message.failed.class).to eq(TMS::Recipients)
+      expect(@message.failed.collection.first.class).to eq(TMS::Recipient)
     end
     it 'should handle errors' do
-      response = {'errors' => {:body => "can't be nil"}}
-      @message.client.should_receive('post').with(@message).and_return(double('response', :status => 422, :body => response))
+      response = {'errors' => {body: "can't be nil"}}
+      expect(@message.client).to receive('post').with(@message).and_return(double('response', status: 422, body: response))
       @message.post
-      @message.body.should == '12345678'
-      @message.errors.should == {:body => "can't be nil"}
+      expect(@message.body).to eq('12345678')
+      expect(@message.errors).to eq({body: "can't be nil"})
     end
   end
 
@@ -51,11 +51,11 @@ describe TMS::SmsMessage do
       @message = TMS::SmsMessage.new(client, '/messages/99', {})
     end
     it 'should GET cleanly' do
-      response = {:body => 'processed', :recipients => [{:phone => '22345678'}], :created_at => 'time'}
-      @message.client.should_receive('get').with(@message.href).and_return(double('response', :status => 200, :body => response))
+      response = {body: 'processed', recipients: [{phone: '22345678'}], created_at: 'time'}
+      expect(@message.client).to receive('get').with(@message.href).and_return(double('response', status: 200, body: response))
       @message.get
-      @message.body.should == 'processed'
-      @message.created_at.should == 'time'
+      expect(@message.body).to eq('processed')
+      expect(@message.created_at).to eq('time')
     end
   end
 

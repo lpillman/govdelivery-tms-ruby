@@ -38,12 +38,12 @@ module TMS
                end.decoded
 
         tms_message = client.email_messages.build(
-          :from_name => mail[:from].display_names.first,
-          :subject => mail.subject,
-          :body => body
+          from_name: mail[:from].display_names.first,
+          subject: mail.subject,
+          body: body
         )
 
-        mail.to.each { |recip| tms_message.recipients.build(:email => recip) }
+        mail.to.each { |recip| tms_message.recipients.build(email: recip) }
         tms_message.post!
         tms_message
       end
@@ -57,7 +57,7 @@ end
 
 if defined?(ActionMailer)
   ActionMailer::Base.add_delivery_method :govdelivery_tms, TMS::Mail::DeliveryMethod, {
-    :auth_token => nil,
-    :logger => ActionMailer::Base.logger,
-    :api_root => TMS::Client::DEFAULTS[:api_root]}
+    auth_token: nil,
+    logger: ActionMailer::Base.logger,
+    api_root: TMS::Client::DEFAULTS[:api_root]}
 end

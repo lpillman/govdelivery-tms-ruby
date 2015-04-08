@@ -6,26 +6,26 @@ describe TMS::Keyword do
       double('client')
     end
     before do
-      @keyword = TMS::Keyword.new(client, nil, {:name => 'LOL', :response_text => 'very funny!'})
+      @keyword = TMS::Keyword.new(client, nil, {name: 'LOL', response_text: 'very funny!'})
     end
     it 'should initialize with attrs' do
-      @keyword.name.should == 'LOL'
-      @keyword.response_text.should == 'very funny!'
+      expect(@keyword.name).to eq('LOL')
+      expect(@keyword.response_text).to eq('very funny!')
     end
     it 'should post successfully' do
-      response = {:name => 'lol'}
-      @keyword.client.should_receive('post').with(@keyword).and_return(double('response', :status => 201, :body => response))
+      response = {name: 'lol'}
+      expect(@keyword.client).to receive('post').with(@keyword).and_return(double('response', status: 201, body: response))
       @keyword.post
-      @keyword.name.should == 'lol'
-      @keyword.response_text.should == 'very funny!'
+      expect(@keyword.name).to eq('lol')
+      expect(@keyword.response_text).to eq('very funny!')
     end
     it 'should handle errors' do
-      response = {'errors' => {:name => "can't be nil"}}
-      @keyword.client.should_receive('post').with(@keyword).and_return(double('response', :status => 422, :body => response))
+      response = {'errors' => {name: "can't be nil"}}
+      expect(@keyword.client).to receive('post').with(@keyword).and_return(double('response', status: 422, body: response))
       @keyword.post
-      @keyword.name.should == 'LOL'
-      @keyword.response_text.should == 'very funny!'
-      @keyword.errors.should == {:name => "can't be nil"}
+      expect(@keyword.name).to eq('LOL')
+      expect(@keyword.response_text).to eq('very funny!')
+      expect(@keyword.errors).to eq({name: "can't be nil"})
     end
   end
 
@@ -38,22 +38,22 @@ describe TMS::Keyword do
       @keyword = TMS::Keyword.new(client, '/keywords/99', {})
     end
     it 'should GET cleanly' do
-      response = {:name => 'FOO', :response_text => 'hello'}
-      @keyword.client.should_receive('get').with(@keyword.href).and_return(double('response', :status => 200, :body => response))
+      response = {name: 'FOO', response_text: 'hello'}
+      expect(@keyword.client).to receive('get').with(@keyword.href).and_return(double('response', status: 200, body: response))
       @keyword.get
-      @keyword.name.should == 'FOO'
-      @keyword.response_text.should == 'hello'
+      expect(@keyword.name).to eq('FOO')
+      expect(@keyword.response_text).to eq('hello')
     end
     it 'should PUT cleanly' do
       @keyword.name = "GOVLIE"
-      response  = {:name => 'govlie', :response_text => nil}
-      @keyword.client.should_receive('put').with(@keyword).and_return(double('response', :status => 200, :body => response))
+      response  = {name: 'govlie', response_text: nil}
+      expect(@keyword.client).to receive('put').with(@keyword).and_return(double('response', status: 200, body: response))
       @keyword.put
-      @keyword.name.should == 'govlie'
-      @keyword.response_text.should be_nil
+      expect(@keyword.name).to eq('govlie')
+      expect(@keyword.response_text).to be_nil
     end
     it 'should DELETE cleanly' do
-      @keyword.client.should_receive('delete').with(@keyword.href).and_return(double('response', :status => 200, :body => ''))
+      expect(@keyword.client).to receive('delete').with(@keyword.href).and_return(double('response', status: 200, body: ''))
       @keyword.delete
     end
   end

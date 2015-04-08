@@ -6,7 +6,7 @@ class TMS::Client
 
   attr_accessor :connection, :href, :api_root, :logger
 
-  DEFAULTS = {:api_root => 'https://tms.govdelivery.com', :logger => nil}.freeze
+  DEFAULTS = {api_root: 'https://tms.govdelivery.com', logger: nil}.freeze
 
   # Create a new client and issue a request for the available resources for a given account.
   #
@@ -30,7 +30,7 @@ class TMS::Client
   end
 
   def connect!(auth_token, options={})
-    self.connection = TMS::Connection.new({:auth_token => auth_token, :api_root => api_root, :logger => logger}.merge!(options))
+    self.connection = TMS::Connection.new({auth_token: auth_token, api_root: api_root, logger: logger}.merge!(options))
   end
 
   def discover!

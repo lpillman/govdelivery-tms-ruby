@@ -9,11 +9,11 @@ end
 describe TMS::InstanceResource do
   context "creating a new inbound messages list" do
     let(:happy_response) do
-      double(:status => 201,  :body => {})
+      double(status: 201,  body: {})
     end
 
     let(:client) do
-      double('client', :post => happy_response, :get => happy_response)
+      double('client', post: happy_response, get: happy_response)
     end
 
 
@@ -23,29 +23,29 @@ describe TMS::InstanceResource do
 
     it 'should POST' do
       @instance_resource.bar = "OMG"
-      @instance_resource.post.should be_truthy
+      expect(@instance_resource.post).to be_truthy
     end
 
     it 'should correctly reflect on collection resources' do
-      @instance_resource.blah.class.should == TMS::EmailMessage
-      @instance_resource.shah.class.should == TMS::EmailMessage
+      expect(@instance_resource.blah.class).to eq(TMS::EmailMessage)
+      expect(@instance_resource.shah.class).to eq(TMS::EmailMessage)
     end
 
     it 'should not GET on initialization' do
-      client.should_not receive(:get)
+      expect(client).not_to receive(:get)
       Foo.new(client, 'https://example.com/foos/1')
     end
 
     it 'should return self on successful get' do
-      client.should receive(:get)
+      expect(client).to receive(:get)
       foo = Foo.new(client, 'https://example.com/foos/1')
-      foo.should_not be_new_record
-      foo.get.should == foo
+      expect(foo).not_to be_new_record
+      expect(foo.get).to eq(foo)
     end
 
     %w{get post put delete}.each do |verb|
       it "should blow up on invalid #{verb}!" do
-        client.should(receive(verb)).and_return(double('response', status: 404, body: "{}"))
+        expect(client).to(receive(verb)).and_return(double('response', status: 404, body: "{}"))
         foo = Foo.new(client, 'https://example.com/foos/1')
         expect do
           foo.send("#{verb}!")
@@ -54,7 +54,7 @@ describe TMS::InstanceResource do
     end
 
     it 'it exposes its attributes hash' do
-      @instance_resource.attributes.should == {}
+      expect(@instance_resource.attributes).to eq({})
     end
 
   end

@@ -36,29 +36,29 @@ describe TMS::IpawsCogProfile do
       ]
     }
     cog_profile = TMS::IpawsCogProfile.new(client, '/ipaws/cog_profile', {})
-    cog_profile.client.should_receive('get').with(cog_profile.href).and_return(
-      double('response', :status => 200, :body => response_body)
+    expect(cog_profile.client).to receive('get').with(cog_profile.href).and_return(
+      double('response', status: 200, body: response_body)
     )
-    cog_profile.get.should == cog_profile
-    cog_profile.cogid.should == "120082"
+    expect(cog_profile.get).to eq(cog_profile)
+    expect(cog_profile.cogid).to eq("120082")
 
-    cog_profile.name.should == "GovDelivery"
-    cog_profile.description.should == "GovDelivery"
-    cog_profile.categoryName.should == "IPAWS-OPEN"
-    cog_profile.organizationName.should == "CIV"
-    cog_profile.cogEnabled.should == "Y"
-    cog_profile.caeAuthorized.should == "Y"
-    cog_profile.caeCmasAuthorized.should == "Y"
-    cog_profile.eanAuthorized.should == "N"
-    cog_profile.allEventCode.should == "N"
-    cog_profile.allGeoCode.should == "N"
-    cog_profile.easAuthorized.should == "Y"
-    cog_profile.cmasAlertAuthorized.should == "Y"
-    cog_profile.cmamTextAuthorized.should == "Y"
-    cog_profile.publicAlertAuthorized.should == "Y"
-    cog_profile.broadcastAuthorized.should == "N"
-    cog_profile.email.should == "joe.bloom@govdelivery.com"
-    cog_profile.eventCodes.should == [
+    expect(cog_profile.name).to eq("GovDelivery")
+    expect(cog_profile.description).to eq("GovDelivery")
+    expect(cog_profile.categoryName).to eq("IPAWS-OPEN")
+    expect(cog_profile.organizationName).to eq("CIV")
+    expect(cog_profile.cogEnabled).to eq("Y")
+    expect(cog_profile.caeAuthorized).to eq("Y")
+    expect(cog_profile.caeCmasAuthorized).to eq("Y")
+    expect(cog_profile.eanAuthorized).to eq("N")
+    expect(cog_profile.allEventCode).to eq("N")
+    expect(cog_profile.allGeoCode).to eq("N")
+    expect(cog_profile.easAuthorized).to eq("Y")
+    expect(cog_profile.cmasAlertAuthorized).to eq("Y")
+    expect(cog_profile.cmamTextAuthorized).to eq("Y")
+    expect(cog_profile.publicAlertAuthorized).to eq("Y")
+    expect(cog_profile.broadcastAuthorized).to eq("N")
+    expect(cog_profile.email).to eq("joe.bloom@govdelivery.com")
+    expect(cog_profile.eventCodes).to eq([
       {"ALL"=>"FRW"},
       {"ALL"=>"SVR"},
       {"ALL"=>"SPW"},
@@ -66,10 +66,10 @@ describe TMS::IpawsCogProfile do
       {"ALL"=>"CAE"},
       {"ALL"=>"WSW"},
       {"ALL"=>"CEM"}
-    ]
-    cog_profile.geoCodes.should == [
+    ])
+    expect(cog_profile.geoCodes).to eq([
       {"SAME"=>"039035"}
-    ]
+    ])
   end
 
 end

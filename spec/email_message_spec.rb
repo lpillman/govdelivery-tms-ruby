@@ -7,66 +7,66 @@ describe TMS::EmailMessage do
     end
     before do
       @message = TMS::EmailMessage.new(client, '/messages/email', {
-        :body       => '12345678',
-        :subject    => 'blah',
-        :created_at => 'BAAAAAD',
-        :from_email => 'eric@evotest.govdelivery.com',
-        :errors_to  => 'errors@evotest.govdelivery.com',
-        :reply_to   => 'replyto@evotest.govdelivery.com'})
+        body:       '12345678',
+        subject:    'blah',
+        created_at: 'BAAAAAD',
+        from_email: 'eric@evotest.govdelivery.com',
+        errors_to:  'errors@evotest.govdelivery.com',
+        reply_to:   'replyto@evotest.govdelivery.com'})
     end
     it 'should not render readonly attrs in json hash' do
-      @message.to_json[:body].should == '12345678'
-      @message.to_json[:created_at].should == nil
+      expect(@message.to_json[:body]).to eq('12345678')
+      expect(@message.to_json[:created_at]).to eq(nil)
     end
     it 'should initialize with attrs and collections' do
-      @message.body.should             == '12345678'
-      @message.subject.should          == 'blah'
-      @message.from_email.should       == 'eric@evotest.govdelivery.com'
-      @message.reply_to.should         == 'replyto@evotest.govdelivery.com'
-      @message.errors_to.should        == 'errors@evotest.govdelivery.com'
-      @message.recipients.class.should == TMS::EmailRecipients
+      expect(@message.body).to             eq('12345678')
+      expect(@message.subject).to          eq('blah')
+      expect(@message.from_email).to       eq('eric@evotest.govdelivery.com')
+      expect(@message.reply_to).to         eq('replyto@evotest.govdelivery.com')
+      expect(@message.errors_to).to        eq('errors@evotest.govdelivery.com')
+      expect(@message.recipients.class).to eq(TMS::EmailRecipients)
     end
     it 'should post successfully' do
       response = {
-          :body       => 'processed',
-          :subject    => 'blah',
-          :from_email => 'eric@evotest.govdelivery.com',
-          :errors_to  => 'errors@evotest.govdelivery.com',
-          :reply_to   => 'replyto@evotest.govdelivery.com',
-          :recipients => [{:email => 'billy@evotest.govdelivery.com'}],
-          :failed => [{:email => 'billy@evotest.govdelivery.com'}],
-          :sent => [{:email => 'billy@evotest.govdelivery.com'}],
-          :created_at => 'time'
+          body:       'processed',
+          subject:    'blah',
+          from_email: 'eric@evotest.govdelivery.com',
+          errors_to:  'errors@evotest.govdelivery.com',
+          reply_to:   'replyto@evotest.govdelivery.com',
+          recipients: [{email: 'billy@evotest.govdelivery.com'}],
+          failed: [{email: 'billy@evotest.govdelivery.com'}],
+          sent: [{email: 'billy@evotest.govdelivery.com'}],
+          created_at: 'time'
       }
-      @message.client.should_receive('post').with(@message).and_return(double('response', :status => 201, :body => response))
+      expect(@message.client).to receive('post').with(@message).and_return(double('response', status: 201, body: response))
       @message.post
-      @message.body.should                              == 'processed'
-      @message.created_at.should                        == 'time'
-      @message.from_email.should                        == 'eric@evotest.govdelivery.com'
-      @message.reply_to.should                          == 'replyto@evotest.govdelivery.com'
-      @message.errors_to.should                         == 'errors@evotest.govdelivery.com'
-      @message.recipients.class.should                  == TMS::EmailRecipients
-      @message.recipients.collection.first.class.should == TMS::EmailRecipient
-      @message.sent.class.should == TMS::EmailRecipients
-      @message.sent.collection.first.class.should == TMS::EmailRecipient
-      @message.failed.class.should == TMS::EmailRecipients
-      @message.failed.collection.first.class.should == TMS::EmailRecipient
+      expect(@message.body).to                              eq('processed')
+      expect(@message.created_at).to                        eq('time')
+      expect(@message.from_email).to                        eq('eric@evotest.govdelivery.com')
+      expect(@message.reply_to).to                          eq('replyto@evotest.govdelivery.com')
+      expect(@message.errors_to).to                         eq('errors@evotest.govdelivery.com')
+      expect(@message.recipients.class).to                  eq(TMS::EmailRecipients)
+      expect(@message.recipients.collection.first.class).to eq(TMS::EmailRecipient)
+      expect(@message.sent.class).to eq(TMS::EmailRecipients)
+      expect(@message.sent.collection.first.class).to eq(TMS::EmailRecipient)
+      expect(@message.failed.class).to eq(TMS::EmailRecipients)
+      expect(@message.failed.collection.first.class).to eq(TMS::EmailRecipient)
     end
     it 'should handle errors' do
-      response = {'errors' => {:body => "can't be nil"}}
-      @message.client.should_receive('post').with(@message).and_return(double('response', :status => 422, :body => response))
+      response = {'errors' => {body: "can't be nil"}}
+      expect(@message.client).to receive('post').with(@message).and_return(double('response', status: 422, body: response))
       @message.post
-      @message.body.should == '12345678'
-      @message.errors.should == {:body => "can't be nil"}
+      expect(@message.body).to eq('12345678')
+      expect(@message.errors).to eq({body: "can't be nil"})
     end
 
     it 'should handle 401 errors' do
-      @message.client.should_receive('post').with(@message).and_return(double('response', :status => 401))
+      expect(@message.client).to receive('post').with(@message).and_return(double('response', status: 401))
       expect {@message.post}.to raise_error(StandardError, "401 Not Authorized")
     end
 
     it 'should handle 404 errors' do
-      @message.client.should_receive('post').with(@message).and_return(double('response', :status => 404))
+      expect(@message.client).to receive('post').with(@message).and_return(double('response', status: 404))
       expect {@message.post}.to raise_error(StandardError, "Can't POST to /messages/email")
     end
   end
@@ -80,21 +80,21 @@ describe TMS::EmailMessage do
       @message = TMS::EmailMessage.new(client, '/messages/99', {})
     end
     it 'should GET cleanly' do
-      response = {:body => 'processed',
-                  :subject    => 'hey',
-                  :from_email => 'eric@evotest.govdelivery.com',
-                  :errors_to  => 'errors@evotest.govdelivery.com',
-                  :reply_to   => 'replyto@evotest.govdelivery.com',
-                  :recipients => [{:email => 'billy@evotest.govdelivery.com'}],
-                  :created_at => 'time'}
-      @message.client.should_receive('get').with(@message.href).and_return(double('response', :status => 200, :body => response))
+      response = {body: 'processed',
+                  subject:    'hey',
+                  from_email: 'eric@evotest.govdelivery.com',
+                  errors_to:  'errors@evotest.govdelivery.com',
+                  reply_to:   'replyto@evotest.govdelivery.com',
+                  recipients: [{email: 'billy@evotest.govdelivery.com'}],
+                  created_at: 'time'}
+      expect(@message.client).to receive('get').with(@message.href).and_return(double('response', status: 200, body: response))
       @message.get
-      @message.body.should       == 'processed'
-      @message.subject.should    == 'hey'
-      @message.from_email.should == 'eric@evotest.govdelivery.com'
-      @message.reply_to.should   == 'replyto@evotest.govdelivery.com'
-      @message.errors_to.should  == 'errors@evotest.govdelivery.com'
-      @message.created_at.should == 'time'
+      expect(@message.body).to       eq('processed')
+      expect(@message.subject).to    eq('hey')
+      expect(@message.from_email).to eq('eric@evotest.govdelivery.com')
+      expect(@message.reply_to).to   eq('replyto@evotest.govdelivery.com')
+      expect(@message.errors_to).to  eq('errors@evotest.govdelivery.com')
+      expect(@message.created_at).to eq('time')
     end
   end
 
