@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/govdelivery/tms_client.svg?branch=master)](https://travis-ci.org/govdelivery/tms_client)
+[![Build Status](https://travis-ci.org/govdelivery/govdelivery-tms-ruby.svg?branch=master)](https://travis-ci.org/govdelivery/govdelivery-tms-ruby)
 
-TMS Client 
+TMS Client
 ===========
 This is a reference Ruby client to interact with the GovDelivery TMS REST API.
 
@@ -9,13 +9,13 @@ Installation
 ### Using Bundler
 
 ```ruby
-gem 'tms_client'
+gem 'govdelivery-tms'
 ```
 
 ### Standalone
 
 ```
-$ gem install tms_client
+$ gem install govdelivery-tms
 ```
 
 
@@ -32,7 +32,7 @@ Messages
 --------
 
 ### Loading messages
-Sms, Email, and voice messages can be retrieved with the `get` collection method.  Messages are paged in groups of 50.  To retrieve another page, used the `next` method.  This method will not be defined if another page is not available.
+Sms and Email messages can be retrieved with the `get` collection method.  Messages are paged in groups of 50.  To retrieve another page, used the `next` method.  This method will not be defined if another page is not available.
 
 ```ruby
 client.sms_messages.get        # get the first page of sms messages
@@ -67,7 +67,7 @@ inbound_sms.attributes                                      # {:from=>"+15005550
 ### Sending an Email Message
 
 ```ruby
-message = client.email_messages.build(:body=>'<p><a href="http://example.com">Visit here</a>', 
+message = client.email_messages.build(:body=>'<p><a href="http://example.com">Visit here</a>',
                                       :subject => 'Hey',
                                       :from_email => 'foo@example.com')
 message.recipients.build(:email=>'example1@example.com')
@@ -89,20 +89,6 @@ message.recipients.build(:email=>'jim@example.com', :macros=>{"name"=>"Jim"})
 message.recipients.build(:email=>'amy@example.com', :macros=>{"name"=>"Amy"})
 message.recipients.build(:email=>'bill@example.com')
 message.post
-```
-
-### Sending a Voice Message
-
-```ruby
-message = client.voice_messages.build(:play_url=>'www.testmessage.com')
-message.recipients.build(:phone=>'5551112222')
-message.recipients.build(:phone=>'5551112223')
-message.recipients.build # invalid - no phone
-message.post             # true
-message.recipients.collection.detect{|r| r.errors } # {"phone"=>["is not a number"]}
-# save succeeded, but we have one bad recipient
-message.href             # "/messages/voice/87"
-message.get              # <TMS::VoiceMessage href=/messages/voice/87 attributes={...}>
 ```
 
 ### Obtaining IPAWS Ack ###
@@ -140,7 +126,7 @@ alert.ipaws_response # { "identifier"=>"CAP12-TEST-1397743203", "statuses"=> [{"
 Webhooks
 -------
 ### POST to a URL when a recipient is blacklisted (i.e. to remove from your list)  
-    
+
 
 ```ruby
 webhook = client.webhooks.build(:url=>'http://your.url', :event_type=>'blacklisted')
@@ -151,10 +137,10 @@ POSTs will include in the body the following attributes:
 
   attribute   |  description
 ------------- | -------------
-message_type  | 'sms', 'email', or 'voice'
+message_type  | 'sms' or 'email'
 status:       |  message state
 recipient_url |  recipient URL
-messsage_url  |  message URL 
+messsage_url  |  message URL
 error_message |  (failures only)
 completed_at  |  (sent or failed recipients only)
 
@@ -191,7 +177,7 @@ Configuring 2-way SMS
 ### Listing Command Types
 Command Types are the available commands that can be used to respond to an incoming SMS message.  
 
-```ruby 
+```ruby
 command_types = client.command_types.get
 command_types.collection.each do |at|
   puts at.name          # "forward"
@@ -201,9 +187,9 @@ end
 ```
 
 ### Managing Keywords
-Keywords are chunks of text that are used to match an incoming SMS message. 
+Keywords are chunks of text that are used to match an incoming SMS message.
 
-```ruby 
+```ruby
 # CRUD
 keyword = client.keywords.build(:name => "BUSRIDE", :response_text => "Visit example.com/rides for more info")
 keyword.post                # true
@@ -228,8 +214,8 @@ Commands have a command type and one or more keywords.  The example below config
 keyword = client.keywords.build(:name => "RIDE")
 keyword.post
 command = keyword.commands.build(
-            :name => "Forward to somewhere else", 
-            :params => {:url => "http://example.com", :http_method => "get"}, 
+            :name => "Forward to somewhere else",
+            :params => {:url => "http://example.com", :http_method => "get"},
             :command_type => :forward)
 command.post
 command.params = {:url => "http://example.com/new_url", :http_method => "post"}
@@ -246,7 +232,7 @@ end
 ### Viewing Command Actions
 Each time a given command is executed, a command action is created.
 
-**Note** The actions relationship does not exist on commands that have 0 command actions. Because of this, an attempt to access the command_actions attribute of a 
+**Note** The actions relationship does not exist on commands that have 0 command actions. Because of this, an attempt to access the command_actions attribute of a
 command that has 0 command actions will result in a NoMethodError.
 
 ```ruby
@@ -256,7 +242,7 @@ begin
   command_actions = command.command_actions
   command_actions.get
   command_action = command_actions.collection.first
-  command_action.inbound_sms_message		# InboundSmsMessage object that initiated this command execution 
+  command_action.inbound_sms_message		# InboundSmsMessage object that initiated this command execution
   command_action.response_body			# String returned by the forwarded to URL
   command_action.status				# HTTP Status returned by the forwarded to URL
   command_action.content_type			# Content-Type header returned by the forwarded to URL
@@ -268,7 +254,7 @@ end
 Logging
 -------
 
-Any instance of a [Logger](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html "Ruby Logger")-like class can be passed in to the client; incoming and outgoing request information will then be logged to that instance. 
+Any instance of a [Logger](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html "Ruby Logger")-like class can be passed in to the client; incoming and outgoing request information will then be logged to that instance.
 
 The example below configures `TMS::Client` to log to `STDOUT`:
 
@@ -284,7 +270,7 @@ You can use TMS from the mail gem or ActionMailer as a delivery method.
 
 Gemfile
 ```ruby
-gem 'tms_client', :require=>'tms_client/mail/delivery_method'
+gem 'govdelivery-tms', :require=>'govdelivery-tms/mail/delivery_method'
 ```
 
 config/environment.rb
@@ -299,7 +285,7 @@ config.action_mailer.govdelivery_tms_settings = {
 
 Generating Documentation
 ------------------------
-This project uses [yard](https://github.com/lsegal/yard) to generate documentation.  To generate API documentation yourself, use the following series of commands from the project root: 
+This project uses [yard](https://github.com/lsegal/yard) to generate documentation.  To generate API documentation yourself, use the following series of commands from the project root:
 
 ```ruby
 # install development gems

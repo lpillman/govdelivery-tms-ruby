@@ -2,10 +2,6 @@ class TMS::Emails
   include TMS::CollectionResource
 end
 
-class TMS::VoiceMessages
-  include TMS::CollectionResource
-end
-
 class TMS::SmsMessages
   include TMS::CollectionResource
 end
