@@ -45,7 +45,8 @@ describe TMS::FromAddress do
            'bounce_email'    => "something@evotest.govdelivery.com",
            'is_default'      => true,
            'created_at'      => "sometime",
-           '_links'          => {"self" => "/from_addresses/1"}}
+           '_links'          => {"self" => "/from_addresses/1"}
+      }
       @fromaddress.client.should_receive('post').with(@fromaddress).and_return(double('response', :status => 201, :body => response ))
       @fromaddress.post
       @fromaddress.from_email.should                   == "something@evotest.govdelivery.com"
@@ -53,10 +54,10 @@ describe TMS::FromAddress do
       @fromaddress.bounce_email.should                 == "something@evotest.govdelivery.com"
       @fromaddress.is_default.should                   == true
       @fromaddress.created_at.should                   == "sometime"
-      @fromaddress.href.should                         == "/from_addresses/1" 
+      @fromaddress.href.should                         == "/from_addresses/1"
     end
   end
-    
+
   context "handling errors" do
     let(:client) do
       double('client')

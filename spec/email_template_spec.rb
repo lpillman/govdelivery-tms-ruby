@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'pry'
 
 describe TMS::EmailTemplate do
   context "creating a list of email templates" do
@@ -90,12 +89,11 @@ describe TMS::EmailTemplate do
       @template.link_tracking_parameters.should          == 'test=ok&hello=world'
       @template.macros.should                            == {"MACRO1"=>"1"}
       @template.open_tracking_enabled.should             == true
-      @template.click_tracking_enabled.should            == true 
+      @template.click_tracking_enabled.should            == true
       @template.created_at.should                        == 'sometime'
       @template.from_address.should                      be_a(TMS::FromAddress)
     end
   end
-
 
   context "handling errors at the template level" do
     let(:client) do
@@ -121,7 +119,7 @@ describe TMS::EmailTemplate do
       @template.client.should_receive('post').with(@template).and_return(double('response', :status => 404))
       expect {@template.post}.to raise_error("Can't POST to /templates/email/1")
     end
-  end  
+  end
 
   context "handling errors at the email_templates root level" do
     let(:client) do
@@ -148,6 +146,4 @@ describe TMS::EmailTemplate do
       expect {@template.post}.to raise_error("Can't POST to /templates/email")
     end
   end
-
-
 end
