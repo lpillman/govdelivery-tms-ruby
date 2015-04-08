@@ -21,6 +21,17 @@ module TMS::InstanceResource
     end
 
     ##
+    # Linkable attributes are sent on POST/PUT.
+    #
+    def linkable_attributes(*attrs)
+      @linkable_attributes ||= []
+      if attrs.any?
+        @linkable_attributes.map!(&:to_sym).concat(attrs).uniq! if attrs.any?
+      end
+      @linkable_attributes
+    end
+
+    ##
     # Readonly attributes don't get POSTed.
     # (timestamps are included by default)
     #
@@ -97,9 +108,12 @@ module TMS::InstanceResource
   end
 
   module InstanceMethods
+    attr_reader :links
+
     def initialize(client, href=nil, attrs=nil)
       super(client, href)
       @attributes = {}
+      @links = {}
       set_attributes_from_hash(attrs) if attrs
     end
 
@@ -150,6 +164,10 @@ module TMS::InstanceResource
       self.class.collection_attributes.each do |coll|
         json_hash[coll] = self.send(coll).to_json
       end
+      self.class.linkable_attributes.each do |attr|
+        json_hash[:_links] ||= {}
+        json_hash[:_links][attr] = @links[attr]
+      end
       json_hash
     end
 
@@ -167,6 +185,7 @@ module TMS::InstanceResource
           return true
         when 200..299
           set_attributes_from_hash(response.body) if response.body.is_a?(Hash)
+          @links = {}
           self.new_record=false
           return true
         when 401
