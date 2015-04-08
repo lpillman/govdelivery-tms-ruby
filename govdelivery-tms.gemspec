@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "tms_client/version"
+require "govdelivery-tms/version"
 
 Gem::Specification.new do |s|
-  s.name        = "tms_client"
+  s.name        = "govdelivery-tms"
   s.version     = TMS::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["GovDelivery"]
@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
     Gemfile
     README.md
     Rakefile
-    tms_client.gemspec
+    govdelivery-tms.gemspec
   } + Dir["lib/**/*"]
 
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

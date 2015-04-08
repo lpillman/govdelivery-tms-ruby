@@ -1,4 +1,4 @@
-require 'tms_client'
+require 'govdelivery-tms'
 require 'mail'
 require 'mail/check_delivery_params'
 module TMS
@@ -6,7 +6,7 @@ module TMS
     # Use TMS from the mail gem or ActionMailer as a delivery method.
     #
     #   # Gemfile
-    #   gem 'tms_client', :require=>'tms_client/mail/delivery_method'
+    #   gem 'govdelivery-tms', :require=>'govdelivery-tms/mail/delivery_method'
     #
     #   # config/environment.rb
     #   config.action_mailer.delivery_method = :govdelivery_tms

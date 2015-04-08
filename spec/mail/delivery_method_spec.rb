@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'mail'
-require 'tms_client/mail/delivery_method'
+require 'govdelivery-tms/mail/delivery_method'
 describe TMS::Mail::DeliveryMethod do
   subject { TMS::Mail::DeliveryMethod.new({}) }
   let(:client) { double('TMS::Client') }
