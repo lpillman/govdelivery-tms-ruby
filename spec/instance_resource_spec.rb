@@ -1,12 +1,12 @@
 require 'spec_helper'
 class Foo
-  include TMS::InstanceResource
+  include GovDelivery::TMS::InstanceResource
   writeable_attributes :bar
   collection_attribute :blah, 'EmailMessage'
   readonly_collection_attribute :shah, 'EmailMessage'
 end
 
-describe TMS::InstanceResource do
+describe GovDelivery::TMS::InstanceResource do
   context "creating a new inbound messages list" do
     let(:happy_response) do
       double(status: 201,  body: {})
@@ -27,8 +27,8 @@ describe TMS::InstanceResource do
     end
 
     it 'should correctly reflect on collection resources' do
-      expect(@instance_resource.blah.class).to eq(TMS::EmailMessage)
-      expect(@instance_resource.shah.class).to eq(TMS::EmailMessage)
+      expect(@instance_resource.blah.class).to eq(GovDelivery::TMS::EmailMessage)
+      expect(@instance_resource.shah.class).to eq(GovDelivery::TMS::EmailMessage)
     end
 
     it 'should not GET on initialization' do
@@ -49,7 +49,7 @@ describe TMS::InstanceResource do
         foo = Foo.new(client, 'https://example.com/foos/1')
         expect do
           foo.send("#{verb}!")
-        end.to raise_error("TMS::Errors::Invalid#{verb.capitalize}".constantize)
+        end.to raise_error("GovDelivery::TMS::Errors::Invalid#{verb.capitalize}".constantize)
       end
     end
 

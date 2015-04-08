@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe TMS::IpawsAcknowledgement do
+describe GovDelivery::TMS::IpawsAcknowledgement do
 
   it 'gets IPAWS acknowledgement from client' do
     client = double(:client)
     response_body = { "ACK" => "PONG" }
-    ipaws_acknowledgement = TMS::IpawsAcknowledgement.new(client, '/ipaws/acknowledgement', {})
+    ipaws_acknowledgement = GovDelivery::TMS::IpawsAcknowledgement.new(client, '/ipaws/acknowledgement', {})
     expect(ipaws_acknowledgement.client).to receive('get').with(ipaws_acknowledgement.href).and_return(
       double('response', status: 200, body: response_body)
     )

@@ -1,4 +1,4 @@
-module TMS::InstanceResource
+module GovDelivery::TMS::InstanceResource
   def self.included(base)
     base.send(:include, TMS::Base)
     base.extend(ClassMethods)
@@ -73,12 +73,12 @@ module TMS::InstanceResource
     def collection_attribute(attr, tms_class)
       @collection_attributes ||= []
       @collection_attributes.push(attr).uniq!
-      setup_collection(attr, TMS.const_get(tms_class))
+      setup_collection(attr, GovDelivery::TMS.const_get(tms_class))
     end
 
     ##
-    # Read-only collection attributes don't get POSTed. 
-    # Use this for collections that are represented as attributes, but cannot be modified. 
+    # Read-only collection attributes don't get POSTed.
+    # Use this for collections that are represented as attributes, but cannot be modified.
     #
     # @example
     #      readonly_collection_attribute :opens
@@ -86,7 +86,7 @@ module TMS::InstanceResource
     def readonly_collection_attribute(attr, tms_class)
       @readonly_collection_attributes ||= []
       @readonly_collection_attributes.push(attr).uniq!
-      setup_collection(attr, TMS.const_get(tms_class))
+      setup_collection(attr, GovDelivery::TMS.const_get(tms_class))
     end
 
     def setup_attributes(attrs, readonly=false)
@@ -100,7 +100,7 @@ module TMS::InstanceResource
       if klass
         custom_class_names[property] = klass
       else
-        klass ||= TMS.const_get(property.to_s.capitalize)
+        klass ||= GovDelivery::TMS.const_get(property.to_s.capitalize)
       end
 
       self.send :define_method, property.to_sym, &lambda { @attributes[property] ||= klass.new(self.client, nil, nil) }
@@ -205,7 +205,7 @@ module TMS::InstanceResource
     def set_attributes_from_hash(hash)
       hash.reject { |k, _| k=~/^_/ }.each do |property, value|
         if self.class.collection_attributes.include?(property.to_sym)
-          klass                        = self.class.custom_class_names[property] || TMS.const_get(property.to_s.capitalize)
+          klass                        = self.class.custom_class_names[property] || GovDelivery::TMS.const_get(property.to_s.capitalize)
           @attributes[property.to_sym] = klass.new(client, nil, value)
         else
           @attributes[property.to_sym] = value

@@ -21,11 +21,11 @@ $ gem install govdelivery-tms
 
 Connecting
 ----------
-Loading an instance of `TMS::Client` will automatically connect to the API to query the available resources for your account.
+Loading an instance of `GovDelivery::TMS::Client` will automatically connect to the API to query the available resources for your account.
 
 ```ruby
 # default api root endpoint is https://tms.govdelivery.com
-client = TMS::Client.new('auth_token', :api_root => 'https://stage-tms.govdelivery.com')
+client = GovDelivery::TMS::Client.new('auth_token', :api_root => 'https://stage-tms.govdelivery.com')
 ```
 
 Messages
@@ -51,13 +51,13 @@ message.post             # true
 message.recipients.collection.detect{|r| r.errors } # {"phone"=>["is not a number"]}
 # save succeeded, but we have one bad recipient
 message.href             # "/messages/sms/87"
-message.get              # <TMS::SmsMessage href=/messages/sms/87 attributes={...}>
+message.get              # <GovDelivery::TMS::SmsMessage href=/messages/sms/87 attributes={...}>
 ```
 
 ### Retrieving Inbound SMS Messages
 ```ruby
-client.inbound_sms_messages.get                             # <TMS::InboundSmsMessages href=/inbound/sms attributes={...}>
-inbound_sms = client.inbound_sms_messages.collection.first  # <TMS::InboundSmsMessage href=/inbound/sms/10041 attributes={...}>
+client.inbound_sms_messages.get                             # <GovDelivery::TMS::InboundSmsMessages href=/inbound/sms attributes={...}>
+inbound_sms = client.inbound_sms_messages.collection.first  # <GovDelivery::TMS::InboundSmsMessage href=/inbound/sms/10041 attributes={...}>
 inbound_sms.to                                              # "+15559999999"
 inbound_sms.from                                            # "+15005550006"
 inbound_sms.attributes                                      # {:from=>"+15005550006", :to=>"+15559999999", :body=>"test", :command_status=>"success", :keyword_response=>"kwidjebo", :created_at=>"2014-11-05T17:15:01Z"}
@@ -76,7 +76,7 @@ message.post             # true
 message.recipients.collection.detect{|r| r.errors } # {"email"=>["can't be blank"]}
 # save succeeded, but we have one bad recipient
 message.href             # "/messages/email/87"
-message.get              # <TMS::EmailMessage href=/messages/email/88 attributes={...}>
+message.get              # <GovDelivery::TMS::EmailMessage href=/messages/email/88 attributes={...}>
 ```
 
 #### Sending an Email with Macros
@@ -256,11 +256,11 @@ Logging
 
 Any instance of a [Logger](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html "Ruby Logger")-like class can be passed in to the client; incoming and outgoing request information will then be logged to that instance.
 
-The example below configures `TMS::Client` to log to `STDOUT`:
+The example below configures `GovDelivery::TMS::Client` to log to `STDOUT`:
 
 ```ruby
 logger = Logger.new(STDOUT)
-client = TMS::Client.new('auth_token', :logger => logger)
+client = GovDelivery::TMS::Client.new('auth_token', :logger => logger)
 ```
 
 ActionMailer integration

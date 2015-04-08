@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TMS::IpawsCogProfile do
+describe GovDelivery::TMS::IpawsCogProfile do
 
   it 'gets IPAWS cog profile from client' do
     client = double(:client)
@@ -35,7 +35,7 @@ describe TMS::IpawsCogProfile do
         {"SAME"=>"039035"}
       ]
     }
-    cog_profile = TMS::IpawsCogProfile.new(client, '/ipaws/cog_profile', {})
+    cog_profile = GovDelivery::TMS::IpawsCogProfile.new(client, '/ipaws/cog_profile', {})
     expect(cog_profile.client).to receive('get').with(cog_profile.href).and_return(
       double('response', status: 200, body: response_body)
     )

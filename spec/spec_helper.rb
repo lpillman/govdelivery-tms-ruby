@@ -1,12 +1,12 @@
 $: << File.expand_path("../lib", __FILE__)
 require 'govdelivery-tms'
 
-class TMS::Horse
+class GovDelivery::TMS::Horse
   def initialize(client, href)
   end
 end
 
-class TMS::Rabbits
+class GovDelivery::TMS::Rabbits
   def initialize(client, href)
   end
 end

@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe TMS::IpawsNwemAuthorization do
+describe GovDelivery::TMS::IpawsNwemAuthorization do
 
   it 'gets IPAWS NWEM Authorization from client' do
     client = double(:client)
     response_body = { "cogid" => "true" }
-    nwem_authorization = TMS::IpawsNwemAuthorization.new(client, '/ipaws/nwem_authorization', {})
+    nwem_authorization = GovDelivery::TMS::IpawsNwemAuthorization.new(client, '/ipaws/nwem_authorization', {})
     expect(nwem_authorization.client).to receive('get').with(nwem_authorization.href).and_return(
       double('response', status: 200, body: response_body)
     )
