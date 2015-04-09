@@ -60,26 +60,6 @@ class GovDelivery::TMS::CommandActions
   include GovDelivery::TMS::CollectionResource
 end
 
-class GovDelivery::TMS::IpawsEventCodes
-  include GovDelivery::TMS::CollectionResource
-end
-
-class GovDelivery::TMS::IpawsCategories
-  include GovDelivery::TMS::CollectionResource
-end
-
-class GovDelivery::TMS::IpawsResponseTypes
-  include GovDelivery::TMS::CollectionResource
-end
-
-class GovDelivery::TMS::IpawsAlerts
-  include GovDelivery::TMS::CollectionResource
-end
-
-class GovDelivery::TMS::IpawsNwemAreas
-  include GovDelivery::TMS::CollectionResource
-end
-
 class GovDelivery::TMS::Webhooks
   include GovDelivery::TMS::CollectionResource
 end
