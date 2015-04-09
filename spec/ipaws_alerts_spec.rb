@@ -1,62 +1,61 @@
 require 'spec_helper'
 
 describe GovDelivery::TMS::IpawsAlert do
-
   it 'post new IPAWS alerts to client, and capture status response from IPAWS' do
     client = double(:client)
 
     response_body = {
-      "identifier"=>"CAP12-TEST-1397743203",
-      "statuses"=> [
+      'identifier' => 'CAP12-TEST-1397743203',
+      'statuses' => [
         {
-          "CHANNELNAME"=>"CAPEXCH",
-          "STATUSITEMID"=>"200",
-          "ERROR"=>"N",
-          "STATUS"=>"Ack"
+          'CHANNELNAME' => 'CAPEXCH',
+          'STATUSITEMID' => '200',
+          'ERROR' => 'N',
+          'STATUS' => 'Ack'
         },
         {
-          "CHANNELNAME"=>"CAPEXCH",
-          "STATUSITEMID"=>"202",
-          "ERROR"=>"N",
-          "STATUS"=>"alert-signature-is-valid"
+          'CHANNELNAME' => 'CAPEXCH',
+          'STATUSITEMID' => '202',
+          'ERROR' => 'N',
+          'STATUS' => 'alert-signature-is-valid'
         },
         {
-          "CHANNELNAME"=>"IPAWS",
-          "STATUSITEMID"=>"300",
-          "ERROR"=>"N",
-          "STATUS"=>"Ack"
+          'CHANNELNAME' => 'IPAWS',
+          'STATUSITEMID' => '300',
+          'ERROR' => 'N',
+          'STATUS' => 'Ack'
         },
         {
-          "CHANNELNAME"=>"NWEM",
-          "STATUSITEMID"=>"401",
-          "ERROR"=>"N",
-          "STATUS"=>"message-not-disseminated-as-NWEM"
+          'CHANNELNAME' => 'NWEM',
+          'STATUSITEMID' => '401',
+          'ERROR' => 'N',
+          'STATUS' => 'message-not-disseminated-as-NWEM'
         },
         {
-          "CHANNELNAME"=>"EAS",
-          "STATUSITEMID"=>"501",
-          "ERROR"=>"N",
-          "STATUS"=>"message-not-disseminated-as-EAS"
+          'CHANNELNAME' => 'EAS',
+          'STATUSITEMID' => '501',
+          'ERROR' => 'N',
+          'STATUS' => 'message-not-disseminated-as-EAS'
         },
         {
-          "CHANNELNAME"=>"CMAS",
-          "STATUSITEMID"=>"600",
-          "ERROR"=>"N",
-          "STATUS"=>"Ack"
+          'CHANNELNAME' => 'CMAS',
+          'STATUSITEMID' => '600',
+          'ERROR' => 'N',
+          'STATUS' => 'Ack'
         },
         {
-          "CHANNELNAME"=>"PUBLIC",
-          "STATUSITEMID"=>"800",
-          "ERROR"=>"N",
-          "STATUS"=>"Ack"
+          'CHANNELNAME' => 'PUBLIC',
+          'STATUSITEMID' => '800',
+          'ERROR' => 'N',
+          'STATUS' => 'Ack'
         }
       ]
     }
 
     alert_attributes = {
-      identifier: "CAP12-TEST-123",
+      identifier: 'CAP12-TEST-123',
       sender: 'test@open.com',
-      sent: "2014-04-18T15:02:26-05:00",
+      sent: '2014-04-18T15:02:26-05:00',
       status: 'Actual',
       msgType: 'Alert',
       source: 'IPAWS-TEST',
@@ -76,10 +75,10 @@ describe GovDelivery::TMS::IpawsAlert do
           certainty: 'Observed',
           audience: 'Public',
           eventCode: [
-            { valueName: 'SAME', value: 'SVR'}
+            { valueName: 'SAME', value: 'SVR' }
           ],
-          effective: "2014-04-18T15:02:26-05:00",
-          expires: "2014-04-18T15:02:26-05:00",
+          effective: '2014-04-18T15:02:26-05:00',
+          expires: '2014-04-18T15:02:26-05:00',
           senderName: 'IPAWS-Test',
           headline: 'FLash Flood Warning',
           description: 'Severe Weather Warning - Flooding',
@@ -100,9 +99,9 @@ describe GovDelivery::TMS::IpawsAlert do
     alerts = GovDelivery::TMS::IpawsAlerts.new(client, '/ipaws/alerts')
     alert = alerts.build(alert_attributes)
 
-    expect(alert.identifier).to eq("CAP12-TEST-123")
+    expect(alert.identifier).to eq('CAP12-TEST-123')
     expect(alert.sender).to eq('test@open.com')
-    expect(alert.sent).to eq("2014-04-18T15:02:26-05:00")
+    expect(alert.sent).to eq('2014-04-18T15:02:26-05:00')
     expect(alert.status).to eq('Actual')
     expect(alert.msgType).to eq('Alert')
     expect(alert.source).to eq('IPAWS-TEST')
@@ -122,10 +121,10 @@ describe GovDelivery::TMS::IpawsAlert do
         certainty: 'Observed',
         audience: 'Public',
         eventCode: [
-          { valueName: 'SAME', value: 'SVR'}
+          { valueName: 'SAME', value: 'SVR' }
         ],
-        effective: "2014-04-18T15:02:26-05:00",
-        expires: "2014-04-18T15:02:26-05:00",
+        effective: '2014-04-18T15:02:26-05:00',
+        expires: '2014-04-18T15:02:26-05:00',
         senderName: 'IPAWS-Test',
         headline: 'FLash Flood Warning',
         description: 'Severe Weather Warning - Flooding',
@@ -146,9 +145,9 @@ describe GovDelivery::TMS::IpawsAlert do
     expect(alert.post).to eq(true)
     expect(alert.ipaws_response).to eq(response_body)
 
-    expect(alert.identifier).to eq("CAP12-TEST-123")
+    expect(alert.identifier).to eq('CAP12-TEST-123')
     expect(alert.sender).to eq('test@open.com')
-    expect(alert.sent).to eq("2014-04-18T15:02:26-05:00")
+    expect(alert.sent).to eq('2014-04-18T15:02:26-05:00')
     expect(alert.status).to eq('Actual')
     expect(alert.msgType).to eq('Alert')
     expect(alert.source).to eq('IPAWS-TEST')
@@ -168,10 +167,10 @@ describe GovDelivery::TMS::IpawsAlert do
         certainty: 'Observed',
         audience: 'Public',
         eventCode: [
-          { valueName: 'SAME', value: 'SVR'}
+          { valueName: 'SAME', value: 'SVR' }
         ],
-        effective: "2014-04-18T15:02:26-05:00",
-        expires: "2014-04-18T15:02:26-05:00",
+        effective: '2014-04-18T15:02:26-05:00',
+        expires: '2014-04-18T15:02:26-05:00',
         senderName: 'IPAWS-Test',
         headline: 'FLash Flood Warning',
         description: 'Severe Weather Warning - Flooding',
@@ -188,5 +187,4 @@ describe GovDelivery::TMS::IpawsAlert do
       }
     ])
   end
-
 end

@@ -1,5 +1,5 @@
 # link_header, Copyright (c) 2009 Mike Burrows
- 
+
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
- 
+
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
- 
+
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -19,17 +19,16 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "strscan"
+require 'strscan'
 
 #
 # Represents an HTTP link header of the form described in the draft spec http://tools.ietf.org/id/draft-nottingham-http-link-header-06.txt.
 # It is simply a list of LinkHeader::Link objects and some conversion functions.
 #
 class LinkHeader
- 
   # An array of Link objects
   attr_reader :links
-  
+
   #
   # Initialize from a collection of either LinkHeader::Link objects or data from which Link objects can be created.
   #
@@ -47,14 +46,14 @@ class LinkHeader
   #
   # See also LinkHeader.parse
   #
-  def initialize(links=[])
+  def initialize(links = [])
     if links
-      @links = links.map{|l| l.kind_of?(Link) ? l : Link.new(*l)}
+      @links = links.map { |l| l.is_a?(Link) ? l : Link.new(*l) }
     else
       @links = []
     end
   end
-  
+
   #
   # Convert to a JSON-friendly array
   #
@@ -63,9 +62,9 @@ class LinkHeader
   #        ["http://example.com/", [["rel", "up"]]]]
   #
   def to_a
-    links.map{|l| l.to_a}
+    links.map(&:to_a)
   end
-  
+
   #
   # Convert to string representation as per the link header spec
   #
@@ -77,7 +76,7 @@ class LinkHeader
   def to_s
     links.join(', ')
   end
-  
+
   #
   # Regexes for link header parsing.  TOKEN and QUOTED in particular should conform to RFC2616.
   #
@@ -100,7 +99,7 @@ class LinkHeader
   #
   def self.parse(link_header)
     return new unless link_header
-    
+
     scanner = StringScanner.new(link_header)
     links = []
     while scanner.scan(HREF)
@@ -117,7 +116,7 @@ class LinkHeader
 
     new(links)
   end
-  
+
   #
   # Find a member link that has the given attributes
   #
@@ -126,14 +125,14 @@ class LinkHeader
       !attr_pairs.detect do |pair|
         !link.attr_pairs.include?(pair)
       end
-    end 
+    end
   end
-  
+
   #
   # Render as a list of HTML link elements
   #
-  def to_html(separator="\n")
-    links.map{|link| link.to_html}.join(separator)
+  def to_html(separator = "\n")
+    links.map(&:to_html).join(separator)
   end
 
   #
@@ -150,7 +149,7 @@ class LinkHeader
     #   => 'http://example.com/foo>'
     #
     attr_reader :href
-    
+
     #
     # The link's attributes, an array of key-value pairs
     #
@@ -158,7 +157,7 @@ class LinkHeader
     #   => [["rel", "self"], ["rel", "canonical"]]
     #
     attr_reader :attr_pairs
-    
+
     #
     # Initialize a Link from an href and attribute list
     #
@@ -168,7 +167,7 @@ class LinkHeader
     def initialize(href, attr_pairs)
       @href, @attr_pairs = href, attr_pairs
     end
-    
+
     #
     # Lazily convert the attribute list to a Hash
     #
@@ -180,14 +179,14 @@ class LinkHeader
     def attrs
       @attrs ||= Hash[*attr_pairs.flatten]
     end
-    
+
     #
     # Access #attrs by key
     #
     def [](key)
       attrs[key]
     end
-    
+
     #
     # Convert to a JSON-friendly Array
     #
@@ -197,7 +196,7 @@ class LinkHeader
     def to_a
       [href, attr_pairs]
     end
-    
+
     #
     # Convert to string representation as per the link header spec.  This includes backspace-escaping doublequote characters in
     # quoted attribute values.
@@ -208,16 +207,16 @@ class LinkHeader
     #   #=> '<http://example.com/foo>; rel="self"'
     #
     def to_s
-      (["<#{href}>"] + attr_pairs.map{|k, v| "#{k}=\"#{v.gsub(/"/, '\"')}\""}).join('; ')
+      (["<#{href}>"] + attr_pairs.map { |k, v| "#{k}=\"#{v.gsub(/"/, '\"')}\"" }).join('; ')
     end
-    
+
     #
     # Bonus!  Render as an HTML link element
     #
     #   LinkHeader::Link.new(["http://example.com/foo", [["rel", "self"]]]).to_html
     #   #=> '<link href="http://example.com/foo" rel="self">'
     def to_html
-      ([%Q(<link href="#{href}")] + attr_pairs.map{|k, v| "#{k}=\"#{v.gsub(/"/, '\"')}\""}).join(' ')
+      ([%(<link href="#{href}")] + attr_pairs.map { |k, v| "#{k}=\"#{v.gsub(/"/, '\"')}\"" }).join(' ')
     end
   end
 end

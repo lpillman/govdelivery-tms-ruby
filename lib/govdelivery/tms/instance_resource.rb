@@ -89,41 +89,39 @@ module GovDelivery::TMS::InstanceResource
       setup_collection(attr, GovDelivery::TMS.const_get(tms_class))
     end
 
-    def setup_attributes(attrs, readonly=false)
+    def setup_attributes(attrs, readonly = false)
       attrs.map(&:to_sym).each do |property|
-        self.send :define_method, :"#{property}=", &lambda { |v| @attributes[property] = v } unless readonly
-        self.send :define_method, property.to_sym, &lambda { @attributes[property] }
+        send :define_method, :"#{property}=", &lambda { |v| @attributes[property] = v } unless readonly
+        send :define_method, property.to_sym, &lambda { @attributes[property] }
       end
     end
 
-    def setup_collection(property, klass=nil)
+    def setup_collection(property, klass = nil)
       if klass
         custom_class_names[property] = klass
       else
         klass ||= GovDelivery::TMS.const_get(property.to_s.capitalize)
       end
 
-      self.send :define_method, property.to_sym, &lambda { @attributes[property] ||= klass.new(self.client, nil, nil) }
+      send :define_method, property.to_sym, &lambda { @attributes[property] ||= klass.new(self.client, nil, nil) }
     end
   end
 
   module InstanceMethods
     attr_reader :links
 
-    def initialize(client, href=nil, attrs=nil)
+    def initialize(client, href = nil, attrs = nil)
       super(client, href)
       @attributes = {}
       @links = {}
       set_attributes_from_hash(attrs) if attrs
     end
 
-    def attributes
-      @attributes
-    end
+    attr_reader :attributes
 
     def get
-      raise GovDelivery::TMS::Errors::InvalidGet if self.new_record?
-      process_response(client.get(self.href), :get) && self
+      fail GovDelivery::TMS::Errors::InvalidGet if self.new_record?
+      process_response(client.get(href), :get) && self
     end
     alias_method :get!, :get
 
@@ -133,7 +131,7 @@ module GovDelivery::TMS::InstanceResource
     end
 
     def post!
-      self.post or raise GovDelivery::TMS::Errors::InvalidPost.new(self)
+      post || fail(GovDelivery::TMS::Errors::InvalidPost.new(self))
     end
 
     def put
@@ -141,28 +139,28 @@ module GovDelivery::TMS::InstanceResource
     end
 
     def put!
-      process_response(client.put(self), :put) or raise GovDelivery::TMS::Errors::InvalidPut.new(self)
+      process_response(client.put(self), :put) || fail(GovDelivery::TMS::Errors::InvalidPut.new(self))
     end
 
     def delete
-      process_response(client.delete(self.href), :delete)
+      process_response(client.delete(href), :delete)
     end
 
     def delete!
-      process_response(client.delete(self.href), :delete) or raise GovDelivery::TMS::Errors::InvalidDelete.new(self)
+      process_response(client.delete(href), :delete) || fail(GovDelivery::TMS::Errors::InvalidDelete.new(self))
     end
 
     def to_s
-      "<#{self.class.inspect}#{' href=' + self.href if self.href} attributes=#{@attributes.inspect}>"
+      "<#{self.class.inspect}#{' href=' + href if href} attributes=#{@attributes.inspect}>"
     end
 
     def to_json
       json_hash = {}
       self.class.writeable_attributes.each do |attr|
-        json_hash[attr] = self.send(attr)
+        json_hash[attr] = send(attr)
       end
       self.class.collection_attributes.each do |coll|
-        json_hash[coll] = self.send(coll).to_json
+        json_hash[coll] = send(coll).to_json
       end
       self.class.linkable_attributes.each do |attr|
         json_hash[:_links] ||= {}
@@ -181,29 +179,27 @@ module GovDelivery::TMS::InstanceResource
       self.response = response
       error_class   = GovDelivery::TMS::Errors.const_get("Invalid#{method.to_s.capitalize}")
       case response.status
-        when 204
-          return true
-        when 200..299
-          set_attributes_from_hash(response.body) if response.body.is_a?(Hash)
-          @links = {}
-          self.new_record=false
-          return true
-        when 401
-          raise error_class.new("401 Not Authorized")
-        when 404
-          raise(error_class.new("Can't POST to #{self.href}"))
-        when 500..599
-          raise(GovDelivery::TMS::Errors::ServerError.new(response))
-        else # 422?
-          if response.body['errors']
-            self.errors = response.body['errors']
-          end
+      when 204
+        return true
+      when 200..299
+        set_attributes_from_hash(response.body) if response.body.is_a?(Hash)
+        @links = {}
+        self.new_record = false
+        return true
+      when 401
+        fail error_class.new('401 Not Authorized')
+      when 404
+        fail(error_class.new("Can't POST to #{href}"))
+      when 500..599
+        fail(GovDelivery::TMS::Errors::ServerError.new(response))
+      else # 422?
+        self.errors = response.body['errors'] if response.body['errors']
       end
-      return false
+      false
     end
 
     def set_attributes_from_hash(hash)
-      hash.reject { |k, _| k=~/^_/ }.each do |property, value|
+      hash.reject { |k, _| k =~ /^_/ }.each do |property, value|
         if self.class.collection_attributes.include?(property.to_sym)
           klass                        = self.class.custom_class_names[property] || GovDelivery::TMS.const_get(property.to_s.capitalize)
           @attributes[property.to_sym] = klass.new(client, nil, value)
@@ -214,6 +210,5 @@ module GovDelivery::TMS::InstanceResource
       self.errors = hash['errors']
       parse_links(hash['_links'])
     end
-
   end
 end

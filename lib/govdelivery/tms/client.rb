@@ -6,7 +6,7 @@ class GovDelivery::TMS::Client
 
   attr_accessor :connection, :href, :api_root, :logger
 
-  DEFAULTS = {api_root: 'https://tms.govdelivery.com', logger: nil}.freeze
+  DEFAULTS = { api_root: 'https://tms.govdelivery.com', logger: nil }.freeze
 
   # Create a new client and issue a request for the available resources for a given account.
   #
@@ -29,8 +29,8 @@ class GovDelivery::TMS::Client
     discover!
   end
 
-  def connect!(auth_token, options={})
-    self.connection = GovDelivery::TMS::Connection.new({auth_token: auth_token, api_root: api_root, logger: logger}.merge!(options))
+  def connect!(auth_token, options = {})
+    self.connection = GovDelivery::TMS::Connection.new({ auth_token: auth_token, api_root: api_root, logger: logger }.merge!(options))
   end
 
   def discover!
@@ -41,14 +41,14 @@ class GovDelivery::TMS::Client
   def get(href)
     response = raw_connection.get(href)
     case response.status
-      when 500..599
-        raise GovDelivery::TMS::Request::Error.new(response.status)
-      when 401..499
-        raise GovDelivery::TMS::Request::Error.new(response.status)
-      when 202
-        raise GovDelivery::TMS::Request::InProgress.new(response.body['message'])
-      else
-        return response
+    when 500..599
+      fail GovDelivery::TMS::Request::Error.new(response.status)
+    when 401..499
+      fail GovDelivery::TMS::Request::Error.new(response.status)
+    when 202
+      fail GovDelivery::TMS::Request::InProgress.new(response.body['message'])
+    else
+      return response
     end
   end
 
@@ -71,10 +71,10 @@ class GovDelivery::TMS::Client
   def delete(href)
     response = raw_connection.delete(href)
     case response.status
-      when 200...299
-        return response
-      else
-        raise GovDelivery::TMS::Request::Error.new(response.status)
+    when 200...299
+      return response
+    else
+      fail GovDelivery::TMS::Request::Error.new(response.status)
     end
   end
 
@@ -93,5 +93,4 @@ class GovDelivery::TMS::Client
     logger.level = debug ? Logger::DEBUG : Logger::INFO
     logger
   end
-
 end

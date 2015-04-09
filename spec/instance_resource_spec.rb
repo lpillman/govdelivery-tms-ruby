@@ -7,7 +7,7 @@ class Foo
 end
 
 describe GovDelivery::TMS::InstanceResource do
-  context "creating a new inbound messages list" do
+  context 'creating a new inbound messages list' do
     let(:happy_response) do
       double(status: 201,  body: {})
     end
@@ -16,13 +16,12 @@ describe GovDelivery::TMS::InstanceResource do
       double('client', post: happy_response, get: happy_response)
     end
 
-
     before do
       @instance_resource = Foo.new(client)
     end
 
     it 'should POST' do
-      @instance_resource.bar = "OMG"
+      @instance_resource.bar = 'OMG'
       expect(@instance_resource.post).to be_truthy
     end
 
@@ -43,9 +42,9 @@ describe GovDelivery::TMS::InstanceResource do
       expect(foo.get).to eq(foo)
     end
 
-    %w{get post put delete}.each do |verb|
+    %w(get post put delete).each do |verb|
       it "should blow up on invalid #{verb}!" do
-        expect(client).to(receive(verb)).and_return(double('response', status: 404, body: "{}"))
+        expect(client).to(receive(verb)).and_return(double('response', status: 404, body: '{}'))
         foo = Foo.new(client, 'https://example.com/foos/1')
         expect do
           foo.send("#{verb}!")
@@ -56,6 +55,5 @@ describe GovDelivery::TMS::InstanceResource do
     it 'it exposes its attributes hash' do
       expect(@instance_resource.attributes).to eq({})
     end
-
   end
 end

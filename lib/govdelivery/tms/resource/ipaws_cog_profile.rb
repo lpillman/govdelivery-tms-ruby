@@ -1,8 +1,7 @@
 module GovDelivery::TMS
   class IpawsCogProfile
-
     include InstanceResource
-    
+
     readonly_attributes(
       :cogid,
       :name,
@@ -24,6 +23,5 @@ module GovDelivery::TMS
       :eventCodes,
       :geoCodes
     )
-
   end
 end

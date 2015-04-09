@@ -1,29 +1,28 @@
 require 'spec_helper'
 
 describe GovDelivery::TMS::IpawsNwemAreas do
-
   it 'gets IPAWS NWEM areas from client' do
     client = double(:client)
     response_body = [
       {
-        "countyFipsCd"=>"51013",
-        "countyName"=>"Arlington",
-        "geoType"=>"C",
-        "stateCd"=>"VA",
-        "stateFips"=>"51",
-        "stateName"=>"Virginia",
-        "zoneCd"=>"054",
-        "zoneName"=>"Arlington/Falls Church/Alexandria"
+        'countyFipsCd' => '51013',
+        'countyName' => 'Arlington',
+        'geoType' => 'C',
+        'stateCd' => 'VA',
+        'stateFips' => '51',
+        'stateName' => 'Virginia',
+        'zoneCd' => '054',
+        'zoneName' => 'Arlington/Falls Church/Alexandria'
       },
       {
-        "countyFipsCd"=>"51510",
-        "countyName"=>"City of Alexandria",
-        "geoType"=>"C",
-        "stateCd"=>"VA",
-        "stateFips"=>"51",
-        "stateName"=>"Virginia",
-        "zoneCd"=>"054",
-        "zoneName"=>"Arlington/Falls Church/Alexandria"
+        'countyFipsCd' => '51510',
+        'countyName' => 'City of Alexandria',
+        'geoType' => 'C',
+        'stateCd' => 'VA',
+        'stateFips' => '51',
+        'stateName' => 'Virginia',
+        'zoneCd' => '054',
+        'zoneName' => 'Arlington/Falls Church/Alexandria'
       }
     ]
     nwem_areas = GovDelivery::TMS::IpawsNwemAreas.new(client, '/ipaws/nwem_areas')
@@ -54,5 +53,4 @@ describe GovDelivery::TMS::IpawsNwemAreas do
     expect(nwem_area.zoneCd).to eq('054')
     expect(nwem_area.zoneName).to eq('Arlington/Falls Church/Alexandria')
   end
-
 end

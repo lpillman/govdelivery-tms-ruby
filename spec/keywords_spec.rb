@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe GovDelivery::TMS::Keywords do
-  context "loading keywords" do
+  context 'loading keywords' do
     let(:client) do
       double('client')
     end
@@ -10,8 +10,8 @@ describe GovDelivery::TMS::Keywords do
     end
     it 'should GET ok' do
       body = [
-        {"name"=>"services", "_links"=>{"self"=>"/keywords/1"}},
-        {"name"=>"subscribe", "_links"=>{"self"=>"/keywords/2"}}
+        { 'name' => 'services', '_links' => { 'self' => '/keywords/1' } },
+        { 'name' => 'subscribe', '_links' => { 'self' => '/keywords/2' } }
       ]
       expect(@keywords.client).to receive(:get).and_return(double('response', body: body, status: 200, headers: {}))
       @keywords.get

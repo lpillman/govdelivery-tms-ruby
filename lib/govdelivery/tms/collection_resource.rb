@@ -7,31 +7,30 @@ module GovDelivery::TMS::CollectionResource
     include GovDelivery::TMS::Base
     attr_accessor :collection
 
-    def initialize(client, href, items=nil)
+    def initialize(client, href, items = nil)
       super(client, href)
       if items
         initialize_collection_from_items(items)
       else
         self.collection = []
       end
-
     end
 
     def get
       response = client.get(href)
       initialize_collection_from_items(response.body)
-      #setup page links from header
+      # setup page links from header
       links = LinkHeader.parse(response.headers['link']).to_a.collect do |a|
-        {a[1][0].last => a[0]}
+        { a[1][0].last => a[0] }
       end
       parse_links(links)
       self
     end
 
-    def build(attributes=nil)
-      thing = instance_class(self.class).new(client, self.href, attributes || {})
+    def build(attributes = nil)
+      thing = instance_class(self.class).new(client, href, attributes || {})
       thing.new_record = true
-      self.collection << thing
+      collection << thing
       thing
     end
 
@@ -40,7 +39,7 @@ module GovDelivery::TMS::CollectionResource
     end
 
     def to_s
-      "<#{self.class.inspect} href=#{self.href} collection=#{self.collection.inspect}>"
+      "<#{self.class.inspect} href=#{href} collection=#{collection.inspect}>"
     end
 
     private

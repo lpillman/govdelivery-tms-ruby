@@ -24,17 +24,15 @@ module GovDelivery::TMS
       attr_accessor :settings
 
       def deliver!(mail)
-        raise GovDelivery::TMS::Errors::NoRelation.new('email_messages', client) unless client.respond_to?(:email_messages)
-
-        envelope_from = mail.return_path || mail.sender || mail.from_addrs.first
+        fail GovDelivery::TMS::Errors::NoRelation.new('email_messages', client) unless client.respond_to?(:email_messages)
 
         body = case
-                 when mail.html_part
-                   mail.html_part.body
-                 when mail.text_part
-                   mail.text_part.body
-                 else
-                   mail.body
+               when mail.html_part
+                 mail.html_part.body
+               when mail.text_part
+                 mail.text_part.body
+               else
+                 mail.body
                end.decoded
 
         tms_message = client.email_messages.build(
@@ -56,8 +54,7 @@ module GovDelivery::TMS
 end
 
 if defined?(ActionMailer)
-  ActionMailer::Base.add_delivery_method :govdelivery_tms, GovDelivery::TMS::Mail::DeliveryMethod, {
-    auth_token: nil,
-    logger: ActionMailer::Base.logger,
-    api_root: GovDelivery::TMS::Client::DEFAULTS[:api_root]}
+  ActionMailer::Base.add_delivery_method :govdelivery_tms, GovDelivery::TMS::Mail::DeliveryMethod,     auth_token: nil,
+                                                                                                       logger: ActionMailer::Base.logger,
+                                                                                                       api_root: GovDelivery::TMS::Client::DEFAULTS[:api_root]
 end

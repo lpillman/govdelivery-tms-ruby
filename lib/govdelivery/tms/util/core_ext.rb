@@ -10,8 +10,8 @@ module GovDelivery::TMS::CoreExt
   end
 
   def singularize(str)
-      ActiveSupport::Inflector.singularize(str)
-    end
+    ActiveSupport::Inflector.singularize(str)
+  end
 
   def pluralize(str)
     ActiveSupport::Inflector.pluralize(str)

@@ -30,6 +30,5 @@ module GovDelivery::TMS #:nodoc:
     ##
     # A CollectionResource of Recipients that failed
     collection_attribute :failed, 'Recipients'
-
   end
 end

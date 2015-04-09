@@ -20,6 +20,5 @@ module GovDelivery::TMS #:nodoc:
 
     # @!parse attr_reader :created_at, :updated_at
     readonly_attributes :created_at, :updated_at
-
   end
 end

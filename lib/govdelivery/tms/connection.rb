@@ -4,13 +4,13 @@ class GovDelivery::TMS::Connection
   def get(href)
     resp = connection.get("#{href}.json")
     if resp.status != 200
-      raise RecordNotFound.new("Could not find resource at #{href} (status #{resp.status})")
+      fail RecordNotFound.new("Could not find resource at #{href} (status #{resp.status})")
     else
       resp.body
     end
   end
 
-  def initialize(opts={})
+  def initialize(opts = {})
     self.auth_token = opts[:auth_token]
     self.api_root = opts[:api_root]
     self.logger = opts[:logger]
@@ -18,8 +18,8 @@ class GovDelivery::TMS::Connection
   end
 
   def setup_connection
-    self.connection = Faraday.new(url: self.api_root) do |faraday|
-      faraday.use GovDelivery::TMS::Logger, self.logger if self.logger
+    self.connection = Faraday.new(url: api_root) do |faraday|
+      faraday.use GovDelivery::TMS::Logger, logger if logger
       faraday.request :json
       faraday.headers['X-AUTH-TOKEN'] = auth_token
       faraday.headers[:user_agent] = "GovDelivery Ruby GovDelivery::TMS::Client #{GovDelivery::TMS::VERSION}"

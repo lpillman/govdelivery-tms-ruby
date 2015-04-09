@@ -1,6 +1,5 @@
 module GovDelivery::TMS
   class IpawsNwemArea
-
     include InstanceResource
 
     readonly_attributes(
@@ -13,6 +12,5 @@ module GovDelivery::TMS
       :zoneCd,
       :zoneName
     )
-
   end
 end

@@ -54,7 +54,6 @@ module GovDelivery::TMS #:nodoc:
                          :reply_to,
                          :subject
 
-
     # @!parse attr_reader :created_at, :status
     readonly_attributes :created_at, :status
 

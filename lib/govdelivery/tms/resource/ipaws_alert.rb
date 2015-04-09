@@ -1,6 +1,5 @@
 module GovDelivery::TMS
   class IpawsAlert
-
     include InstanceResource
 
     writeable_attributes(
@@ -33,6 +32,5 @@ module GovDelivery::TMS
         super
       end
     end
-
   end
 end

@@ -1,6 +1,6 @@
-require "rubygems"
-require "bundler/setup"
-require "bundler/gem_tasks"
+require 'rubygems'
+require 'bundler/setup'
+require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
 unless defined?(JRUBY_VERSION)
   require 'rubygems/tasks'
@@ -15,6 +15,4 @@ end
 
 RSpec::Core::RakeTask.new(:spec)
 
-
-task :default => :spec
-
+task default: :spec

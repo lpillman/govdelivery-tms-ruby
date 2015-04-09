@@ -17,10 +17,10 @@ describe GovDelivery::TMS::Mail::DeliveryMethod do
     allow(client).to receive(:email_messages).and_return(email_messages)
     allow(subject).to receive(:client).and_return(client)
     expect(email_messages).to receive(:build).with(
-        from_name: mail[:from].display_names.first,
-        subject:   mail.subject,
-        body:      '<blink>HI</blink>'
-      ).and_return(tms_message)
+      from_name: mail[:from].display_names.first,
+      subject:   mail.subject,
+      body:      '<blink>HI</blink>'
+    ).and_return(tms_message)
     expect(tms_message).to receive(:post!).and_return(true)
 
     subject.deliver!(mail)
@@ -40,13 +40,12 @@ describe GovDelivery::TMS::Mail::DeliveryMethod do
     allow(client).to receive(:email_messages).and_return(email_messages)
     allow(subject).to receive(:client).and_return(client)
     expect(email_messages).to receive(:build).with(
-        from_name: mail[:from].display_names.first,
-        subject:   mail.subject,
-        body:      '<blink>HTML</blink>'
-      ).and_return(tms_message)
+      from_name: mail[:from].display_names.first,
+      subject:   mail.subject,
+      body:      '<blink>HTML</blink>'
+    ).and_return(tms_message)
     expect(tms_message).to receive(:post!).and_return(true)
 
     subject.deliver!(mail)
   end
-
 end

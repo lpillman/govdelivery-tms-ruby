@@ -1,11 +1,10 @@
 module GovDelivery::TMS::Util
   module HalLinkParser
-
-    def parse_links(_links)
+    def parse_links(links)
       @resources = {}
-      return if _links.nil?
-      parse_link(_links) and return if _links.is_a?(Hash)
-      _links.each { |link| parse_link(link) }
+      return if links.nil?
+      parse_link(links) && return if links.is_a?(Hash)
+      links.each { |link| parse_link(link) }
     end
 
     def subresources
@@ -15,8 +14,8 @@ module GovDelivery::TMS::Util
     protected
 
     def metaclass
-      @metaclass ||= class << self;
-        self;
+      @metaclass ||= class << self
+        self
       end
     end
 
@@ -26,12 +25,12 @@ module GovDelivery::TMS::Util
           self.href = href
         else
           klass = relation_class(rel)
-          klass = self.class if ['first', 'prev', 'next', 'last'].include?(rel)
+          klass = self.class if %w(first prev next last).include?(rel)
           if klass
-            subresources[rel] = klass.new(self.client, href)
+            subresources[rel] = klass.new(client, href)
             setup_subresource(link)
           else
-            logger.info("Don't know what to do with link rel '#{rel}' for class #{self.class.to_s}!") if self.respond_to?(:logger)
+            logger.info("Don't know what to do with link rel '#{rel}' for class #{self.class}!") if self.respond_to?(:logger)
           end
 
         end
@@ -44,7 +43,7 @@ module GovDelivery::TMS::Util
 
     def setup_subresource(link)
       return unless link
-      link.each { |rel, href| self.metaclass.send(:define_method, rel.to_sym, &lambda { subresources[rel] }) unless rel == 'self' }
+      link.each { |rel, _href| metaclass.send(:define_method, rel.to_sym, &lambda { subresources[rel] }) unless rel == 'self' }
     end
   end
 end

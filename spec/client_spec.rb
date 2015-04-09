@@ -1,8 +1,8 @@
 require 'spec_helper'
 describe GovDelivery::TMS::Client do
-  context "creating a new client" do
+  context 'creating a new client' do
     before do
-      response = double('response', status: 200, body: {"_links" => [{"self" => "/"}, {"horse" => "/horses/new"}, {"rabbits" => "/rabbits"}]})
+      response = double('response', status: 200, body: { '_links' => [{ 'self' => '/' }, { 'horse' => '/horses/new' }, { 'rabbits' => '/rabbits' }] })
       @raw_connection = double('raw_connection', get: response)
       @connection = allow(GovDelivery::TMS::Connection).to receive(:new).and_return(double('connection', connection: @raw_connection))
       @client = GovDelivery::TMS::Client.new('auth_token', api_root: 'null_url')
@@ -16,21 +16,21 @@ describe GovDelivery::TMS::Client do
       expect(@client.rabbits).to be_kind_of(GovDelivery::TMS::Rabbits)
     end
     it 'should handle 4xx responses' do
-      allow(@raw_connection).to receive(:get).and_return(double('response', status: 404, body: {'message' => 'hi'}))
+      allow(@raw_connection).to receive(:get).and_return(double('response', status: 404, body: { 'message' => 'hi' }))
       expect { @client.get('/blargh') }.to raise_error(GovDelivery::TMS::Request::Error)
     end
     it 'should handle 5xx responses' do
-      allow(@raw_connection).to receive(:get).and_return(double('response', status: 503, body: {'message' => 'oops'}))
+      allow(@raw_connection).to receive(:get).and_return(double('response', status: 503, body: { 'message' => 'oops' }))
       expect { @client.get('/blargh') }.to raise_error(GovDelivery::TMS::Request::Error)
     end
     it 'should handle 202 responses' do
-      allow(@raw_connection).to receive(:get).and_return(double('response', status: 202, body: {'message' => 'hi'}))
+      allow(@raw_connection).to receive(:get).and_return(double('response', status: 202, body: { 'message' => 'hi' }))
       expect { @client.get('/blargh') }.to raise_error(GovDelivery::TMS::Request::InProgress)
     end
 
     context 'creating a new client without output' do
       subject { GovDelivery::TMS::Client.new('auth_token', api_root: 'null_url', logger: false) }
-      its(:logger){ should be_falsey }
+      its(:logger) { should be_falsey }
       its(:horse) { should be_kind_of(GovDelivery::TMS::Horse) }
     end
 

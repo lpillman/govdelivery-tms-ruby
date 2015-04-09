@@ -23,15 +23,13 @@ module GovDelivery::TMS #:nodoc:
       end
 
       def new_record?
-        !!self.new_record
+        !!new_record
       end
 
       def href=(href)
-        self.new_record=false
-        @href=href
+        self.new_record = false
+        @href = href
       end
     end
-
   end
-
 end

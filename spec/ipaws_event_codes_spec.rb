@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe GovDelivery::TMS::IpawsEventCodes do
-  context "loading Ipaws event codes" do
+  context 'loading Ipaws event codes' do
     let(:client) { double('client') }
     let(:event_codes) { GovDelivery::TMS::IpawsEventCodes.new(client, '/ipaws/event_codes') }
     it 'should GET itself' do

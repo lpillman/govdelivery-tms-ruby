@@ -1,13 +1,13 @@
-$: << File.expand_path("../lib", __FILE__)
+$LOAD_PATH << File.expand_path('../lib', __FILE__)
 require 'govdelivery-tms'
 
 class GovDelivery::TMS::Horse
-  def initialize(client, href)
+  def initialize(_client, _href)
   end
 end
 
 class GovDelivery::TMS::Rabbits
-  def initialize(client, href)
+  def initialize(_client, _href)
   end
 end
 
