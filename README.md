@@ -238,7 +238,7 @@ You can use TMS from the mail gem or ActionMailer as a delivery method.
 
 Gemfile
 ```ruby
-gem 'govdelivery-tms', :require=>'govdelivery-tms/mail/delivery_method'
+gem 'govdelivery-tms', :require=>'govdelivery/tms/mail/delivery_method'
 ```
 
 config/environment.rb
@@ -246,7 +246,7 @@ config/environment.rb
 config.action_mailer.delivery_method = :govdelivery_tms
 config.action_mailer.govdelivery_tms_settings = {
     :auth_token=>'auth_token',
-    :api_root=>'https://stage-tms.govdelivery.com'
+    :api_root=>'https://tms.govdelivery.com'
     }
 ```
 

@@ -1,12 +1,13 @@
 require 'govdelivery-tms'
 require 'mail'
 require 'mail/check_delivery_params'
+
 module GovDelivery::TMS
   module Mail
     # Use TMS from the mail gem or ActionMailer as a delivery method.
     #
     #   # Gemfile
-    #   gem 'govdelivery-tms', :require=>'govdelivery-tms/mail/delivery_method'
+    #   gem 'govdelivery-tms', :require=>'govdelivery/tms/mail/delivery_method'
     #
     #   # config/environment.rb
     #   config.action_mailer.delivery_method = :govdelivery_tms
@@ -27,19 +28,23 @@ module GovDelivery::TMS
         fail GovDelivery::TMS::Errors::NoRelation.new('email_messages', client) unless client.respond_to?(:email_messages)
 
         body = case
-               when mail.html_part
-                 mail.html_part.body
-               when mail.text_part
-                 mail.text_part.body
-               else
-                 mail.body
+                 when mail.html_part
+                   mail.html_part.body
+                 when mail.text_part
+                   mail.text_part.body
+                 else
+                   mail.body
                end.decoded
 
-        tms_message = client.email_messages.build(
-          from_name: mail[:from].display_names.first,
-          subject: mail.subject,
-          body: body
-        )
+        message_params = {
+          from_name:  mail[:from] ? mail[:from].display_names.first : nil,
+          from_email: mail.from.try(:first),
+          subject:    mail.subject,
+          body:       body
+        }.delete_if { |k, v| v.nil? }
+
+        tms_message = client.email_messages.build(message_params)
+
 
         mail.to.each { |recip| tms_message.recipients.build(email: recip) }
         tms_message.post!
@@ -54,7 +59,7 @@ module GovDelivery::TMS
 end
 
 if defined?(ActionMailer)
-  ActionMailer::Base.add_delivery_method :govdelivery_tms, GovDelivery::TMS::Mail::DeliveryMethod,     auth_token: nil,
-                                                                                                       logger: ActionMailer::Base.logger,
-                                                                                                       api_root: GovDelivery::TMS::Client::DEFAULTS[:api_root]
+  ActionMailer::Base.add_delivery_method :govdelivery_tms, GovDelivery::TMS::Mail::DeliveryMethod, auth_token: nil,
+                                         logger:                                                               ActionMailer::Base.logger,
+                                         api_root:                                                             GovDelivery::TMS::Client::DEFAULTS[:api_root]
 end
