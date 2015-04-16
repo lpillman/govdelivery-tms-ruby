@@ -10,3 +10,4 @@ doc
 .ruby-gemset
 .bundle
 vendor
+gemfiles/*.lock
