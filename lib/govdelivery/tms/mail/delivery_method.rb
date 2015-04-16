@@ -36,12 +36,12 @@ module GovDelivery::TMS
                    mail.body
                end.decoded
 
-        message_params = {
-          from_name:  mail[:from] ? mail[:from].display_names.first : nil,
-          from_email: mail.from.try(:first),
-          subject:    mail.subject,
-          body:       body
-        }.delete_if { |k, v| v.nil? }
+        message_params              = {
+          subject: mail.subject,
+          body:    body
+        }
+        message_params[:from_email] = mail.from.first unless mail.from.blank?
+        message_params[:from_name]  = mail[:from].display_names.first unless mail[:from].blank?
 
         tms_message = client.email_messages.build(message_params)
 
