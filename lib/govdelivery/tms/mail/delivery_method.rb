@@ -28,12 +28,12 @@ module GovDelivery::TMS
         fail GovDelivery::TMS::Errors::NoRelation.new('email_messages', client) unless client.respond_to?(:email_messages)
 
         body = case
-                 when mail.html_part
-                   mail.html_part.body
-                 when mail.text_part
-                   mail.text_part.body
-                 else
-                   mail.body
+               when mail.html_part
+                 mail.html_part.body
+               when mail.text_part
+                 mail.text_part.body
+               else
+                 mail.body
                end.decoded
 
         message_params              = {
@@ -44,7 +44,6 @@ module GovDelivery::TMS
         message_params[:from_name]  = mail[:from].display_names.first unless mail[:from].blank?
 
         tms_message = client.email_messages.build(message_params)
-
 
         mail.to.each { |recip| tms_message.recipients.build(email: recip) }
         tms_message.post!
@@ -60,6 +59,6 @@ end
 
 if defined?(ActionMailer)
   ActionMailer::Base.add_delivery_method :govdelivery_tms, GovDelivery::TMS::Mail::DeliveryMethod, auth_token: nil,
-                                         logger:                                                               ActionMailer::Base.logger,
-                                         api_root:                                                             GovDelivery::TMS::Client::DEFAULTS[:api_root]
+                                                                                                   logger:                                                               ActionMailer::Base.logger,
+                                                                                                   api_root:                                                             GovDelivery::TMS::Client::DEFAULTS[:api_root]
 end
