@@ -15,6 +15,7 @@ describe GovDelivery::TMS::FromAddress do
         'reply_to_email'  => 'something@evotest.govdelivery.com',
         'bounce_email'    => 'something@evotest.govdelivery.com',
         'is_default'      => true,
+        'id'              => '1',
         'created_at'      => 'sometime',
         '_links'          => { 'self' => '/from_addresses/1' }
       }]
