@@ -56,7 +56,7 @@ describe GovDelivery::TMS::EmailTemplate do
       expect(@template.client).to receive('post').with(@template).and_return(double('response', status: 201, body: {}))
       @template.post
       links = @template.to_json[:_links]
-      expect(links[:from_address]).to be_nil
+      expect(links).to be_nil
     end
 
     it 'should not clear the links property after an invalid post' do
