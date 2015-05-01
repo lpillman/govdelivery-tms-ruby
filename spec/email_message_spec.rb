@@ -79,13 +79,15 @@ describe GovDelivery::TMS::EmailMessage do
       @message = GovDelivery::TMS::EmailMessage.new(client, '/messages/99', {})
     end
     it 'should GET cleanly' do
-      response = { body: 'processed',
-                   subject:    'hey',
-                   from_email: 'eric@evotest.govdelivery.com',
-                   errors_to:  'errors@evotest.govdelivery.com',
-                   reply_to:   'replyto@evotest.govdelivery.com',
-                   recipients: [{ email: 'billy@evotest.govdelivery.com' }],
-                   created_at: 'time' }
+      response = { 'body'       => 'processed',
+                   'subject'    => 'hey',
+                   'from_email' => 'eric@evotest.govdelivery.com',
+                   'errors_to'  => 'errors@evotest.govdelivery.com',
+                   'reply_to'   => 'replyto@evotest.govdelivery.com',
+                   'recipients' => [{ email: 'billy@evotest.govdelivery.com' }],
+                   'created_at' => 'time',
+                   '_links'     => { 'self' => '/messages/email/1', 'email_template' => '/templates/email/1' }
+                  }
       expect(@message.client).to receive('get').with(@message.href).and_return(double('response', status: 200, body: response))
       @message.get
       expect(@message.body).to eq('processed')
@@ -94,6 +96,7 @@ describe GovDelivery::TMS::EmailMessage do
       expect(@message.reply_to).to eq('replyto@evotest.govdelivery.com')
       expect(@message.errors_to).to eq('errors@evotest.govdelivery.com')
       expect(@message.created_at).to eq('time')
+      expect(@message.email_template).to be_a(GovDelivery::TMS::EmailTemplate)
     end
   end
 end

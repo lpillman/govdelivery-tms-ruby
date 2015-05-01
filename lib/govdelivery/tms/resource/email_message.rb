@@ -76,5 +76,7 @@ module GovDelivery::TMS #:nodoc:
     ##
     # A CollectionResource of EmailRecipients that failed, not neccessarily bounced
     collection_attribute :failed, 'EmailRecipients'
+
+    linkable_attributes :email_template
   end
 end
