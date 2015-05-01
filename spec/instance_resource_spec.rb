@@ -30,6 +30,11 @@ describe GovDelivery::TMS::InstanceResource do
       expect(@instance_resource.shah.class).to eq(GovDelivery::TMS::EmailMessage)
     end
 
+    it 'should ignore nils in to_json' do
+      @instance_resource.bar = nil
+      @instance_resource.to_json.should eq({blah: {recipients: [], opened: [], clicked: [], sent: [], failed: []}})
+    end
+
     it 'should not GET on initialization' do
       expect(client).not_to receive(:get)
       Foo.new(client, 'https://example.com/foos/1')

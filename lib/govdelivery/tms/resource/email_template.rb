@@ -7,7 +7,7 @@ module GovDelivery::TMS #:nodoc:
 
     linkable_attributes :from_address
 
-    # @!parse attr_reader :created_at
+    # @!parse attr_reader :id, :created_at
     readonly_attributes :id, :created_at
 
     collection_attribute :from_address, 'FromAddress'

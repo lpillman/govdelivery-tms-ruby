@@ -162,11 +162,11 @@ module GovDelivery::TMS::InstanceResource
       self.class.collection_attributes.each do |coll|
         json_hash[coll] = send(coll).to_json
       end
-      self.class.linkable_attributes.each do |attr|
-        json_hash[:_links] ||= {}
+      self.class.linkable_attributes.reject { |attr| @links[attr].nil? }.each do |attr|
+        json_hash[:_links]       ||= {}
         json_hash[:_links][attr] = @links[attr]
       end
-      json_hash
+      json_hash.reject { |_, value| value.nil? }
     end
 
     protected
