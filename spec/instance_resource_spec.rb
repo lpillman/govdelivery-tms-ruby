@@ -32,7 +32,7 @@ describe GovDelivery::TMS::InstanceResource do
 
     it 'should ignore nils in to_json' do
       @instance_resource.bar = nil
-      @instance_resource.to_json.should eq({blah: {recipients: [], opened: [], clicked: [], sent: [], failed: []}})
+      expect(@instance_resource.to_json).to eq({blah: {recipients: [], opened: [], clicked: [], sent: [], failed: []}})
     end
 
     it 'should not GET on initialization' do
