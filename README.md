@@ -91,6 +91,28 @@ message.recipients.build(:email=>'bill@example.com')
 message.post
 ```
 
+### Creating an Email Template
+
+```ruby
+template = client.email_templates.build(subject: 'A templated subject',
+                                        body: 'Hi [[name]], this body is from a template.',
+                                        macros: {"name"=>"person"})
+template.post
+```
+
+### Sending an Email using a Template
+
+Assuming you created `template` above:
+
+```ruby
+message = client.email_messages.build
+message.links[:email_template] = template.id
+message.recipients.build(:email=>'jim@example.com', :macros=>{"name"=>"Jim"})
+message.recipients.build(:email=>'amy@example.com', :macros=>{"name"=>"Amy"})
+message.recipients.build(:email=>'bill@example.com')
+message.post
+```
+
 Webhooks
 -------
 ### POST to a URL when a recipient is blacklisted (i.e. to remove from your list)  
