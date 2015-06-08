@@ -54,8 +54,8 @@ module GovDelivery::TMS #:nodoc:
                          :reply_to,
                          :subject
 
-    # @!parse attr_reader :created_at, :status
-    readonly_attributes :created_at, :status
+    # @!parse attr_reader :id, :created_at, :status
+    readonly_attributes :id, :created_at, :status
 
     ##
     # A CollectionResource of EmailRecipients on this email

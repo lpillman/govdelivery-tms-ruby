@@ -16,8 +16,8 @@ module GovDelivery::TMS #:nodoc:
     # @!parse attr_accessor :body
     writeable_attributes :body
 
-    # @!parse attr_reader :created_at, :completed_at, :status
-    readonly_attributes :created_at, :completed_at, :status
+    # @!parse attr_reader :id, :created_at, :completed_at, :status
+    readonly_attributes :id, :created_at, :completed_at, :status
 
     ##
     # A CollectionResource of Recipient objects
