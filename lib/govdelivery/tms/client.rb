@@ -4,7 +4,7 @@ class GovDelivery::TMS::Client
   include GovDelivery::TMS::Util::HalLinkParser
   include GovDelivery::TMS::CoreExt
 
-  attr_accessor :connection, :href, :api_root, :logger
+  attr_accessor :connection, :href, :api_root, :logger, :sid
 
   DEFAULTS = { api_root: 'https://tms.govdelivery.com', logger: nil }.freeze
 
@@ -35,6 +35,7 @@ class GovDelivery::TMS::Client
 
   def discover!
     services = get('/').body
+    self.sid = services['sid']
     parse_links(services['_links'])
   end
 

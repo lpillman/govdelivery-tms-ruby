@@ -2,10 +2,13 @@ require 'spec_helper'
 describe GovDelivery::TMS::Client do
   context 'creating a new client' do
     before do
-      response = double('response', status: 200, body: { '_links' => [{ 'self' => '/' }, { 'horse' => '/horses/new' }, { 'rabbits' => '/rabbits' }] })
+      response = double('response', status: 200, body: {'sid' => 'abcd12345', '_links' => [{ 'self' => '/' }, { 'horse' => '/horses/new' }, { 'rabbits' => '/rabbits' }] })
       @raw_connection = double('raw_connection', get: response)
       @connection = allow(GovDelivery::TMS::Connection).to receive(:new).and_return(double('connection', connection: @raw_connection))
       @client = GovDelivery::TMS::Client.new('auth_token', api_root: 'null_url')
+    end
+    it 'should populate sid' do
+      expect(@client.sid).to eq 'abcd12345'
     end
     it 'should set up logging' do
       expect(@client.logger).not_to be_nil
