@@ -38,11 +38,11 @@ module GovDelivery::TMS::Util
     end
 
     def relation_class(rel)
-      if ::GovDelivery::TMS.const_defined?(classify(rel))
-        ::GovDelivery::TMS.const_get(classify(rel))
-      else
-        return nil
+      ::GovDelivery::TMS.const_get(classify(rel)).tap do |klass|
+        return nil unless klass.name =~ /GovDelivery::TMS/
       end
+    rescue NameError
+      nil
     end
 
     def setup_subresource(link)
