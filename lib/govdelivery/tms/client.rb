@@ -90,8 +90,8 @@ class GovDelivery::TMS::Client
   private
 
   def setup_logging(debug)
-    logger = Logger.new(STDOUT)
-    logger.level = debug ? Logger::DEBUG : Logger::INFO
-    logger
+    Logger.new(STDOUT).tap do |logger|
+      logger.level = debug ? Logger::DEBUG : Logger::INFO
+    end
   end
 end

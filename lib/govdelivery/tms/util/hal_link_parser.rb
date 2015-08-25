@@ -30,7 +30,7 @@ module GovDelivery::TMS::Util
             subresources[rel] = klass.new(client, href)
             setup_subresource(link)
           else
-            logger.info("Don't know what to do with link rel '#{rel}' for class #{self.class}!") if self.respond_to?(:logger)
+            logger.info("Don't know what to do with link rel '#{rel}' for class #{self.class}!") if self.respond_to?(:logger) && logger
           end
 
         end
@@ -38,7 +38,11 @@ module GovDelivery::TMS::Util
     end
 
     def relation_class(rel)
-      ::GovDelivery::TMS.const_get(classify(rel)) rescue nil
+      if ::GovDelivery::TMS.const_defined?(classify(rel))
+        ::GovDelivery::TMS.const_get(classify(rel))
+      else
+        return nil
+      end
     end
 
     def setup_subresource(link)

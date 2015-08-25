@@ -1,8 +1,30 @@
 require 'spec_helper'
 describe GovDelivery::TMS::Client do
+  let(:links) {
+    [{'self' => '/'},
+     {'horse' => '/horses/new'},
+     {'rabbits' => '/rabbits'}]
+  }
+  context 'a client with a missing rel' do
+    before do
+      response        = double('response', status: 200,
+                               body:               {
+                                 'sid'    => 'abcd12345',
+                                 '_links' => (links + [{'missing' => '/fail'}])})
+      @raw_connection = double('raw_connection', get: response)
+      @connection     = allow(GovDelivery::TMS::Connection).to receive(:new).and_return(double('connection', connection: @raw_connection))
+    end
+    it 'should not blow up or create a relation' do
+      @client         = GovDelivery::TMS::Client.new('auth_token', api_root: 'null_url')
+      expect{@client.missing}.to raise_error(NoMethodError)
+    end
+  end
   context 'creating a new client' do
     before do
-      response = double('response', status: 200, body: {'sid' => 'abcd12345', '_links' => [{ 'self' => '/' }, { 'horse' => '/horses/new' }, { 'rabbits' => '/rabbits' }] })
+      response = double('response', status: 200,
+                        body:               {
+                          'sid'    => 'abcd12345',
+                          '_links' => links})
       @raw_connection = double('raw_connection', get: response)
       @connection = allow(GovDelivery::TMS::Connection).to receive(:new).and_return(double('connection', connection: @raw_connection))
       @client = GovDelivery::TMS::Client.new('auth_token', api_root: 'null_url')

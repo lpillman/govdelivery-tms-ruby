@@ -6,6 +6,10 @@ class GovDelivery::TMS::Horse
   end
 end
 
+module Missing
+
+end
+
 class GovDelivery::TMS::Rabbits
   def initialize(_client, _href)
   end
