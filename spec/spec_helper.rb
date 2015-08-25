@@ -7,7 +7,7 @@ class GovDelivery::TMS::Horse
 end
 
 module Missing
-
+  # this is for testing missing relations that expose strange const_get behavior
 end
 
 class GovDelivery::TMS::Rabbits
