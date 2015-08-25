@@ -4,7 +4,7 @@ rvm:
   - 1.9.3
   - jruby-19mode
   - 2.1.6
-  - 2.2.2
+  - 2.2.3
 gemfile:
   - gemfiles/2.gemfile
   - gemfiles/3.gemfile
@@ -15,9 +15,9 @@ matrix:
       gemfile: gemfiles/2.gemfile
     - rvm: 2.1.6
       gemfile: gemfiles/3.gemfile
-    - rvm: 2.2.2
+    - rvm: 2.2.3
       gemfile: gemfiles/2.gemfile
-    - rvm: 2.2.2
+    - rvm: 2.2.3
       gemfile: gemfiles/3.gemfile
 script: "bundle exec rake spec"
 notifications:
