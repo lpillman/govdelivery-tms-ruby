@@ -1,6 +1,6 @@
 appraise "2" do
  git 'https://github.com/makandra/rails.git', :branch => '2-3-lts' do
-  gem "activesupport", "~>2.3.18"
+  gem "activesupport"
  end
 end
 
