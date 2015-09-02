@@ -12,7 +12,8 @@ module GovDelivery::TMS
 
     # Raised when a recipient list is still being constructed and a request is made to view the
     # recipient list for a message.
-    class InProgress < StandardError; end
+    class InProgress < StandardError;
+    end
   end
 
   module Errors
@@ -36,10 +37,14 @@ module GovDelivery::TMS
       def initialize(record_or_string)
         if record_or_string.respond_to?(:href)
           @record = record_or_string
-          super("Couldn't POST #{record.class} to #{record.href}: #{record.errors.map { |k, v| "#{k} #{v.join(' and ')}" }.join(', ')}")
+          super("Couldn't POST #{record.class} to #{record.href}: #{error_message}")
         else
           super(record_or_string)
         end
+      end
+
+      def error_message
+        record.errors.map { |k, v| "#{k} #{v.join(' and ')}" }.join(', ')
       end
     end
     class InvalidPost < InvalidVerb
