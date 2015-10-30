@@ -67,9 +67,13 @@ end
 # A collection of Email Template objects.
 #
 # @example
-#    email_template = client.email_template.get
+#    email_template = client.email_templates.get
 #
 class GovDelivery::TMS::EmailTemplates
+  include GovDelivery::TMS::CollectionResource
+end
+
+class GovDelivery::TMS::SmsTemplates
   include GovDelivery::TMS::CollectionResource
 end
 

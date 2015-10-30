@@ -30,5 +30,7 @@ module GovDelivery::TMS #:nodoc:
     ##
     # A CollectionResource of Recipients that failed
     collection_attribute :failed, 'Recipients'
+
+    linkable_attributes :sms_template
   end
 end
